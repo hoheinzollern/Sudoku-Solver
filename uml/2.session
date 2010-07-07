@@ -1,0 +1,11 @@
+window_sizes 1440 845 263 1171 616 144
+diagrams
+  active  classdiagram_ref 128002 // main
+    1171 616 100 4 0 0
+end
+show_stereotypes
+selected class_ref 128002 // SudokuSolverApplet
+open
+  classview_ref 128002 // mainview
+end
+end
