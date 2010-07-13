@@ -1,7 +1,7 @@
 format 75
 "sudokusolver" // sudokusolver
-  revision 3
-  modified_by 2 "Alessandro"
+  revision 6
+  modified_by 47 "Emanuele"
   // class settings
   //class diagram settings
   draw_all_relations default hide_attributes default hide_operations default hide_getset_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_context default show_members_multiplicity default show_members_initialization default show_attribute_modifiers default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_relation_modifiers default show_relation_visibility default show_infonote default shadow default show_stereotype_properties default
@@ -45,67 +45,6 @@ format 75
     classdiagram 128002 "main"
       draw_all_relations no hide_attributes default hide_operations default hide_getset_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_context default show_members_multiplicity default show_members_initialization default show_attribute_modifiers default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_relation_modifiers default show_relation_visibility default show_infonote default shadow default show_stereotype_properties default
       size A4
-    end
-
-    class 128002 "SudokuSolverApplet"
-      visibility package 
-      cpp_decl ""
-      java_decl ""
-      php_decl ""
-      python_2_2 python_decl ""
-      idl_decl ""
-      explicit_switch_type ""
-      
-      comment "Si preoccupa di gestire il core, il problem generator e caricare le partite."
-      attribute 128002 "projectName"
-	private explicit_type "String"
-	cpp_decl ""
-	java_decl ""
-	php_decl ""
-	python_decl ""
-	idl_decl ""
-      end
-
-      operation 128002 "init"
-	public explicit_return_type ""
-	nparams 0
-	
-	
-	
-	
-	
-      end
-
-      operation 128130 "restart"
-	public explicit_return_type ""
-	nparams 0
-	
-	
-	
-	
-	
-      end
-
-      classrelation 136322 // <dependency>
-	relation 136322 -_->
-	  a default
-	    classrelation_ref 136322 // <dependency>
-	  b parent class_ref 135810 // View
-      end
-
-      classrelation 136578 // <dependency>
-	relation 136578 -_->
-	  a default
-	    classrelation_ref 136578 // <dependency>
-	  b parent class_ref 128514 // ProblemGenerator
-      end
-
-      classrelation 136706 // <dependency>
-	relation 136706 -_->
-	  a default
-	    classrelation_ref 136706 // <dependency>
-	  b parent class_ref 128258 // Core
-      end
     end
 
     class 128258 "Core"
@@ -166,37 +105,6 @@ format 75
       end
     end
 
-    class 128514 "ProblemGenerator"
-      visibility package 
-      cpp_decl ""
-      java_decl ""
-      php_decl ""
-      python_2_2 python_decl ""
-      idl_decl ""
-      explicit_switch_type ""
-      
-      operation 129026 "makeProblem"
-	public explicit_return_type ""
-	nparams 1
-	  param in name "difficulty" explicit_type "Integer"
-	
-	
-	
-	
-	
-      end
-
-      operation 129154 "check"
-	public explicit_return_type ""
-	nparams 0
-	
-	
-	
-	
-	
-      end
-    end
-
     class 128770 "GenericSolver"
       visibility package 
       cpp_decl ""
@@ -206,11 +114,78 @@ format 75
       idl_decl ""
       explicit_switch_type ""
       
+      comment "Si tratta di una classe astratta che rappresenta tutti i possibili risolutori che potrebbero essere utilizzati per risolvere un Sudoku."
       classrelation 143234 // <unidirectional association>
 	relation 143234 --->
 	  a role_name "" private
 	    classrelation_ref 143234 // <unidirectional association>
 	  b parent class_ref 135938 // Sudoku
+      end
+
+      classrelation 128175 // <composition>
+	relation_ref 128047 // <composition>
+      end
+
+      classrelation 128431 // <composition>
+	relation_ref 128175 // <composition>
+      end
+
+      operation 128431 "setSearchAlgorithm"
+	public explicit_return_type ""
+	nparams 1
+	  param in name "name" explicit_type "String"
+	
+	
+	
+	
+	
+      end
+
+      operation 128559 "setPropagationAlgorithm"
+	public explicit_return_type ""
+	nparams 1
+	  param in name "name" explicit_type "String"
+	
+	
+	
+	
+	
+      end
+
+      operation 142255 "solve"
+	public explicit_return_type ""
+	nparams 1
+	  param out name "stepList" explicit_type "list[Step]"
+	
+	
+	
+	
+	
+      end
+
+      classrelation 143663 // <dependency>
+	relation 143407 -_->
+	  a default
+	    classrelation_ref 143663 // <dependency>
+	  b parent class_ref 142511 // Step
+      end
+
+      attribute 142127 "searchAlgorithm"
+	private explicit_type "integer"
+	cpp_decl ""
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 142255 "propagationAlgorithm"
+	private explicit_type "integer"
+	cpp_decl ""
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
       end
     end
 
@@ -229,6 +204,13 @@ format 75
 	    classrelation_ref 128770 // <generalisation>
 	  b parent class_ref 128770 // GenericSolver
       end
+
+      classrelation 128815 // <generalisation>
+	relation 128559 ---|>
+	  a public
+	    classrelation_ref 128815 // <generalisation>
+	  b parent class_ref 128815 // PropagationAlgorithm
+      end
     end
 
     class 129026 "PartialLookAhead"
@@ -246,9 +228,29 @@ format 75
 	    classrelation_ref 128898 // <generalisation>
 	  b parent class_ref 128770 // GenericSolver
       end
+
+      classrelation 129711 // <generalisation>
+	relation 129455 ---|>
+	  a public
+	    classrelation_ref 129711 // <generalisation>
+	  b parent class_ref 128815 // PropagationAlgorithm
+      end
+
+      operation 128303 "revise"
+	public explicit_return_type ""
+	nparams 3
+	  param in name "j" explicit_type "Integer"
+	  param in name "k" explicit_type "Integer"
+	  param inout name "domains" explicit_type "Domain"
+	
+	
+	
+	
+	
+      end
     end
 
-    class 129154 "ArcConsistency"
+    class 129154 "Mac"
       visibility package 
       cpp_decl ""
       java_decl ""
@@ -263,23 +265,25 @@ format 75
 	    classrelation_ref 129026 // <generalisation>
 	  b parent class_ref 128770 // GenericSolver
       end
-    end
 
-    class 135810 "View"
-      visibility package 
-      cpp_decl ""
-      java_decl ""
-      php_decl ""
-      python_2_2 python_decl ""
-      idl_decl ""
-      explicit_switch_type ""
-      
-      comment "Visualizza una partita"
-      classrelation 135938 // <unidirectional association>
-	relation 135938 --->
-	  a role_name "" private
-	    classrelation_ref 135938 // <unidirectional association>
-	  b parent class_ref 135938 // Sudoku
+      classrelation 128943 // <generalisation>
+	relation 128687 ---|>
+	  a public
+	    classrelation_ref 128943 // <generalisation>
+	  b parent class_ref 128815 // PropagationAlgorithm
+      end
+
+      operation 128175 "revise"
+	public explicit_return_type ""
+	nparams 3
+	  param in name "i" explicit_type "Integer"
+	  param in name "j" explicit_type "Integer"
+	  param inout name "domains" explicit_type "Domain"
+	
+	
+	
+	
+	
       end
     end
 
@@ -293,6 +297,522 @@ format 75
       explicit_switch_type ""
       
       comment "Rappresenta una partita, contiene i moduli per il caricamento/salvataggio su file, metodi per controllare il dominio delle variabili, per fare le mosse"
+      attribute 141231 "numberFields"
+	private explicit_type "array[int]"
+	cpp_decl ""
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 141359 "stepList"
+	private explicit_type "List[Step]"
+	cpp_decl ""
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      operation 141871 "addStep"
+	public explicit_return_type ""
+	nparams 2
+	  param in name "couple" explicit_type "Couple"
+	  param in name "value" explicit_type "integer"
+	
+	
+	
+	
+	
+      end
+
+      classrelation 143279 // <dependency>
+	relation 143023 -_->
+	  a default
+	    classrelation_ref 143279 // <dependency>
+	  b parent class_ref 142511 // Step
+      end
+
+      operation 142127 "extractStep"
+	public explicit_return_type ""
+	nparams 1
+	  param out name "step" type class_ref 142511 // Step
+	
+	
+	
+	
+	
+      end
+    end
+
+    class 128047 "AC1"
+      visibility package 
+      cpp_decl ""
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      classrelation 129071 // <generalisation>
+	relation 128815 ---|>
+	  a public
+	    classrelation_ref 129071 // <generalisation>
+	  b parent class_ref 129154 // Mac
+      end
+    end
+
+    class 128175 "AC3"
+      visibility package 
+      cpp_decl ""
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      classrelation 129199 // <generalisation>
+	relation 128943 ---|>
+	  a public
+	    classrelation_ref 129199 // <generalisation>
+	  b parent class_ref 129154 // Mac
+      end
+    end
+
+    class 128303 "AC4"
+      visibility package 
+      cpp_decl ""
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      classrelation 129327 // <generalisation>
+	relation 129071 ---|>
+	  a public
+	    classrelation_ref 129327 // <generalisation>
+	  b parent class_ref 129154 // Mac
+      end
+
+      attribute 128047 "list"
+	private explicit_type "List"
+	cpp_decl ""
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 128175 "supported"
+	private explicit_type "Array[Couple]"
+	cpp_decl ""
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+    end
+
+    class 128431 "AC2001"
+      visibility package 
+      cpp_decl ""
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      classrelation 129455 // <generalisation>
+	relation 129199 ---|>
+	  a public
+	    classrelation_ref 129455 // <generalisation>
+	  b parent class_ref 129154 // Mac
+      end
+    end
+
+    class 128687 "SearchAlgorithm"
+      visibility package 
+      cpp_decl ""
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "Si tratta di una classe astratta che rappresenta tutti i possibili algoritmi di ricerca. Tali algoritmi potrebbero essere funzionanti in modo autonomo oppure fare uso di un algoritmo di propagazione.
+Sarà Generic Solver a definire le combinazioni
+"
+      classrelation 128047 // <composition>
+	relation 128047 *---
+	  a role_name "" private
+	    classrelation_ref 128047 // <composition>
+	  b role_name "" private
+	    classrelation_ref 128175 // <composition>
+      end
+    end
+
+    class 128815 "PropagationAlgorithm"
+      visibility package 
+      cpp_decl ""
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "Si tratta di una classe astratta che rappresenta tutti gli algoritmi di propagazione di vincoli
+"
+      classrelation 128303 // <composition>
+	relation 128175 *---
+	  a role_name "" private
+	    classrelation_ref 128303 // <composition>
+	  b role_name "" private
+	    classrelation_ref 128431 // <composition>
+      end
+
+      operation 128047 "prop"
+	public explicit_return_type ""
+	nparams 3
+	  param inout name "domains" explicit_type "Domains"
+	  param out name "result" explicit_type "Boolean"
+	  param in name "constraint" explicit_type "Integer"
+	
+	
+	
+	
+	
+      end
+
+      attribute 142383 "domains"
+	private explicit_type "Domain"
+	cpp_decl ""
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      classrelation 143791 // <dependency>
+	relation 143535 -_->
+	  a default
+	    classrelation_ref 143791 // <dependency>
+	  b parent class_ref 142895 // Domain
+      end
+    end
+
+    class 128943 "BacktrackFree"
+      visibility package 
+      cpp_decl ""
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      classrelation 128559 // <generalisation>
+	relation 128303 ---|>
+	  a public
+	    classrelation_ref 128559 // <generalisation>
+	  b parent class_ref 128687 // SearchAlgorithm
+      end
+    end
+
+    class 129071 "Backtrack"
+      visibility package 
+      cpp_decl ""
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      classrelation 128687 // <generalisation>
+	relation 128431 ---|>
+	  a public
+	    classrelation_ref 128687 // <generalisation>
+	  b parent class_ref 128687 // SearchAlgorithm
+      end
+    end
+
+    class 135599 "View"
+      visibility package 
+      cpp_decl ""
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      classrelation 136239 // <unidirectional association>
+	relation 135983 --->
+	  a role_name "" private
+	    classrelation_ref 136239 // <unidirectional association>
+	  b parent class_ref 135938 // Sudoku
+      end
+    end
+
+    class 135727 "SudokuSolverApplet"
+      visibility package 
+      cpp_decl ""
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      attribute 134703 "projectName"
+	private explicit_type ""
+	cpp_decl ""
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      operation 135087 "init"
+	public explicit_return_type ""
+	nparams 0
+	
+	
+	
+	
+	
+      end
+
+      operation 135215 "restart"
+	public explicit_return_type ""
+	nparams 0
+	
+	
+	
+	
+	
+      end
+
+      classrelation 136367 // <dependency>
+	relation 136111 -_->
+	  a default
+	    classrelation_ref 136367 // <dependency>
+	  b parent class_ref 135599 // View
+      end
+
+      classrelation 136495 // <dependency>
+	relation 136239 -_->
+	  a default
+	    classrelation_ref 136495 // <dependency>
+	  b parent class_ref 135855 // ProblemGenerator
+      end
+
+      classrelation 136623 // <dependency>
+	relation 136367 -_->
+	  a default
+	    classrelation_ref 136623 // <dependency>
+	  b parent class_ref 128258 // Core
+      end
+    end
+
+    class 135855 "ProblemGenerator"
+      visibility package 
+      cpp_decl ""
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      operation 135343 "makeProblem"
+	public explicit_return_type ""
+	nparams 0
+	
+	
+	
+	
+	
+      end
+    end
+
+    class 142383 "SGAC"
+      visibility package 
+      cpp_decl ""
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      classrelation 143151 // <generalisation>
+	relation 142895 ---|>
+	  a public
+	    classrelation_ref 143151 // <generalisation>
+	  b parent class_ref 129154 // Mac
+      end
+    end
+
+    class 142511 "Step"
+      visibility package 
+      cpp_decl ""
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      attribute 141487 "couple"
+	private explicit_type "Couple"
+	cpp_decl ""
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 141615 "value"
+	private explicit_type "integer"
+	cpp_decl ""
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 141743 "message"
+	private explicit_type "string"
+	cpp_decl ""
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      classrelation 143407 // <dependency>
+	relation 143151 -_->
+	  a default
+	    classrelation_ref 143407 // <dependency>
+	  b parent class_ref 142639 // Couple
+      end
+    end
+
+    class 142639 "Couple"
+      visibility package 
+      cpp_decl ""
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      operation 141999 "convertCouple"
+	class_operation private explicit_return_type ""
+	nparams 2
+	  param in name "" explicit_type ""
+	  param out name "position" explicit_type "integer"
+	
+	
+	
+	
+	
+      end
+
+      attribute 141871 "x"
+	private explicit_type "integer"
+	cpp_decl ""
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      attribute 141999 "y"
+	private explicit_type "integer"
+	cpp_decl ""
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+    end
+
+    class 142767 "Greedy"
+      visibility package 
+      cpp_decl ""
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      classrelation 143535 // <generalisation>
+	relation 143279 ---|>
+	  a public
+	    classrelation_ref 143535 // <generalisation>
+	  b parent class_ref 128687 // SearchAlgorithm
+      end
+    end
+
+    class 142895 "Domain"
+      visibility package 
+      cpp_decl ""
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      attribute 142511 "values"
+	private explicit_type "array[integer]"
+	cpp_decl ""
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+      end
+
+      operation 142383 "addValue"
+	public explicit_return_type ""
+	nparams 1
+	  param in name "value" explicit_type "integer"
+	
+	
+	
+	
+	
+      end
+
+      operation 142511 "extractValue"
+	public explicit_return_type ""
+	nparams 2
+	  param in name "position" explicit_type "integer"
+	  param out name "value" explicit_type "integer"
+	
+	
+	
+	
+	
+      end
+
+      operation 142639 "getValues"
+	public explicit_return_type ""
+	nparams 1
+	  param out name "values" explicit_type "array[integer]"
+	
+	
+	
+	
+	
+      end
+
+      operation 142767 "deleteValue"
+	public explicit_return_type ""
+	nparams 1
+	  param in name "value" explicit_type "integer"
+	
+	
+	
+	
+	
+      end
     end
   end
 end
