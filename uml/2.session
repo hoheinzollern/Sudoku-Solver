@@ -1,13 +1,14 @@
 window_sizes 1440 850 263 1171 616 144
 diagrams
   active  classdiagram_ref 128002 // main
-    1171 632 100 4 72 0
+    1171 632 100 4 161 0
 end
 show_stereotypes
-selected class_ref 135938 // Sudoku
+selected operation_ref 142722 // notifyView
 open
   class_ref 128258 // Core
   class_ref 128770 // GenericSolver
-  class_ref 135810 // View
+  class_ref 135938 // Sudoku
+  class_ref 135599 // View
 end
 end
