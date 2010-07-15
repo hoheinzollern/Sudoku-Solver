@@ -1,4 +1,7 @@
+package test;
+
 import javax.swing._
+import java.awt._
 import java.awt.event._
 
 class ShowApplet extends JApplet {
