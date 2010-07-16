@@ -1,15 +1,15 @@
 package sudokusolver.solvers
 
 abstract class GenericSolver {
-	protected val searchAlgorithm : SearchAlgorithm
-	protected val propagationAlgorithm : PropagationAlgorithm
+	protected var searchAlgorithm : SearchAlgorithm
+	protected var propagationAlgorithm : PropagationAlgorithm
  
-	def setSearchAlgorithm() {
-	  //TODO
+	def setSearchAlgorithm(searchAlgorithm : SearchAlgorithm) {
+	  this.searchAlgorithm = searchAlgorithm
 	}
  
-	def setPropagationAlgorithm() {
-	  //TODO
+	def setPropagationAlgorithm(propagationAlgorithm : PropagationAlgorithm) {
+	  this.propagationAlgorithm = propagationAlgorithm
 	}
  
 	def solve() {

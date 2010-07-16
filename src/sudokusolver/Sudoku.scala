@@ -1,5 +1,7 @@
 package sudokusolver
 
+import scala.collection.mutable.LinkedList
+
 class Sudoku {
 	private var numberFields: Array[Int] = new Array[Int](81)
     private var stepList: List[utilities.Step] = List[utilities.Step]()
@@ -9,11 +11,11 @@ class Sudoku {
       this.stepList ::= step
     }
     
-    def extractStep() : utilities.Step {
-      return head(this.stepList)
+    def extractStep() {
+      this.stepList.head
     }
     
-    def notifyView() = {
+    def notifyView() {
       //TODO
     }
 }

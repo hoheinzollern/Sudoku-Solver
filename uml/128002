@@ -1,6 +1,6 @@
 format 75
 "sudokusolver" // sudokusolver
-  revision 9
+  revision 10
   modified_by 47 "Emanuele"
   // class settings
   //class diagram settings
@@ -509,6 +509,18 @@ Sarà Generic Solver a definire le combinazioni
 	  a default
 	    classrelation_ref 143791 // <dependency>
 	  b parent class_ref 142895 // Domain
+      end
+
+      operation 149295 "getDomain"
+	public explicit_return_type ""
+	nparams 2
+	  param in name "index" explicit_type "Int"
+	  param out name "domain" type class_ref 142895 // Domain
+	
+	
+	
+	
+	
       end
     end
 
