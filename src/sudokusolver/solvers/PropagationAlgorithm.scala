@@ -9,7 +9,7 @@ class PropagationAlgorithm {
 	  //TODO
 	}
  
- 	def getDomain(index : Int) {
+ 	def getDomain(index : Int) = {
  	  this.domains(index)
  	}
 }

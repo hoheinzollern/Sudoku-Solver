@@ -24,6 +24,15 @@ class SudokuSolverApplet extends JApplet {
 		helloButton.addActionListener(new ActionListener {
 			def actionPerformed(evt: ActionEvent) {
 				println("Hell-o world")
+				var dominio = new utilities.Domain()
+				var lista = dominio.getValues()
+				println(lista)
+				println("Ora elimino il 5...")
+				dominio.deleteValue(5)
+				lista = dominio.getValues()
+				println(lista)
+				println("Il primo elemento è " + dominio.extractValue())
+				println("E per vedere se davvero l'ha estratto... ci riprovo... " + dominio.extractValue())
 			}
 		})
 	}

@@ -7,16 +7,17 @@ class Domain {
 	  this.values = value :: this.values
 	}
  
- 	def extractValue(value: Int) {
- 	  this.values.head
+ 	def extractValue() = {
+ 	  var elemento = this.values.head
+ 	  this.values = this.values.filter((n) => n != elemento)
+ 	  elemento
  	}
   
-  	def getValues() {
+  	def getValues() = {
   	  this.values
   	}
    
-   	def deleteValue(value: Int) {
-   	  //Da sistemare... vorrei eliminare l'elemento 'value' dalla lista ma non riesco a capire come si fa
-   	  //this.values = this.values.filterNot(value)
+   	def deleteValue(value: Int) = {
+   	  this.values = this.values.filter((n) => n != value)
    	}
 }
