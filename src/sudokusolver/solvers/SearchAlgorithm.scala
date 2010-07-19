@@ -4,10 +4,17 @@ abstract class SearchAlgorithm {
 	private var usePropagation : Boolean = false
 	private var propagationAlgorithm : PropagationAlgorithm = null
  
-	def setPropagationAlgorithm(propagationAlgorithm : PropagationAlgorithm) {
+	private def setPropagationAlgorithm(propagationAlgorithm : PropagationAlgorithm) {
 	  this.usePropagation = true
 	  this.propagationAlgorithm = propagationAlgorithm
 	}
 	
+ 	def execute() {
+ 	  
+ 	}
+  
+ 	def execute(propagationAlgorithm : PropagationAlgorithm) {
+ 	  setPropagationAlgorithm(propagationAlgorithm)
+ 	}
 	//TODO
 }

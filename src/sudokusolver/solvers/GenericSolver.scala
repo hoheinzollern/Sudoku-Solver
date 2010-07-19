@@ -24,8 +24,12 @@ abstract class GenericSolver {
 	*/
 	def solve() {
 	  if (this.searchAlgorithm != null) {
-	    
+		  if (this.propagationAlgorithm != null) this.searchAlgorithm.execute(this.propagationAlgorithm)
+		  else this.searchAlgorithm.execute 
 	  }
-	  // TODO
+	  else if (this.propagationAlgorithm != null) {
+		  // TODO
+	  }
+	  else throw new exceptions.SolverNotReadyException()
 	}
 }

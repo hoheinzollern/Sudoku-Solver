@@ -10,13 +10,21 @@ class Sudoku {
 	private var numberFields: Array[Int] = new Array[Int](81)
     private var stepList: List[utilities.Step] = List[utilities.Step]()
 
+    /**
+     * This method adds a Step to the stepList
+     */
     def addStep(couple: utilities.Couple, value: Int) {
       var step : utilities.Step = new utilities.Step()
       this.stepList ::= step
     }
     
+    /**
+     * This method extract the first element from stepList
+     */
     def extractStep() {
-      this.stepList.head
+      var element = this.stepList.head
+      this.stepList = this.stepList.filter((n) => n != element)
+ 	  element
     }
     
     /**
