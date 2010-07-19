@@ -10,6 +10,18 @@ class Step {
 		this.value = value
 		this.message = message
 	}
+ 
+ 	def getCouple() = {
+ 	  this.couple
+ 	}
+  
+ 	def getMessage() = {
+ 	  this.message
+ 	}
+  
+ 	def getValue() = {
+ 	  this.value
+ 	}
 	 
  	
  

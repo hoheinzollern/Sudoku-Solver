@@ -1,6 +1,6 @@
 package sudokusolver.solvers
 
-class SearchAlgorithm {
+abstract class SearchAlgorithm {
 	private var usePropagation : Boolean = false
 	private var propagationAlgorithm : PropagationAlgorithm = null
  

@@ -1,5 +1,5 @@
 package sudokusolver.solvers
 
-class ForwardChecking {
+class ForwardChecking extends PropagationAlgorithm {
 	//TODO
 }

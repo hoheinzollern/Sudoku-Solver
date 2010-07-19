@@ -1,6 +1,6 @@
 format 75
 "sudokusolver" // sudokusolver
-  revision 10
+  revision 11
   modified_by 47 "Emanuele"
   // class settings
   //class diagram settings
@@ -211,6 +211,7 @@ format 75
 	    classrelation_ref 128815 // <generalisation>
 	  b parent class_ref 128815 // PropagationAlgorithm
       end
+
     end
 
     class 129026 "PartialLookAhead"
@@ -236,18 +237,6 @@ format 75
 	  b parent class_ref 128815 // PropagationAlgorithm
       end
 
-      operation 128303 "revise"
-	public explicit_return_type ""
-	nparams 3
-	  param in name "j" explicit_type "Integer"
-	  param in name "k" explicit_type "Integer"
-	  param inout name "domains" explicit_type "Domain"
-	
-	
-	
-	
-	
-      end
     end
 
     class 129154 "Mac"
@@ -271,19 +260,6 @@ format 75
 	  a public
 	    classrelation_ref 128943 // <generalisation>
 	  b parent class_ref 128815 // PropagationAlgorithm
-      end
-
-      operation 128175 "revise"
-	public explicit_return_type ""
-	nparams 3
-	  param in name "i" explicit_type "Integer"
-	  param in name "j" explicit_type "Integer"
-	  param inout name "domains" explicit_type "Domain"
-	
-	
-	
-	
-	
       end
     end
 
@@ -346,6 +322,16 @@ format 75
       end
 
       operation 142722 "notifyView"
+	public explicit_return_type ""
+	nparams 0
+	
+	
+	
+	
+	
+      end
+
+      operation 155951 "compileSolvedScheme"
 	public explicit_return_type ""
 	nparams 0
 	
@@ -474,6 +460,19 @@ Sarà Generic Solver a definire le combinazioni
       
       comment "Si tratta di una classe astratta che rappresenta tutti gli algoritmi di propagazione di vincoli
 "
+      operation 128175 "revise"
+	public explicit_return_type ""
+	nparams 3
+	  param in name "i" explicit_type "Integer"
+	  param in name "j" explicit_type "Integer"
+	  param inout name "domains" explicit_type "Domain"
+	
+	
+	
+	
+	
+      end
+
       classrelation 128303 // <composition>
 	relation 128175 *---
 	  a role_name "" private

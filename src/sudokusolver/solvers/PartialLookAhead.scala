@@ -1,5 +1,5 @@
 package sudokusolver.solvers
 
-class PartialLookAhead {
+class PartialLookAhead extends PropagationAlgorithm {
 	//TODO
 }
