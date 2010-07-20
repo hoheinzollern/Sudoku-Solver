@@ -1,5 +1,7 @@
 package sudokusolver.solvers
 
+import sudokusolver.exceptions
+
 /**
  * This abstract class represents the structure of a generic solver.
  * The subject of this class is to create the basic framework to obtain 
