@@ -8,9 +8,9 @@ class Domain {
 	}
  
  	def extractValue() = {
- 	  var elemento = this.values.head
- 	  this.values = this.values.filter((n) => n != elemento)
- 	  elemento
+ 	  var element = this.values.head
+ 	  this.values = this.values.filter((n) => n != element)
+ 	  element
  	}
   
   	def getValues() = {
