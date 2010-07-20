@@ -12,13 +12,19 @@ import java.awt.event._
 
 
 class SudokuSolverApplet extends JApplet {
-	var _layout = new GridLayout
-	var helloButton = new JButton("Hell-o world")
- 
+	private var gridlayout = new GridLayout
+	
+	gridlayout.setRows(2)
+	gridlayout.setColumns(1)
+	
+	private val view = new View
+	private var helloButton = new JButton("Hell-o world")
+	
 	private var projectName: String = ""
 
 	override def init = {
-		setLayout(_layout)
+		setLayout(gridlayout)
+		add(view)
 		add(helloButton)
 		
 		helloButton.addActionListener(new ActionListener {
@@ -31,7 +37,7 @@ class SudokuSolverApplet extends JApplet {
 				dominio.deleteValue(5)
 				lista = dominio.getValues()
 				println(lista)
-				println("Il primo elemento è " + dominio.extractValue())
+				println("Il primo elemento Ã¨ " + dominio.extractValue())
 				println("E per vedere se davvero l'ha estratto... ci riprovo... " + dominio.extractValue())
 			}
 		})
