@@ -3,7 +3,7 @@ package sudokusolver.solvers
 import sudokusolver.utilities
 
 abstract class PropagationAlgorithm {
-	private val domains : Array[utilities.Domain] = new Array[utilities.Domain](81)
+	private val domains = new Array[Array[utilities.Domain]](9,9)
  
 	/**
 	* This is the "revise" method that is the basic idea of arc consistency.
@@ -13,8 +13,8 @@ abstract class PropagationAlgorithm {
 	* one value from the second variable that doesn't brake the constraint. 
 	*/
 	def revise(xi : utilities.Couple, xj : utilities.Couple) = {
-	  var domainXi = getDomain(xi.convertCouple())
-	  var domainXj = getDomain(xj.convertCouple())
+	  var domainXi = getDomain(xi.getX,xi.getY)
+	  var domainXj = getDomain(xj.getX,xj.getY)
    
 	  // Costraint is all_different
 	  var listDomainXi = domainXi.getValues()
@@ -47,7 +47,7 @@ abstract class PropagationAlgorithm {
  	/**
  	* This return the specific domain of a variable 
  	*/
- 	def getDomain(index : Int) = {
- 	  this.domains(index)
+ 	def getDomain(xIndex : Int, yIndex : Int) = {
+ 	  (this.domains(xIndex))(yIndex)
  	}
 }

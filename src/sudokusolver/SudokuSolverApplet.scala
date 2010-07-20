@@ -26,6 +26,7 @@ class SudokuSolverApplet extends JApplet {
 		setLayout(gridlayout)
 		add(view)
 		add(helloButton)
+		setSize(650,650);
 		
 		helloButton.addActionListener(new ActionListener {
 			def actionPerformed(evt: ActionEvent) {
@@ -37,7 +38,7 @@ class SudokuSolverApplet extends JApplet {
 				dominio.deleteValue(5)
 				lista = dominio.getValues()
 				println(lista)
-				println("Il primo elemento è " + dominio.extractValue())
+				println("Il primo elemento e' " + dominio.extractValue())
 				println("E per vedere se davvero l'ha estratto... ci riprovo... " + dominio.extractValue())
 			}
 		})

@@ -36,8 +36,11 @@ class Sudoku {
       this.stepList = stepList
       for (i <- 0 to this.stepList.length by 1) {
         var step = (this.stepList.drop(i)).head
-        var field = step.getCouple.convertCouple
-        numberFields(field) = step.getValue
+        var field = step.getCouple
+        var x = field.getX
+        var y = field.getY
+        var value = step.getValue
+        (numberFields(x))(y) = value
       }
     }
     

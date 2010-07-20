@@ -4,7 +4,7 @@ class Couple {
 	private var x : Int = 0
 	private var y : Int = 0
  
-	def convertCouple() = {
-	  9*(this.y-1)+(this.x-1)
-	}
+	def getX() = this.x
+ 
+	def getY() = this.y
 }
