@@ -26,7 +26,6 @@ class SudokuSolverApplet extends JApplet {
 		setLayout(gridlayout)
 		add(view)
 		add(helloButton)
-		setSize(650,650);
 		
 		helloButton.addActionListener(new ActionListener {
 			def actionPerformed(evt: ActionEvent) {
