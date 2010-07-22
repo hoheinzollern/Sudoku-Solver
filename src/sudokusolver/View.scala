@@ -3,6 +3,7 @@ package sudokusolver
 import java.awt.Canvas
 import java.awt.Graphics
 import java.awt.FontMetrics
+import java.awt.Dimension
 
 class View extends Canvas {
 	private var sudoku = new Sudoku
@@ -31,11 +32,13 @@ class View extends Canvas {
 		
 		for (i <- 0 to 8) {
 			for (j <- 0 to 8) {
-				val text = board(i)(j).toString
-				val lm = fm.getLineMetrics(text, g)
-				g.drawString(text,
-						i * stepX + (stepX/2.0f + lm.getLeading/2).toInt,
-						j * stepY + (stepY/2.0f + lm.getHeight/2).toInt)
+				if (board(i)(j) != 0) {
+					val text = board(i)(j).toString
+					val lm = fm.getLineMetrics(text, g)
+					g.drawString(text,
+							i * stepX + (stepX/2.0f + lm.getLeading/2).toInt,
+							j * stepY + (stepY/2.0f + lm.getHeight/2).toInt)
+				}
 			}
 		}
 	}
