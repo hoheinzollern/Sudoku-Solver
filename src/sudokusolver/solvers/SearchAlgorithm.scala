@@ -9,12 +9,10 @@ abstract class SearchAlgorithm {
 	  this.propagationAlgorithm = propagationAlgorithm
 	}
 	
- 	def execute() {
- 	  
- 	}
+ 	def execute
   
  	def execute(propagationAlgorithm : PropagationAlgorithm) {
  	  setPropagationAlgorithm(propagationAlgorithm)
+ 	  execute
  	}
-	//TODO
 }

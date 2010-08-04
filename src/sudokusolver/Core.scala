@@ -1,7 +1,7 @@
 package sudokusolver
 
 class Core {
-	private var loadedModules: List[utilities.Module] = List[utilities.Module]()
+	private var loadedModules = List[sudokusolver.utilities.Module]()
  
 
 }
