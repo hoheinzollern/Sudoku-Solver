@@ -1,28 +1,21 @@
 package sudokusolver.utilities
 
-class Step {
-	private var couple: Couple = null
-	private var value: Int = 0
-	private var message: String = ""
- 
-	def Step(couple : Couple, value : Int, message : String) {
-		this.couple = couple
-		this.value = value
-		this.message = message
-	}
- 
- 	def getCouple() = {
- 	  this.couple
- 	}
+class Step(private var couple: Couple, private var value: Int = 0, private var message: String = "", private var domains: Array[Array[Set[Int]]]) {
+
+  def getCouple() = {
+    this.couple
+  }
+
+  def getMessage() = {
+    this.message
+  }
+
+  def getValue() = {
+    this.value
+  }
   
- 	def getMessage() = {
- 	  this.message
- 	}
-  
- 	def getValue() = {
- 	  this.value
- 	}
-	 
- 	
- 
+  def getDomains() = {
+	  this.domains
+  }
+
 }

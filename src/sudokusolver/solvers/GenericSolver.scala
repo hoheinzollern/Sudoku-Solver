@@ -8,7 +8,7 @@ import sudokusolver.exceptions
  * a complete solver with any possible kind of search / propagation methods
  */
 
-abstract class GenericSolver {
+class GenericSolver {
 	protected var searchAlgorithm : SearchAlgorithm = null
 	protected var propagationAlgorithm : PropagationAlgorithm = null
  

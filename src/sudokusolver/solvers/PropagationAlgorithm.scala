@@ -3,7 +3,7 @@ package sudokusolver.solvers
 import sudokusolver.utilities
 
 abstract class PropagationAlgorithm {
-	private val domains = new Array[Array[utilities.Domain]](9,9)
+	protected var domains = new Array[Array[utilities.Domain]](9,9)
  
 	/**
 	* This is the "revise" method that is the basic idea of arc consistency.
@@ -40,7 +40,7 @@ abstract class PropagationAlgorithm {
  	* 
  	* The idea is to get the variable to load and the universe of the domains.
  	*/
-	def prop(itemNumber: Int, domains: Array[utilities.Domain]) {
+	def prop(item: utilities.Couple, domains: Array[Array[utilities.Domain]]) {
 	  //TODO
 	}
  

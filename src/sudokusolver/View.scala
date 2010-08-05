@@ -6,7 +6,7 @@ import java.awt.FontMetrics
 import java.awt.Dimension
 
 class View extends Canvas {
-	private var sudoku = new Sudoku
+	private var sudoku = new Sudoku(new solvers.GenericSolver)
 	
 	override def paint(g : Graphics) {
 		val width = getWidth
@@ -27,13 +27,13 @@ class View extends Canvas {
 			}
 		}
 		
-		val board = sudoku.getBoard
 		val fm = g.getFontMetrics
 		
 		for (i <- 0 to 8) {
 			for (j <- 0 to 8) {
-				if (board(i)(j) != 0) {
-					val text = board(i)(j).toString
+				val element = sudoku.get(i,j)
+				if (element != 0) {
+					val text = element.toString
 					val lm = fm.getLineMetrics(text, g)
 					g.drawString(text,
 							i * stepX + (stepX/2.0f + lm.getLeading/2).toInt,
