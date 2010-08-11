@@ -3,7 +3,7 @@ package sudokusolver.solvers
 import sudokusolver.utilities
 
 class ForwardChecking extends PropagationAlgorithm {
-	def prop(item: utilities.Couple, domains: Array[Array[utilities.Domain]]) {
+	override def prop(item: utilities.Couple, domains: Array[Array[utilities.Domain]]) {
 	  this.domains = domains
 	  var failure = false
 	  var k = item.next

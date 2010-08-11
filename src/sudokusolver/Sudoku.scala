@@ -4,7 +4,7 @@ package sudokusolver
  * This class represents the game with the fields of the scheme.
  */
 
-class Sudoku (private var solver: solvers.GenericSolver) {
+class Sudoku(private var solver: solvers.GenericSolver) {
 	class InvalidValueException extends Exception
 		
 	private var numberFields = new Array[Array[Int]](9,9)
@@ -17,6 +17,7 @@ class Sudoku (private var solver: solvers.GenericSolver) {
 		numberFields(x)(y) = value
 		val step = new utilities.Step(new utilities.Couple(x, y), value, message, domains.clone)
 		stepList = stepList :+ step
+		//propagator.revise(step)
 				
 		notifyView
 	}
@@ -33,5 +34,9 @@ class Sudoku (private var solver: solvers.GenericSolver) {
     def notifyView {
     	for (view <- views)
     		view.update
+    }
+    
+    def generate(difficulty : Int) {
+    	numberFields = solver.generateProblem(difficulty)
     }
 }

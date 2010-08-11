@@ -14,7 +14,8 @@ import javax.swing.LayoutStyle
 
 class SudokuSolverApplet extends JApplet {
 	private val view = new View
-	private val button = new JButton("Test me!")
+	private val button = new JButton("Generate!")
+	private var level = 0
 
 	override def init = {
 		val layout = new GroupLayout(getContentPane)
@@ -53,6 +54,10 @@ class SudokuSolverApplet extends JApplet {
 				println("Il dominio ha ora " + dominio.cardinality + " elementi")
 				println("E per vedere se davvero l'ha estratto... ci riprovo... " + dominio.extractValue())
 				println("E ora ne ha " + dominio.cardinality)
+				println("Ora faccio partire la visualizzazione del problema di base")
+				view.generate(level)
+				level = level + 1
+				println("Generato nuovo schema!")
 			}
 		})
 }
