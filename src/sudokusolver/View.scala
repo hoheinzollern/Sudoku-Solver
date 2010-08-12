@@ -8,7 +8,6 @@ import java.awt.Dimension
 class View extends Canvas {
 	var solver = new solvers.GenericSolver(new Core)
 	solver.setPropagationAlgorithm(new solvers.ForwardChecking)
-	solver.generateProblem(0)
 	private var sudoku = new Sudoku(solver)
 	
 	override def paint(g : Graphics) {
@@ -34,7 +33,7 @@ class View extends Canvas {
 		
 		for (i <- 0 to 8) {
 			for (j <- 0 to 8) {
-				val element = sudoku.get(i,j)
+				val element = sudoku.get(j,i)
 				if (element != 0) {
 					val text = element.toString
 					val lm = fm.getLineMetrics(text, g)

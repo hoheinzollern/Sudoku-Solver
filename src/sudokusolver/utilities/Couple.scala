@@ -1,5 +1,7 @@
 package sudokusolver.utilities
 
+import sudokusolver.exceptions
+
 class Couple (private var x : Int = 0, private var y : Int = 0) {
 	
 	def getX() = this.x
@@ -8,16 +10,41 @@ class Couple (private var x : Int = 0, private var y : Int = 0) {
 	
 	def next() = {
 		var output = new Couple()
-		if (x != 9 && y != 9) {
-			if (y < 9) {
-				output = new Couple(x, y+1)
+		if (this.y < 8) {
+			output.set(this.x, this.y+1)
+		}
+		else {
+			if (this.x < 8) {
+				output.set(this.x+1, 0)
 			}
-			else output = new Couple(x+1, 1)
+			else throw new exceptions.NextElementDoesntExists
 		}
 		output
 	}
 	
 	def isValid() = {
 		!((x == 0) && (y == 0))
+	}
+	
+	def isLatest() = {
+		(x == 8) && (y == 8)
+	}
+	
+	def set(x : Int, y : Int) {
+		if (x >= 0 && x <= 8 && y >= 0 && y <= 8) {
+			this.x = x
+			this.y = y
+		}
+		else throw new exceptions.InvalidCouple
+	}
+	
+	def setX(x : Int) {
+		if (x >= 0 && x <= 8) this.x = x
+		else throw new exceptions.InvalidCouple
+	}
+	
+	def setY(y : Int) {
+		if (y >= 0 && y <= 8) this.y = y
+		else throw new exceptions.InvalidCouple
 	}
 }

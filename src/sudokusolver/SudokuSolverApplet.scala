@@ -14,7 +14,8 @@ import javax.swing.LayoutStyle
 
 class SudokuSolverApplet extends JApplet {
 	private val view = new View
-	private val button = new JButton("Generate!")
+	private val generateButton = new JButton("Generate!")
+	private val resolveButton = new JButton("Resolve!")
 	private var level = 0
 
 	override def init = {
@@ -27,7 +28,8 @@ class SudokuSolverApplet extends JApplet {
                 .addContainerGap
                 .addGroup(layout.createParallelGroup(GroupLayout.Alignment.TRAILING)
                     .addComponent(view)
-                    .addComponent(button))
+                    .addComponent(generateButton)
+                    .addComponent(resolveButton))
                 .addContainerGap)
         );
 		layout.setVerticalGroup(
@@ -36,28 +38,46 @@ class SudokuSolverApplet extends JApplet {
 				.addContainerGap
 				.addComponent(view)
 				.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-				.addComponent(button)
+				.addComponent(generateButton)
+				.addComponent(resolveButton)
 				.addContainerGap)
 		)
 	}
-	button.addActionListener(new ActionListener {
+	generateButton.addActionListener(new ActionListener {
+		def actionPerformed(evt: ActionEvent) {
+			println("Generate!")
+			/*var dominio = new utilities.Domain()
+			var lista = dominio.getValues()
+			println(lista)
+			println("Ora elimino il 5...")
+			dominio.deleteValue(5)
+			lista = dominio.getValues()
+			println(lista)
+			println("Il primo elemento e' " + dominio.extractValue())
+			println("Il dominio ha ora " + dominio.cardinality + " elementi")
+			println("E per vedere se davvero l'ha estratto... ci riprovo... " + dominio.extractValue())
+			println("E ora ne ha " + dominio.cardinality)*/
+			view.generate(level)
+			println("Generato nuovo schema con livello " + level + "!")
+			level = level + 1
+			if (level == 4) level = 0
+		}
+	})
+	resolveButton.addActionListener(new ActionListener {
 			def actionPerformed(evt: ActionEvent) {
-				println("Hell-o world")
-				var dominio = new utilities.Domain()
-				var lista = dominio.getValues()
-				println(lista)
-				println("Ora elimino il 5...")
-				dominio.deleteValue(5)
-				lista = dominio.getValues()
-				println(lista)
-				println("Il primo elemento e' " + dominio.extractValue())
-				println("Il dominio ha ora " + dominio.cardinality + " elementi")
-				println("E per vedere se davvero l'ha estratto... ci riprovo... " + dominio.extractValue())
-				println("E ora ne ha " + dominio.cardinality)
-				println("Ora faccio partire la visualizzazione del problema di base")
-				view.generate(level)
-				level = level + 1
-				println("Generato nuovo schema!")
+				println("Resolve!")
+				var dominio = new utilities.Domain("Test")
+				println("L'elenco degli elementi è " + dominio.getValues)
+				println("Voglio il primo: " + dominio.getValue(0))
+				println("Voglio il quinto: " + dominio.getValue(4))
+				println("Voglio l'ultimo: " + dominio.getValue(8))
+				println("Ora ne cancello uno in mezzo")
+				dominio.deleteValue(4)
+				println("Ho cancellato il 4.. ora riprovo tutto!")
+				println("L'elenco degli elementi è " + dominio.getValues)
+				println("Voglio il primo: " + dominio.getValue(0))
+				println("Voglio il quinto: " + dominio.getValue(4))
+				println("Voglio l'ultimo: " + dominio.getValue(7))
 			}
-		})
+	})
 }
