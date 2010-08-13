@@ -8,10 +8,9 @@ import sudokusolver.exceptions
  * a complete solver with any possible kind of search / propagation methods
  */
 
-class GenericSolver(protected var core : sudokusolver.Core) {
+class GenericSolver(problem: sudokusolver.Sudoku) {
 	protected var searchAlgorithm : SearchAlgorithm = null
 	protected var propagationAlgorithm : PropagationAlgorithm = null
-	protected var problem : Array[Array[Int]] = null
  
 	def setSearchAlgorithm(searchAlgorithm : SearchAlgorithm) {
 	  this.searchAlgorithm = searchAlgorithm
@@ -26,18 +25,14 @@ class GenericSolver(protected var core : sudokusolver.Core) {
 	* a stepList 
 	*/
 	def solve() {
-	  if (this.searchAlgorithm != null) {
-		  if (this.propagationAlgorithm != null) this.searchAlgorithm.execute(this.propagationAlgorithm)
-		  else this.searchAlgorithm.execute 
-	  }
-	  else if (this.propagationAlgorithm != null) {
-		  // TODO
-	  }
-	  else throw new exceptions.SolverNotReadyException()
+	  if (this.searchAlgorithm != null && this.propagationAlgorithm != null) {
+		  this.searchAlgorithm.execute(this.propagationAlgorithm) 
+	  } else throw new exceptions.SolverNotReadyException()
 	}
 	
 	def generateProblem(difficulty : Int) = {
-		this.problem = this.core.generate(difficulty)
+		// FIXME
+		//this.problem = this.core.generate(difficulty)
 		this.problem
 	}
 	

@@ -5,10 +5,11 @@ import java.awt.Graphics
 import java.awt.FontMetrics
 import java.awt.Dimension
 
-class View extends Canvas {
-	var solver = new solvers.GenericSolver(new Core)
-	solver.setPropagationAlgorithm(new solvers.ForwardChecking)
-	private var sudoku = new Sudoku(solver)
+class View(private var sudoku: Sudoku) extends Canvas {
+	
+	def setSudoku(sudoku: Sudoku) {
+		this.sudoku = sudoku
+	}
 	
 	override def paint(g : Graphics) {
 		val width = getWidth
@@ -46,11 +47,4 @@ class View extends Canvas {
 	}
 	
 	def update = repaint
-
-	def generate(difficulty : Int) {
-		if (difficulty >= 0 && difficulty <= 3) {
-			sudoku.generate(difficulty)
-			update
-		}
-	}
 }

@@ -46,14 +46,14 @@ class Core {
 				}	
 				else {
 					println("Prima della ricorsione il dominio ")
-					if (domains.get(currentCouple.getX, currentCouple.getY).isEmpty) println(" .. è vuoto!")
+					if (domains.get(currentCouple.getX, currentCouple.getY).isEmpty) println(" .. Ã¨ vuoto!")
 					else println("ha elementi " + domains.get(currentCouple.getX, currentCouple.getY).getValues)
 					
 					generateScheme(currentCouple.next)
 					domains = domains.back
 					//scheme = scheme.back
 					
-					println("Sono tornato! La coppia corrente è " + currentCouple.getX + "," + currentCouple.getY + " e la situazione è")
+					println("Sono tornato! La coppia corrente Ã¨ " + currentCouple.getX + "," + currentCouple.getY + " e la situazione Ã¨")
 					println("SCHEME:")
 					for (h<-0 to 8) {
 						for (k<-0 to 8) {
@@ -64,7 +64,7 @@ class Core {
 				}
 			}
 			else {
-				println("Il valore " + element + " non è consistente! Provo con il prossimo...")
+				println("Il valore " + element + " non Ã¨ consistente! Provo con il prossimo...")
 			}
 		}
 		println("Il dominio di " + domains.get(currentCouple.getX, currentCouple.getY).getName + " era vuoto... per cui esco!")

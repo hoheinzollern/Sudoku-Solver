@@ -40,6 +40,10 @@ class Domain(private var associatedCell : String) {
    		this.totalElements = this.totalElements+1
    	}
    	
+   	def empty() {
+   		this.values = List()
+   	}
+   	
    	def isEmpty() = {
    		this.totalElements == 0
    	}

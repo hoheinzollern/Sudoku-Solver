@@ -13,7 +13,13 @@ import javax.swing.LayoutStyle
 
 
 class SudokuSolverApplet extends JApplet {
-	private val view = new View
+	
+	private var sudoku = new Sudoku
+	private var solver = new solvers.GenericSolver(sudoku)
+	solver.setPropagationAlgorithm(new solvers.ForwardChecking)
+	solver.setSearchAlgorithm(new solvers.BacktrackingSearch)
+	
+	private val view = new View(sudoku)
 	private val generateButton = new JButton("Generate!")
 	private val resolveButton = new JButton("Resolve!")
 	private var level = 0
@@ -57,7 +63,7 @@ class SudokuSolverApplet extends JApplet {
 			println("Il dominio ha ora " + dominio.cardinality + " elementi")
 			println("E per vedere se davvero l'ha estratto... ci riprovo... " + dominio.extractValue())
 			println("E ora ne ha " + dominio.cardinality)*/
-			view.generate(level)
+			// FIXME: view.generate(level)
 			println("Generato nuovo schema con livello " + level + "!")
 			level = level + 1
 			if (level == 4) level = 0
@@ -67,14 +73,14 @@ class SudokuSolverApplet extends JApplet {
 			def actionPerformed(evt: ActionEvent) {
 				println("Resolve!")
 				var dominio = new utilities.Domain("Test")
-				println("L'elenco degli elementi è " + dominio.getValues)
+				println("L'elenco degli elementi Ã¨ " + dominio.getValues)
 				println("Voglio il primo: " + dominio.getValue(0))
 				println("Voglio il quinto: " + dominio.getValue(4))
 				println("Voglio l'ultimo: " + dominio.getValue(8))
 				println("Ora ne cancello uno in mezzo")
 				dominio.deleteValue(4)
 				println("Ho cancellato il 4.. ora riprovo tutto!")
-				println("L'elenco degli elementi è " + dominio.getValues)
+				println("L'elenco degli elementi Ã¨ " + dominio.getValues)
 				println("Voglio il primo: " + dominio.getValue(0))
 				println("Voglio il quinto: " + dominio.getValue(4))
 				println("Voglio l'ultimo: " + dominio.getValue(7))

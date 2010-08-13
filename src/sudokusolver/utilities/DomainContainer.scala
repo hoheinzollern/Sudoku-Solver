@@ -31,7 +31,7 @@ class DomainContainer(private var domains : Array[Array[Domain]] = new Array[Arr
 	
 	def back() = {
 		if (this.modifyList != Nil) {
-			println("Vorrei fare back, la lista è ")
+			println("Vorrei fare back, la lista Ã¨ ")
 			var i = this.modifyList
 			while (i!=Nil) {
 				var xD = i.head.getXDomain

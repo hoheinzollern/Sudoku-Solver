@@ -1,6 +1,6 @@
 package sudokusolver.utilities
 
-class Step(private var couple: Couple, private var value: Int = 0, private var message: String = "", private var domains: Array[Array[Set[Int]]]) {
+class Step(private var couple: Couple, private var value: Int = 0, private var message: String = "", private var domains: Array[Array[Domain]]) {
 
   def getCouple() = {
     this.couple
