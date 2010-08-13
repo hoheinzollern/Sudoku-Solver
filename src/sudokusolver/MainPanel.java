@@ -22,28 +22,11 @@
 
 package sudokusolver;
 
-import java.io.File;
-import javax.swing.JFrame;
-
 /**
  *
  * @author alessandro
  */
 public class MainPanel extends javax.swing.JPanel {
-
-    class SudokuFileFilter extends javax.swing.filechooser.FileFilter {
-
-        @Override
-        public boolean accept(File file) {
-            return file.getName().endsWith(".sudoku");
-        }
-
-        @Override
-        public String getDescription() {
-            return ".sudoku";
-        }
-        
-    }
 
     private Sudoku sudoku = new Sudoku();
 
@@ -62,7 +45,6 @@ public class MainPanel extends javax.swing.JPanel {
     private void initComponents() {
 
         levelGroup = new javax.swing.ButtonGroup();
-        sudokuFileChooser = new javax.swing.JFileChooser();
         sudokuPanel = new javax.swing.JPanel();
         view = new View(new Sudoku());
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -105,6 +87,11 @@ public class MainPanel extends javax.swing.JPanel {
 
         useSearchCheckBox.setSelected(true);
         useSearchCheckBox.setText("Use Search Algorithm");
+        useSearchCheckBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                useSearchCheckBoxActionPerformed(evt);
+            }
+        });
 
         jLabel2.setText("Search algorithm:");
 
@@ -116,6 +103,11 @@ public class MainPanel extends javax.swing.JPanel {
         });
 
         usePropagationCheckBox.setText("Use Propagation Algorithm");
+        usePropagationCheckBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                usePropagationCheckBoxActionPerformed(evt);
+            }
+        });
 
         resetGameButton.setText("Reset Game");
         resetGameButton.addActionListener(new java.awt.event.ActionListener() {
@@ -125,6 +117,11 @@ public class MainPanel extends javax.swing.JPanel {
         });
 
         constraintPropagationCombo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Forward checking", "Partial look-ahead", "Arc consistency" }));
+        constraintPropagationCombo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                constraintPropagationComboActionPerformed(evt);
+            }
+        });
 
         loadGameButton.setText("Load Game");
         loadGameButton.addActionListener(new java.awt.event.ActionListener() {
@@ -136,15 +133,35 @@ public class MainPanel extends javax.swing.JPanel {
         jLabel4.setText("Constraint propagation:");
 
         searchAlgotihmCombo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Backtracking Search", "Greedy Search" }));
+        searchAlgotihmCombo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchAlgotihmComboActionPerformed(evt);
+            }
+        });
 
         jLabel3.setText("Algorithms");
 
         saveGameButton.setText("Save Game");
+        saveGameButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                saveGameButtonActionPerformed(evt);
+            }
+        });
 
         startButton.setText("Start solving");
+        startButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                startButtonActionPerformed(evt);
+            }
+        });
 
         stopButton.setText("Stop solving");
         stopButton.setEnabled(false);
+        stopButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                stopButtonActionPerformed(evt);
+            }
+        });
 
         levelGroup.add(easyLevelRadio);
         easyLevelRadio.setText("Easy");
@@ -269,6 +286,34 @@ public class MainPanel extends javax.swing.JPanel {
         // TODO
     }//GEN-LAST:event_loadGameButtonActionPerformed
 
+    private void saveGameButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveGameButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_saveGameButtonActionPerformed
+
+    private void startButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_startButtonActionPerformed
+
+    private void stopButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_stopButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_stopButtonActionPerformed
+
+    private void searchAlgotihmComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchAlgotihmComboActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_searchAlgotihmComboActionPerformed
+
+    private void constraintPropagationComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_constraintPropagationComboActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_constraintPropagationComboActionPerformed
+
+    private void useSearchCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_useSearchCheckBoxActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_useSearchCheckBoxActionPerformed
+
+    private void usePropagationCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usePropagationCheckBoxActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_usePropagationCheckBoxActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox constraintPropagationCombo;
@@ -290,7 +335,6 @@ public class MainPanel extends javax.swing.JPanel {
     private javax.swing.JComboBox searchAlgotihmCombo;
     private javax.swing.JButton startButton;
     private javax.swing.JButton stopButton;
-    private javax.swing.JFileChooser sudokuFileChooser;
     private javax.swing.JPanel sudokuPanel;
     private javax.swing.JCheckBox usePropagationCheckBox;
     private javax.swing.JCheckBox useSearchCheckBox;
