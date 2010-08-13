@@ -10,8 +10,6 @@ import javax.swing.LayoutStyle
  * 
  * Authors: Emanuele Fabbri, Alessandro Bruni
  */
-
-
 class SudokuSolverApplet extends JApplet {
 	
 	private var sudoku = new Sudoku

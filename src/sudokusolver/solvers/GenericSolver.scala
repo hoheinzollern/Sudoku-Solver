@@ -29,14 +29,4 @@ class GenericSolver(problem: sudokusolver.Sudoku) {
 		  this.searchAlgorithm.execute(this.propagationAlgorithm) 
 	  } else throw new exceptions.SolverNotReadyException()
 	}
-	
-	def generateProblem(difficulty : Int) = {
-		// FIXME
-		//this.problem = this.core.generate(difficulty)
-		this.problem
-	}
-	
-	def getProblem() = {
-		this.problem
-	}
 }

@@ -71,9 +71,9 @@ class Sudoku {
     }
     
     /**
-     * Returns the domains matrix (9x9)
+     * Returns the domain for a single element of the board
      */
-    def getDomains = domains
+    def getDomain(x: Int, y: Int) = domains(x)(y)
     
     /**
      * Notifies the views attached to this game
