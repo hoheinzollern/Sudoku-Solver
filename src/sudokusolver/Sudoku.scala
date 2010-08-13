@@ -8,7 +8,7 @@ class Sudoku {
 	class InvalidValueException extends Exception
 		
 	private var board = new Array[Array[Int]](9,9)
-	private var domains = new Array[Array[sudokusolver.utilities.Domain]](9,9)
+	private var domains = new utilities.DomainContainer
     private var stepList = List[utilities.Step]()
     private var views = List[View]()
 	
@@ -25,9 +25,9 @@ class Sudoku {
 		if (value < 1 || value > 9) throw new InvalidValueException()
 		board(x)(y) = value
 		val step = new utilities.Step(new utilities.Couple(x, y), value, message, domains.clone)
-		domains(x)(y) = new sudokusolver.utilities.Domain("(" + x + "," + y + ")")
-		domains(x)(y).empty
-		domains(x)(y).addValue(value)
+		domains.set(new sudokusolver.utilities.Domain("(" + x + "," + y + ")"), x, y)
+		domains.get(x, y).empty
+		domains.get(x, y).addValue(value)
 		stepList = stepList :+ step
 
 		notifyView
@@ -44,8 +44,8 @@ class Sudoku {
 		for (i <- 0 to 8) {
 			for (j <- 0 to 8) {
 				if (board(i)(j) != 0) {
-					domains(i)(j).empty()
-					domains(i)(j).addValue(board(i)(j))
+					domains.get(i, j).empty
+					domains.get(i, j).addValue(board(i)(j))
 				}
 			}
 		}
@@ -87,7 +87,7 @@ class Sudoku {
     /**
      * Returns the domain for a single element of the board
      */
-    def getDomain(x: Int, y: Int) = domains(x)(y)
+    def getDomain(x: Int, y: Int) = domains.get(x, y)
     
     /**
      * Notifies the views attached to this game

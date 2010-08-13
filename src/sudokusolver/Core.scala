@@ -25,15 +25,16 @@ object Core {
 			}
 		}
 		// Shuffle values between rows and columns
-		while (true) {
+		for (h <- 0 to 8) {
 			// FIXME: use correct methods
 			val i = (Math.random * 100).asInstanceOf[Int] % 3
 			val j = (Math.random * 100).asInstanceOf[Int] % 3
 			val k = (Math.random * 100).asInstanceOf[Int] % 3
 			if (i != j) {
+				println ("i= " + i + " j= " + j + " k= " + k)
 				val swap = board(i + j*3)
 				board(i + j*3) = board(i + k*3)
-				board(i + k*3) = swap
+				board(i + k*3) = swap		
 			}
 		}
 		var sudoku = new Sudoku

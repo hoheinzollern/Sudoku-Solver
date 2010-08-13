@@ -41,7 +41,8 @@ class Domain(private var associatedCell : String) {
    	}
    	
    	def empty() {
-   		this.values = List()
+   		this.values = Nil
+   		this.totalElements = 0
    	}
    	
    	def isEmpty() = {
