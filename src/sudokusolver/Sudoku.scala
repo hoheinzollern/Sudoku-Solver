@@ -71,6 +71,20 @@ class Sudoku {
     }
     
     /**
+     * Resets the game to its initial status
+     */
+    def reset {
+    	while (stepList.tail != null) {
+    		back
+    	}
+    }
+    
+    /**
+     * @return the last step
+     */
+    def getLastStep: utilities.Step = stepList.head
+    
+    /**
      * Returns the domain for a single element of the board
      */
     def getDomain(x: Int, y: Int) = domains(x)(y)

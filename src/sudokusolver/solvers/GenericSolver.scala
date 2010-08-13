@@ -8,25 +8,31 @@ import sudokusolver.exceptions
  * a complete solver with any possible kind of search / propagation methods
  */
 
-class GenericSolver(problem: sudokusolver.Sudoku) {
+class GenericSolver {
+	protected var problem: sudokusolver.Sudoku = null
 	protected var searchAlgorithm : SearchAlgorithm = null
 	protected var propagationAlgorithm : PropagationAlgorithm = null
  
 	def setSearchAlgorithm(searchAlgorithm : SearchAlgorithm) {
-	  this.searchAlgorithm = searchAlgorithm
+	  	this.searchAlgorithm = searchAlgorithm
 	}
  
 	def setPropagationAlgorithm(propagationAlgorithm : PropagationAlgorithm) {
-	  this.propagationAlgorithm = propagationAlgorithm
+		this.propagationAlgorithm = propagationAlgorithm
+	}
+	
+	def setProblem(problem: sudokusolver.Sudoku) {
+		this.problem = problem
 	}
 	
 	/**
-	* This method starts the selected algorithms and returns the solution as
-	* a stepList 
-	*/
-	def solve() {
+	 * This method starts the selected algorithms and returns the solution as
+	 * a stepList 
+	 */
+	def solve(): sudokusolver.Sudoku = {
 	  if (this.searchAlgorithm != null && this.propagationAlgorithm != null) {
 		  this.searchAlgorithm.execute(this.propagationAlgorithm) 
+		  return problem
 	  } else throw new exceptions.SolverNotReadyException()
 	}
 }
