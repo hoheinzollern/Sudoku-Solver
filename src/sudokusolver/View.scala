@@ -6,9 +6,11 @@ import java.awt.FontMetrics
 import java.awt.Dimension
 
 class View(private var sudoku: Sudoku) extends Canvas {
+	sudoku.attachView(this)
 	
 	def setSudoku(sudoku: Sudoku) {
 		this.sudoku = sudoku
+		sudoku.attachView(this)
 	}
 	
 	override def paint(g : Graphics) {

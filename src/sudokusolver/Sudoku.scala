@@ -96,4 +96,43 @@ class Sudoku {
     	for (view <- views)
     		view.update
     }
+    
+    /**
+     * TODO
+     * @param view
+     */
+    def attachView(view : View) {
+    	views = view::views
+    	view.update
+    }
+    
+    def checkConstraints: Boolean = {
+    	for (row <- 0 to 8) {
+	    	for (i <- 0 to 7) {
+	    		for (j <- i+1 to 8) {
+	    			if (board(row)(i) == board(row)(j))
+	    				return false
+	    		}
+	    	}
+    	}
+	    for (col <- 0 to 8) {
+	    	for (i <- 0 to 7) {
+	    		for (j <- i+1 to 8) {
+	    			if (board(col)(i) == board(col)(j))
+	    				return false
+	    		}
+	    	}
+	    }
+	    for (n <- 0 to 2) {
+	    	for (m <- 0 to 2) {
+	    		for (i <- 0 to 7) {
+	    			for (j <- i + 1 to 8) {
+	    				if (board(n*3 + i/3)(m*3 + i%3) == board(n*3 + j/3)(m*3 + j%3))
+	    					return false
+	    			}
+	    		}
+	    	}
+	    }
+	    return true
+    }
 }
