@@ -1,5 +1,7 @@
 package sudokusolver
 
+import java.io.FileWriter
+import scala.swing.Dialog
 /**
  * Core class: has functionality for:
  * - sudoku generation
@@ -24,40 +26,76 @@ object Core {
 				board(i)(j) = ((j + i * 6 + i / 3) % 9 + 1)
 			}
 		}
-		// Shuffle values between rows and columns
-		for (h <- 0 to 8) {
+
+		// Shuffle values between rows
+		for (h <- 0 to 1000) {
 			// FIXME: use correct methods
 			val i = (Math.random * 100).asInstanceOf[Int] % 3
 			val j = (Math.random * 100).asInstanceOf[Int] % 3
 			val k = (Math.random * 100).asInstanceOf[Int] % 3
-			if (i != j) {
+			val choose = (Math.random * 100).asInstanceOf[Int] % 3
+			if (choose == 0 && j != k) {
 				println ("i= " + i + " j= " + j + " k= " + k)
-				val swap = board(i + j*3)
-				board(i + j*3) = board(i + k*3)
-				board(i + k*3) = swap
+				val swap = board(i*3 + j)
+				board(i*3 + j) = board(i*3 + k)
+				board(i*3 + k) = swap
+			} else if (j != k) {
+				println ("i= " + i + " j= " + j + " k= " + k)
+				for (l <- 0 to 8) {
+					val swap = board(l)(i*3 + j)
+					board(l)(i*3 + j) = board(l)(i*3 + k)
+					board(l)(i*3 + k) = swap
+				}
 			}
 		}
+
 		var sudoku = new Sudoku
 		sudoku.setBoard(board)
-		if (sudoku.checkConstraints == false)
-			throw new Exception("constraints verification failed")
+		if (sudoku.checkConstraints == false) {
+			Dialog.showMessage(null, "Constraint verification failed", "Error", Dialog.Message.Error)
+		}
 		return sudoku
 	}
 	
 	/**
-	 * Loads a new Sudoku from an XML file (stream?)
+	 * Loads a new Sudoku from a sudoku file (represented as a sequence of 
+	 * digits in range [0-9])
+	 * 
+	 * @param fileName the name of the file
+	 * @param line the line from which you choose to get the sudoku
 	 */
-	def loadSudoku(fileName: String): Sudoku = {
-		// FIXME: implement and investigate on the suggested procedure
-		throw new exceptions.NotImplementedException
+	def loadSudoku(fileName: String, line: Int = 0): Sudoku = {
+		val source = scala.io.Source.fromFile(fileName)
+		val line = source.getLine(0)
+		source.close
+		
+		var chars = new Array[Char](9*9)
+		line.getChars(0, 9, chars, 0)
+		val board = new Array[Array[Int]](9,9)
+		for (i <- 0 to 8) {
+			for (j <- 0 to 8) {
+				board(i)(j) = Character.digit(chars(i*9 + j), 10)
+			}
+		}
+		val sudoku = new Sudoku
+		sudoku.setBoard(board)
+		return sudoku
 	}
 	
 	/**
 	 * Writes a sudoku to an XML file (stream?)
 	 */
 	def saveSudoku(fileName: String, sudoku: Sudoku) {
-		// TODO
-		throw new exceptions.NotImplementedException
+		val board = sudoku.getBoard
+		val out = new FileWriter(fileName)
+		var chars = new Array[Char](9*9)
+		for (i <- 0 to 8) {
+			for (j <- 0 to 8) {
+				Integer.toString(board(i)(j)).getChars(0, 1, chars, i * 9 + j)
+			}
+		}
+		out.write(chars)
+		out.close
 	}
 	
 	def solve(sudoku: Sudoku, solver: solvers.GenericSolver): Sudoku = {

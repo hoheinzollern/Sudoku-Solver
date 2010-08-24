@@ -53,6 +53,8 @@ class Sudoku {
 		notifyView
 	}
 	
+	def getBoard = board
+	
 	/**
 	 * Gets an element from the board
 	 */
