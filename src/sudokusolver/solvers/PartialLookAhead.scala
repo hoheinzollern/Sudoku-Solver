@@ -1,5 +1,10 @@
 package sudokusolver.solvers
 
+import sudokusolver.utilities
+
 class PartialLookAhead extends PropagationAlgorithm {
-	//TODO
+	
+	override def prop(item : utilities.Couple) {
+		//TODO
+	}
 }

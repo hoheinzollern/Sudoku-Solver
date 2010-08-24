@@ -11,5 +11,7 @@ import sudokusolver.utilities
 
 class Mac extends PropagationAlgorithm {
   
-	//TODO
+	override def prop(item : utilities.Couple) {
+		//TODO	
+	}
 }

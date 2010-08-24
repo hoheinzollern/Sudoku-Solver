@@ -3,13 +3,12 @@ package sudokusolver.solvers
 import sudokusolver.utilities
 
 class ForwardChecking extends PropagationAlgorithm {
-	override def prop(item: utilities.Couple, domains: Array[Array[utilities.Domain]]) {
-	  this.domains = domains
+	override def prop(item: utilities.Couple) {
 	  var failure = false
 	  var k = item.next
 	  while (k.isValid && !failure) {
 	 	  revise(item, k)
-	 	  if (this.domains(k.getX)(k.getY).isEmpty) failure = true
+	 	  if (this.domains.get(item).isEmpty) failure = true
 	 	  k = k.next
 	  }
 	  failure

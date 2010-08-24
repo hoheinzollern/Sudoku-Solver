@@ -31,7 +31,7 @@ class GenericSolver {
 	 */
 	def solve(): sudokusolver.Sudoku = {
 	  if (this.searchAlgorithm != null && this.propagationAlgorithm != null) {
-		  this.searchAlgorithm.execute(this.propagationAlgorithm) 
+		  this.searchAlgorithm.execute(this.problem, this.propagationAlgorithm) 
 		  return problem
 	  } else throw new exceptions.SolverNotReadyException()
 	}
