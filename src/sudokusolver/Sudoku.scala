@@ -92,6 +92,11 @@ class Sudoku {
     def getDomain(x: Int, y: Int) = domains.get(x, y)
     
     /**
+     * Returns all the domains stored
+     */
+    def getDomains() = domains
+    
+    /**
      * Notifies the views attached to this game
      */
     def notifyView {

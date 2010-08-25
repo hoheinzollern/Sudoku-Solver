@@ -3,35 +3,67 @@ package sudokusolver.solvers
 import sudokusolver.utilities
 
 abstract class PropagationAlgorithm {
-	protected var domains = new Array[Array[utilities.Domain]](9,9)
+	protected var domains : utilities.DomainContainer = null
+	protected var board : Array[Array[Int]] = null
  
+	def setProblem(problem : sudokusolver.Sudoku) {
+		this.domains = problem.getDomains
+		this.board = problem.getBoard
+	}
+	
 	/**
 	* This is the "revise" method that is the basic idea of arc consistency.
 	* 
-	* The idea is to check if between every couple of variables bounded by a
-	* constraint, for every value from the first variable exists almost 
-	* one value from the second variable that doesn't brake the constraint. 
+	* The idea is to check if between 2 couple of variables bounded by a
+	* constraint, for every value of the first variable exists almost 
+	* one value of the second variable that respect the constraint. 
 	*/
-	def revise(xi : utilities.Couple, xj : utilities.Couple) = {
-	  var domainXi = getDomain(xi.getX,xi.getY)
-	  var domainXj = getDomain(xj.getX,xj.getY)
-   
-	  // Costraint is all_different
-	  var listDomainXi = domainXi.getValues()
-	  var listDomainXj = domainXj.getValues()
-   
-	  var i = 0
-	  while(listDomainXi.length<i) {
-	    var xiElement = (listDomainXi.drop(i)).head
-	    var j = 0
-     	var stopCycle = false
-	    while (!stopCycle && listDomainXj.length<j) {
-	      var xjElement = (listDomainXi.drop(j)).head
-	      if (xjElement != xiElement) stopCycle = true
-	      j = j+1
-	    }
-	    if (stopCycle != true) domainXi.deleteValue(xiElement)
-	    i=i+1
+	def revise(xi : utilities.Couple, xj : utilities.Couple) = {  
+	  // Check and remove invalid values from k corresponding to values of other cells
+
+	  // Propagate row
+	  for (i <- 0 to 8) {
+	 	  if (this.board(i)(xj.getY) != 0 && i != xj.getY) this.domains.get(xj).deleteValue(this.board(xj.getX)(i))
+	  }
+	  
+	  // Propagate column
+	  for (i <- 0 to 8) {
+	 	  if (this.board(xj.getX)(i) != 0 && i != xj.getX) this.domains.get(xj).deleteValue(this.board(i)(xj.getY))
+	  }
+	  
+	  // Propagate panel
+	  var minX = 0
+	  var maxX = 8
+	  var minY = 0
+	  var maxY = 8
+	  
+	  if (xj.getX < 3) {
+	 	  maxX = 3
+	  }
+	  else if (xj.getX < 6) {
+	 	  minX = 3
+	 	  maxX = 6 
+	  }
+	  else {
+	 	  minX = 6
+	  }
+	  if (xj.getY < 3) {
+	 	  maxY = 3
+	  }
+	  else if (xj.getY < 6) {
+	 	  minY = 3
+	 	  maxY = 6 
+	  }
+	  else {
+	 	  minY = 6
+	  }
+	  
+	  for (i <- minX to maxX) {
+	 	  	for (j <- minY to maxY) {
+	 	  		if (this.board(i)(j) != 0 && i != xj.getX && j != xj.getY) {
+	 	  			this.domains.get(xj).deleteValue(this.board(i)(j))
+	 	  		}
+	 	  	}
 	  }
 	}
  
@@ -40,14 +72,12 @@ abstract class PropagationAlgorithm {
  	* 
  	* The idea is to get the variable to load and the universe of the domains.
  	*/
-	def prop(item: utilities.Couple, domains: Array[Array[utilities.Domain]]) {
-	  //TODO
-	}
+	def prop(item: utilities.Couple)
  
  	/**
  	* This return the specific domain of a variable 
  	*/
- 	def getDomain(xIndex : Int, yIndex : Int) = {
- 	  (this.domains(xIndex))(yIndex)
+ 	def getDomains = {
+ 	  this.domains
  	}
 }
