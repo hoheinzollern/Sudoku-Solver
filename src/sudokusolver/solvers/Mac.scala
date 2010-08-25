@@ -19,13 +19,16 @@ class Mac extends PropagationAlgorithm {
 	 	  k = k.next
 	  }
 	  if (!failure) {
-	 	  failure = arc(item.next, failure)
+	 	  failure = arc(item.next)
 	  }
 	  failure
 	}
 	
-	def arc(item : utilities.Couple, failure : Boolean) = {
-		// TODO
+	def arc(item : utilities.Couple) = {
+		var failure = false
+		
+		
+		
 		failure
 	}
 }

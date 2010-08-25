@@ -12,12 +12,13 @@ class PartialLookAhead extends PropagationAlgorithm {
 	 	  k = k.next
 	  }
 	  if (!failure) {
-	 	  failure = darc(item.next, failure)
+	 	  failure = darc(item.next)
 	  }
 	  failure
 	}
 	
-	def darc(item : utilities.Couple, failure : Boolean) = {
+	def darc(item : utilities.Couple) = {
+		var failure = false
 		var j = new utilities.Couple(8, 8)
 		var i = new utilities.Couple(0, 0)
 		while (!j.equals(new utilities.Couple(0, 1))) {
@@ -28,20 +29,21 @@ class PartialLookAhead extends PropagationAlgorithm {
 				var iElements = this.domains.get(i).getValues
 				var iElement = iElements.head
 				iElements = iElements.tail
-				while (iElement != Nil) {
+				while (iElements != Nil) {
+					iElement = iElements.head
 					var jElements = this.domains.get(j).getValues
 					var jElement = jElements.head
 					jElements = jElements.tail
 					var allJsAreIncompatible = true
-					while (jElement != Nil && allJsAreIncompatible) {
+					while (jElements != Nil && allJsAreIncompatible) {
+						jElement = jElements.head
 						// TODO
 						//if (checkConsistency(iElement, jElement)) allJsAreIncompatible = false
-						jElement = jElements.head
-						if (jElements != Nil) jElements = jElements.tail
+						
+						jElements = jElements.tail
 					}
 					if (allJsAreIncompatible) this.domains.get(i).deleteValue(iElement)
-					iElement = iElements.head
-					if (iElements != Nil) iElements = iElements.tail
+					iElements = iElements.tail
 				}
 				i = i.next
 			}
