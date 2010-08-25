@@ -6,8 +6,8 @@ class Node (var header: ColumnHeader,
 		var left: Node = null, var up: Node = null,
 		var info: Int = 0) {
 	
-	var right: Node = this
-	var down: Node = this
+	var right: Node = null
+	var down: Node = null
 	
 	if (header.first == null)
 		header.first = this
@@ -26,7 +26,11 @@ class Node (var header: ColumnHeader,
 			up.down = down
 		if (down != null)
 			down.up = up
+		if (header.first == this)
+			header.first = down
 		header.length -= 1
+		if (header.length == 1)
+			header.cover
 	}
 	
 	def uncover { // Needed for backtracking purposes, not for sudoku generation
@@ -38,7 +42,11 @@ class Node (var header: ColumnHeader,
 			up.down = this
 		if (down != null)
 			down.up = this
+		if (up == null)
+			header.first = this
 		header.length += 1
+		if (header.length > 1)
+			header.uncover
 	}
 }
 
@@ -56,18 +64,32 @@ class ColumnHeader (var info: Int, var left: ColumnHeader) {
 		if (right != null)
 			right.left = left
 	}
+	
+	def uncover {
+		if (left != null)
+			left.right = this
+		if (right != null)
+			right.left = this
+	}
 }
 
-object ExactCover {
-	def getMCol(t: Int, row: Int, col: Int) = t * 81 + row * 9 + col 
+object ExactCover { 
 	def getMRow(num: Int, row: Int, col: Int) = ((num-1) * 81 + row * 9 + col)
 	
 	def getType(mcol: Int) = mcol / 81
 	
+	def getNm(mrow: Int) = mrow / 81
 	def getNum(mrow: Int) = mrow / 81 + 1
 	
 	def getRow(mrow: Int) = (mrow / 9) % 9
 	def getCol(mrow: Int) = mrow % 9
+	
+	
+	def getBx(N: Int) = ((getRow(N)/3)*3) + (getCol(N)/3)
+	def getSq(N: Int) = getRow(N)*9 + getCol(N)
+	def getRn(N: Int) = getNm(N)*9 + getRow(N) + 81
+	def getCn(N: Int) = getNm(N)*9 + getCol(N) + 81 * 2
+	def getBn(N: Int) = getNm(N)*9 + getBx(N) + 81 * 3
 
 	def makeSudoku: Sudoku = {
 		val rand = new Random
@@ -86,10 +108,10 @@ object ExactCover {
 			for (i <- 0 to 8) {
 				for (j <- 0 to 8) {
 					val row = ExactCover.getMRow(n, i, j)
-					val col1 = ExactCover.getMCol(0, i, j)
-					val col2 = ExactCover.getMCol(1, i, j)
-					val col3 = ExactCover.getMCol(2, i, j)
-					val col4 = ExactCover.getMCol(3, i, j)
+					val col1 = ExactCover.getSq(row)
+					val col2 = ExactCover.getRn(row)
+					val col3 = ExactCover.getCn(row)
+					val col4 = ExactCover.getBn(row)
 					
 					val node1 = new Node(header(col1), null, up(col1), row)
 					val node2 = new Node(header(col2), node1, up(col2), row)
@@ -101,52 +123,55 @@ object ExactCover {
 					matrix(row)(col2) = node2
 					matrix(row)(col3) = node3
 					matrix(row)(col4) = node4
+					up(col1) = node1
+					up(col2) = node2
+					up(col3) = node3
+					up(col4) = node4
 				}
 			}
 		}
+		for (i <- 0 to 323) {
+			assert(header(i).first != null)
+		}
 		var currentHeader = leftHeader 
+		var count = 0
 		while (leftHeader != null) {
 			// Chose the column with the least number of rows set to 1
-			var nextHeader = leftHeader
+			var nextHeader = leftHeader.right
+			currentHeader = leftHeader
 			while (nextHeader != null) {
 				if (currentHeader.length > nextHeader.length)
 					currentHeader = nextHeader
 				nextHeader = nextHeader.right
 			}
+			count += 1
 			val length = currentHeader.length
 			// Chose the row to be kept
 			val row = rand.nextInt(length)
 			var node = currentHeader.first
-			for (j <- 0 to length-1) {
+			var j = 0
+			while (node != null) {
 				if (j != row) {
 					// Cover the entire row
-					var x = node.left
+					var x = left(node.info)
 					while (x != null) {
 						x.cover
-						if (x.header.length == 0) {
+						if (x.header.length == 1) {
 							if (x.header == leftHeader)
-								leftHeader = x.header.right
-							x.header.cover
+								leftHeader = leftHeader.right
 						}
-						x = x.left
-					}
-					x = node.right
-					while (x != null) {
-						x.cover
 						x = x.right
 					}
-				} else {
-					currentHeader.first = node
 				}
+				j += 1
+				
 				node = node.down
 			}
 
 			if (currentHeader.length != 1)
-				throw new Exception("Constraint did not get an unique solution")
-			if (currentHeader == leftHeader)
-				leftHeader = currentHeader.right
-			currentHeader.cover
+				throw new Exception("Constraint did not get an unique solution, but " + currentHeader.length)
 		}
+
 		// Exact Cover of constraints has been done: build sudoku
 		val sudoku = new Sudoku
 		val board = new Array[Array[Int]](9,9)

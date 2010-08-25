@@ -1,6 +1,7 @@
 package sudokusolver
 
 import java.io.FileWriter
+import java.util.Random
 import scala.swing.Dialog
 /**
  * Core class: has functionality for:
@@ -19,6 +20,18 @@ object Core {
 	 *  - 3 hard  
 	 */
 	def makeSudoku(level: Int): Sudoku = {
+		var sudoku = ExactCover.makeSudoku
+		if (sudoku.checkConstraints == false) {
+			Dialog.showMessage(null, "Constraint verification failed", "Error", Dialog.Message.Error)
+		}
+		return sudoku
+	}
+	
+	/**
+	 * Naive algorithm for the construction of sudoku boards, use it for testing purposes.
+	 */
+	def makeSudokuNaive(level: Int): Sudoku = {
+		val random = new Random
 		var board = new Array[Array[Int]](9, 9)
 		// Initialize board to correct values
 		for (i <- 0 to 8) {
@@ -30,10 +43,10 @@ object Core {
 		// Shuffle values between rows
 		for (h <- 0 to 1000) {
 			// FIXME: use correct methods
-			val i = (Math.random * 100).asInstanceOf[Int] % 3
-			val j = (Math.random * 100).asInstanceOf[Int] % 3
-			val k = (Math.random * 100).asInstanceOf[Int] % 3
-			val choose = (Math.random * 100).asInstanceOf[Int] % 3
+			val i = random.nextInt(3)
+			val j = random.nextInt(3)
+			val k = random.nextInt(3)
+			val choose = random.nextInt(2)
 			if (choose == 0 && j != k) {
 				println ("i= " + i + " j= " + j + " k= " + k)
 				val swap = board(i*3 + j)
