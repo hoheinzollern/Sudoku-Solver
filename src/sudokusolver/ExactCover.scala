@@ -150,24 +150,34 @@ object ExactCover {
 			val row = rand.nextInt(length)
 			var node = currentHeader.first
 			var j = 0
-			while (node != null) {
-				if (j != row) {
-					// Cover the entire row
-					var x = left(node.info)
-					while (x != null) {
-						x.cover
-						if (x.header.length == 1) {
-							if (x.header == leftHeader)
-								leftHeader = leftHeader.right
-						}
-						x = x.right
-					}
-				}
+			while (j != row) {
 				j += 1
-				
 				node = node.down
 			}
-
+			while (node.left != null) {
+				node = node.left
+			}
+			while (node != null) {
+				var y = node
+				while (y.up != null)
+					y = y.up
+				while (y != null) {
+					if (y != node) {
+						// Cover the entire row
+						var x = left(y.info)
+						while (x != null) {
+							x.cover
+							if (x.header.length == 1) {
+								if (x.header == leftHeader)
+									leftHeader = leftHeader.right
+							}
+							x = x.right
+						}
+					}
+					y = y.down
+				}
+				node = node.right
+			}
 			if (currentHeader.length != 1)
 				throw new Exception("Constraint did not get an unique solution, but " + currentHeader.length)
 		}
@@ -175,7 +185,7 @@ object ExactCover {
 		// Exact Cover of constraints has been done: build sudoku
 		val sudoku = new Sudoku
 		val board = new Array[Array[Int]](9,9)
-		for (i <- 0 to 323) {
+		for (i <- 0 to 80) {
 			val h = header(i)
 			if (h.length == 1) {
 				val row = ExactCover.getRow(h.first.info)

@@ -21,9 +21,8 @@ object Core {
 	 */
 	def makeSudoku(level: Int): Sudoku = {
 		var sudoku = ExactCover.makeSudoku
-		if (sudoku.checkConstraints == false) {
+		if (sudoku.checkConstraints == false)
 			Dialog.showMessage(null, "Constraint verification failed", "Error", Dialog.Message.Error)
-		}
 		return sudoku
 	}
 	
