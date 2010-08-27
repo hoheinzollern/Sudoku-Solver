@@ -11,7 +11,7 @@ import scala.swing.Dialog
  */
 object Core {
 	private var constraints = new utilities.BinaryConstraintContainer
-	constraints.checkConstraintMatrix()
+	//XXX constraints.checkConstraintMatrix()
 	
 	/**
 	 * Builds a new sudoku instance given a difficulty level
