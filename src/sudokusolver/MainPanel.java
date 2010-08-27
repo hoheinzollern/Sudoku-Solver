@@ -28,7 +28,7 @@ package sudokusolver;
  */
 public class MainPanel extends javax.swing.JPanel {
 
-    private Sudoku sudoku = new Sudoku();
+    private Sudoku sudoku = new Sudoku(Core.getConstraintMatrix());
 
     /** Creates new form MainPanel */
     public MainPanel() {
@@ -46,7 +46,7 @@ public class MainPanel extends javax.swing.JPanel {
 
         levelGroup = new javax.swing.ButtonGroup();
         sudokuPanel = new javax.swing.JPanel();
-        view = new View(new Sudoku());
+        view = new View(new Sudoku(Core.getConstraintMatrix()));
         jScrollPane1 = new javax.swing.JScrollPane();
         eventsLogList = new javax.swing.JList();
         jLabel1 = new javax.swing.JLabel();

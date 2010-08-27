@@ -36,6 +36,8 @@ class BinaryConstraintContainer {
 		}
 	}
 	
+	checkConstraintMatrix
+	
 	def getConstraintsOf(x : Int, y : Int) : Array[BinaryConstraint]= {
 		constraintMatrix(x)(y)
 	}
@@ -126,5 +128,10 @@ class BinaryConstraintContainer {
 	
 	def makeArcConsistencyFrom(item : Couple, domains : DomainContainer) : DomainContainer = {
 		makeArcConsistencyFrom(item.getX, item.getY, domains)
+	}
+	
+	def checkConstraintMatrix() {
+		println("Verifico la corretta generazione dei vincoli")
+		
 	}
 }
