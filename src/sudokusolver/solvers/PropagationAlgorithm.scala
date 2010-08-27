@@ -4,9 +4,11 @@ import sudokusolver.utilities
 
 abstract class PropagationAlgorithm {
 	protected var domains : utilities.DomainContainer = null
-	protected var board : Array[Array[Int]] = null
+	protected var board : utilities.Board = null
+	protected var problem : sudokusolver.Sudoku = null
  
 	def setProblem(problem : sudokusolver.Sudoku) {
+		this.problem = problem
 		this.domains = problem.getDomains
 		this.board = problem.getBoard
 	}
@@ -23,12 +25,12 @@ abstract class PropagationAlgorithm {
 
 	  // Propagate row
 	  for (i <- 0 to 8) {
-	 	  if (this.board(i)(xj.getY) != 0 && i != xj.getY) this.domains.get(xj).deleteValue(this.board(xj.getX)(i))
+	 	  if (this.board.isNotNull(i, xj.getY) && i != xj.getY) this.domains.get(xj).deleteValue(this.board.getValue(xj.getX, i))
 	  }
 	  
 	  // Propagate column
 	  for (i <- 0 to 8) {
-	 	  if (this.board(xj.getX)(i) != 0 && i != xj.getX) this.domains.get(xj).deleteValue(this.board(i)(xj.getY))
+	 	  if (this.board.isNotNull(xj.getX, i) && i != xj.getX) this.domains.get(xj).deleteValue(this.board.getValue(i, xj.getY))
 	  }
 	  
 	  // Propagate panel
@@ -60,8 +62,8 @@ abstract class PropagationAlgorithm {
 	  
 	  for (i <- minX to maxX) {
 	 	  	for (j <- minY to maxY) {
-	 	  		if (this.board(i)(j) != 0 && i != xj.getX && j != xj.getY) {
-	 	  			this.domains.get(xj).deleteValue(this.board(i)(j))
+	 	  		if (this.board.isNotNull(i, j) && i != xj.getX && j != xj.getY) {
+	 	  			this.domains.get(xj).deleteValue(this.board.getValue(i, j))
 	 	  		}
 	 	  	}
 	  }

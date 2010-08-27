@@ -287,7 +287,7 @@ public class MainPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_loadGameButtonActionPerformed
 
     private void saveGameButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveGameButtonActionPerformed
-    	Core.saveSudoku("H:\\Desktop\\salvato.sudoku", sudoku);
+    	//Core.saveSudoku("H:\\Desktop\\salvato.sudoku", sudoku);
     }//GEN-LAST:event_saveGameButtonActionPerformed
 
     private void startButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startButtonActionPerformed
