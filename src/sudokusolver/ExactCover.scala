@@ -149,14 +149,14 @@ object ExactCover {
 		}
 		// Exact Cover of constraints has been done: build sudoku
 		val sudoku = new Sudoku
-		val board = new Array[Array[Int]](9,9)
+		val board = new utilities.Board
 		for (i <- 0 to 323) {
 			val h = header(i)
 			if (h.length == 1) {
 				val row = ExactCover.getRow(h.first.info)
 				val col = ExactCover.getCol(h.first.info)
 				val num = ExactCover.getNum(h.first.info)
-				board(row)(col) = num
+				board.setValue(row, col, num)
 			}
 		}
 		sudoku.setBoard(board)

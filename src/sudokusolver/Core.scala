@@ -19,11 +19,11 @@ object Core {
 	 *  - 3 hard  
 	 */
 	def makeSudoku(level: Int): Sudoku = {
-		var board = new Array[Array[Int]](9, 9)
+		var board = new utilities.Board
 		// Initialize board to correct values
 		for (i <- 0 to 8) {
 			for (j <- 0 to 8) {
-				board(i)(j) = ((j + i * 6 + i / 3) % 9 + 1)
+				board.setValue(i, j, ((j + i * 6 + i / 3) % 9 + 1))
 			}
 		}
 
@@ -36,15 +36,15 @@ object Core {
 			val choose = (Math.random * 100).asInstanceOf[Int] % 3
 			if (choose == 0 && j != k) {
 				println ("i= " + i + " j= " + j + " k= " + k)
-				val swap = board(i*3 + j)
-				board(i*3 + j) = board(i*3 + k)
-				board(i*3 + k) = swap
+				val swap = board.getInternalArray(i*3 + j)
+				board.setInternalArray((i*3 + j), board.getInternalArray(i*3 + k))
+				board.setInternalArray((i*3 + k), swap)
 			} else if (j != k) {
 				println ("i= " + i + " j= " + j + " k= " + k)
 				for (l <- 0 to 8) {
-					val swap = board(l)(i*3 + j)
-					board(l)(i*3 + j) = board(l)(i*3 + k)
-					board(l)(i*3 + k) = swap
+					val swap = board.getValue(l, i*3 + j)
+					board.setValue(l, i*3 + j, board.getValue(l, i*3 + k))
+					board.setValue(l, i*3 + k, swap)
 				}
 			}
 		}
@@ -71,10 +71,10 @@ object Core {
 		
 		var chars = new Array[Char](9*9)
 		line.getChars(0, 9, chars, 0)
-		val board = new Array[Array[Int]](9,9)
+		val board = new utilities.Board
 		for (i <- 0 to 8) {
 			for (j <- 0 to 8) {
-				board(i)(j) = Character.digit(chars(i*9 + j), 10)
+				board.setValue(i, j, Character.digit(chars(i*9 + j), 10))
 			}
 		}
 		val sudoku = new Sudoku
@@ -91,7 +91,7 @@ object Core {
 		var chars = new Array[Char](9*9)
 		for (i <- 0 to 8) {
 			for (j <- 0 to 8) {
-				Integer.toString(board(i)(j)).getChars(0, 1, chars, i * 9 + j)
+				Integer.toString(board.getValue(i, j)).getChars(0, 1, chars, i * 9 + j)
 			}
 		}
 		out.write(chars)

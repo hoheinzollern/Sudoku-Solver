@@ -19,35 +19,10 @@ class PartialLookAhead extends PropagationAlgorithm {
 	
 	def darc(item : utilities.Couple) = {
 		var failure = false
-		var j = new utilities.Couple(8, 8)
-		var i = new utilities.Couple(0, 0)
-		while (!j.equals(new utilities.Couple(0, 1))) {
-			while (!i.equals(new utilities.Couple(8,7))) {
-				// For every element of i_Domain
-				// if EVERY element of j_Domain is not compatible
-				// so i_element must be removed from i_Domain
-				var iElements = this.domains.get(i).getValues
-				var iElement = iElements.head
-				iElements = iElements.tail
-				while (iElements != Nil) {
-					iElement = iElements.head
-					var jElements = this.domains.get(j).getValues
-					var jElement = jElements.head
-					jElements = jElements.tail
-					var allJsAreIncompatible = true
-					while (jElements != Nil && allJsAreIncompatible) {
-						jElement = jElements.head
-						// TODO
-						//if (checkConsistency(iElement, jElement)) allJsAreIncompatible = false
-						
-						jElements = jElements.tail
-					}
-					if (allJsAreIncompatible) this.domains.get(i).deleteValue(iElement)
-					iElements = iElements.tail
-				}
-				i = i.next
-			}
-			j = j.previous
+		var i = item
+		while (!i.isLatest) {
+			this.domains = this.problem.getConstraints.makeDirectionalConsistencyFrom(i, this.domains)
+			i = i.next
 		}
 		failure
 	}

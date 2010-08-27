@@ -7,8 +7,9 @@ package sudokusolver
 class Sudoku {
 	class InvalidValueException extends Exception
 		
-	private var board = new Array[Array[Int]](9,9)
+	private var board = new utilities.Board
 	private var domains = new utilities.DomainContainer
+	private var constraints = new utilities.BinaryConstraintContainer
     private var stepList = List[utilities.Step]()
     private var views = List[View]()
 	
@@ -23,7 +24,7 @@ class Sudoku {
      */
 	def set(x: Int, y: Int, value: Int, message : String) {
 		if (value < 1 || value > 9) throw new InvalidValueException()
-		board(x)(y) = value
+		board.setValue(x, y, value)
 		val step = new utilities.Step(new utilities.Couple(x, y), value, message, domains.clone)
 		domains.set(new sudokusolver.utilities.Domain("(" + x + "," + y + ")"), x, y)
 		domains.get(x, y).empty
@@ -39,13 +40,13 @@ class Sudoku {
 	 * @param newBoard a 9x9 matrix of int values representing the board
 	 * 		(use 0 for empty cells)
 	 */
-	def setBoard(newBoard: Array[Array[Int]]) {
+	def setBoard(newBoard: utilities.Board) {
 		board = newBoard
 		for (i <- 0 to 8) {
 			for (j <- 0 to 8) {
-				if (board(i)(j) != 0) {
+				if (board.isNotNull(i, j)) {
 					domains.get(i, j).empty
-					domains.get(i, j).addValue(board(i)(j))
+					domains.get(i, j).addValue(board.getValue(i, j))
 				}
 			}
 		}
@@ -58,7 +59,7 @@ class Sudoku {
 	/**
 	 * Gets an element from the board
 	 */
-    def get(x: Int, y: Int) = board(x)(y)
+    def get(x: Int, y: Int) = board.getValue(x, y)
     
     /**
      * Applies backtracking for one step
@@ -66,7 +67,7 @@ class Sudoku {
     def back {
     	val step = stepList.head
     	stepList = stepList - step
-    	board(step.getCouple.getX)(step.getCouple.getY) = 0
+    	board.setNull(step.getCouple)
     	domains = step.getDomains
     	
     	notifyView
@@ -117,7 +118,7 @@ class Sudoku {
     	for (row <- 0 to 8) {
 	    	for (i <- 0 to 7) {
 	    		for (j <- i+1 to 8) {
-	    			if (board(row)(i) == board(row)(j))
+	    			if (board.areEquals(row, i, row, j))
 	    				return false
 	    		}
 	    	}
@@ -125,7 +126,7 @@ class Sudoku {
 	    for (col <- 0 to 8) {
 	    	for (i <- 0 to 7) {
 	    		for (j <- i+1 to 8) {
-	    			if (board(col)(i) == board(col)(j))
+	    			if (board.areEquals(col, i, col, j))
 	    				return false
 	    		}
 	    	}
@@ -134,7 +135,7 @@ class Sudoku {
 	    	for (m <- 0 to 2) {
 	    		for (i <- 0 to 7) {
 	    			for (j <- i + 1 to 8) {
-	    				if (board(n*3 + i/3)(m*3 + i%3) == board(n*3 + j/3)(m*3 + j%3))
+	    				if (board.areEquals((n*3 + i/3),(m*3 + i%3),(n*3 + j/3),(m*3 + j%3)))
 	    					return false
 	    			}
 	    		}
@@ -142,4 +143,6 @@ class Sudoku {
 	    }
 	    return true
     }
+    
+    def getConstraints() = constraints
 }
