@@ -26,9 +26,12 @@ class Mac extends PropagationAlgorithm {
 	
 	def arc(item : utilities.Couple) = {
 		var failure = false
-		
-		
-		
+		var i = item
+		while (!i.isLatest) {
+			this.domains = this.problem.getConstraints.makeArcConsistencyFrom(i, this.domains)
+			if (this.domains.checkEmptyDomains) failure = true
+			i = i.next
+		}
 		failure
 	}
 }

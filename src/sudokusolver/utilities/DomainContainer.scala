@@ -29,4 +29,18 @@ class DomainContainer(private var domains : Array[Array[Domain]] = new Array[Arr
 	override def clone() = {
 		new DomainContainer(domains.clone, true)
 	}
+	
+	def checkEmptyDomains() = {
+		var checkFailed = false
+		var i = 0
+		while (i < 9 && !checkFailed) {
+			var j = 0
+			while (j < 9 && !checkFailed) {
+				if (domains(i)(j).isEmpty) checkFailed = true
+				j = j+1
+			}
+			i = i+1
+		}
+		checkFailed
+	}
 }

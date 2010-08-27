@@ -48,29 +48,83 @@ class BinaryConstraintContainer {
 		var itemConstraints = getConstraintsOf(x, y)
 		var i = 0
 		var coupleToCheck = new Couple(x, y)
+		var domainOfTheCoupleToCheck = domains.get(coupleToCheck)
 		for (i <- 0 to 19) {
 			var secondCouple = itemConstraints(i).getJ
 			var j = 0
-			while (j < domains.get(coupleToCheck).cardinality) {
+			while (j < domainOfTheCoupleToCheck.cardinality) {
 				var k = 0
 				var allConsistent = true
 				var elementToDelete = 0
 				while (k < domains.get(secondCouple).cardinality && allConsistent) {
-					if (domains.get(coupleToCheck).getValue(j) == domains.get(secondCouple).getValue(k)) {
+					if (domainOfTheCoupleToCheck.getValue(j) == domains.get(secondCouple).getValue(k)) {
 						allConsistent = false
-						elementToDelete = domains.get(coupleToCheck).getValue(j) 
+						elementToDelete = domainOfTheCoupleToCheck.getValue(j) 
 					}
 				}
 				if (!allConsistent) {
-					domains.get(coupleToCheck).deleteValue(elementToDelete)
+					domainOfTheCoupleToCheck.deleteValue(elementToDelete)
 				}
 				j = j+1
 			}
+			domains.set(domainOfTheCoupleToCheck, coupleToCheck)
 		}
 		domains
 	}
 	
 	def makeDirectionalConsistencyFrom(item : Couple, domains : DomainContainer) : DomainContainer = {
 		makeDirectionalConsistencyFrom(item.getX, item.getY, domains)
+	}
+	
+	def makeArcConsistencyFrom(x : Int, y : Int, domains : DomainContainer) : DomainContainer = {
+		var itemConstraints = getConstraintsOf(x, y)
+		var i = 0
+		var coupleToCheck = new Couple(x, y)
+		var domainOfTheCoupleToCheck = domains.get(coupleToCheck)
+		for (i <- 0 to 19) {
+			var secondCouple = itemConstraints(i).getJ
+			// From first couple to second
+			var j = 0
+			while (j < domainOfTheCoupleToCheck.cardinality) {
+				var k = 0
+				var allConsistent = true
+				var elementToDelete = 0
+				while (k < domains.get(secondCouple).cardinality && allConsistent) {
+					if (domainOfTheCoupleToCheck.getValue(j) == domains.get(secondCouple).getValue(k)) {
+						allConsistent = false
+						elementToDelete = domainOfTheCoupleToCheck.getValue(j) 
+					}
+				}
+				if (!allConsistent) {
+					domainOfTheCoupleToCheck.deleteValue(elementToDelete)
+				}
+				j = j+1
+			}
+			// From second couple to first
+			var h = 0
+			var domainOfTheSecondCouple = domains.get(secondCouple)
+			while (h < domainOfTheSecondCouple.cardinality) {
+				var k = 0
+				var allConsistent = true
+				var elementToDelete = 0
+				while (k < domainOfTheCoupleToCheck.cardinality && allConsistent) {
+					if (domainOfTheSecondCouple.getValue(h) == domainOfTheCoupleToCheck.getValue(k)) {
+						allConsistent = false
+						elementToDelete = domainOfTheSecondCouple.getValue(j) 
+					}
+				}
+				if (!allConsistent) {
+					domainOfTheSecondCouple.deleteValue(elementToDelete)
+				}
+				h = h+1
+			}
+			domains.set(domainOfTheCoupleToCheck, coupleToCheck)
+			domains.set(domainOfTheSecondCouple, secondCouple)
+		}
+		domains
+	}
+	
+	def makeArcConsistencyFrom(item : Couple, domains : DomainContainer) : DomainContainer = {
+		makeArcConsistencyFrom(item.getX, item.getY, domains)
 	}
 }

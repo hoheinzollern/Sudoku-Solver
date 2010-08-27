@@ -22,6 +22,7 @@ class PartialLookAhead extends PropagationAlgorithm {
 		var i = item
 		while (!i.isLatest) {
 			this.domains = this.problem.getConstraints.makeDirectionalConsistencyFrom(i, this.domains)
+			if (this.domains.checkEmptyDomains) failure = true
 			i = i.next
 		}
 		failure
