@@ -4,12 +4,11 @@ package sudokusolver
  * This class represents the game with the fields of the scheme.
  */
 
-class Sudoku {
+class Sudoku(private var constraints : utilities.BinaryConstraintContainer) {
 	class InvalidValueException extends Exception
 		
 	private var board = new utilities.Board
 	private var domains = new utilities.DomainContainer
-	private var constraints = new utilities.BinaryConstraintContainer
     private var stepList = List[utilities.Step]()
     private var views = List[View]()
 	
