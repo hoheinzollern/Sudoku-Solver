@@ -1,7 +1,7 @@
 package sudokusolver
 
 import scala.collection.mutable.ArrayStack
-class DancingSudoku (var b: Int) {
+class DSudoku (var b: Int) {
 
 	class Node {
 		var left: Node = null
@@ -271,6 +271,11 @@ class DancingSudoku (var b: Int) {
 	}
 	
 	def randomSudoku(randomMatrix: Array[Array[Int]]): Array[Array[Int]] = {
+		for (i <- 0 to randomMatrix.length - 1) {
+			for (j <- 0 to randomMatrix(i).length - 1)
+				print(randomMatrix(i)(j))
+			println
+		}
 		var sudoku = new Array[Array[Int]](n,n)
 		var nonZeros = 0
 		
@@ -293,8 +298,10 @@ class DancingSudoku (var b: Int) {
 			}
 		}
 		
-		var solver = new DancingSudoku(b)
+		var solver = new DSudoku(b)
 		var continue = true
+		println(nSquare)
+			println(triedFields)
 		while (triedFields < nSquare && continue) {
 			var field = random.nextInt(nSquare)
 			
@@ -327,7 +334,7 @@ class DancingSudoku (var b: Int) {
 	
 	def fullCoverageMatrix: Array[Array[Int]] = {
 		var matrix = new Array[Array[Int]](n, n)
-		var solver = new DancingSudoku(b)
+		var solver = new DSudoku(b)
 		handleSolution = (solMatrix: Array[Array[Int]]) => {
 			for (row <- 0 to n-1)
 				for (col <- 0 to n-1)
