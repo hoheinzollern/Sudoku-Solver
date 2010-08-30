@@ -1,6 +1,6 @@
 package sudokusolver
+import net.sf.dancingsudoku.DancingSudoku
 
-import net.sf.dancingsudoku.DancingSudoku
 import java.io.FileWriter
 import java.util.Random
 import scala.swing.Dialog
@@ -11,6 +11,8 @@ import scala.swing.Dialog
  * - solving a sudoku scheme
  */
 object Core {
+	private var constraints = new utilities.BinaryConstraintContainer
+	//XXX constraints.checkConstraintMatrix()
 	
 	/**
 	 * Builds a new sudoku instance given a difficulty level
@@ -27,7 +29,7 @@ object Core {
 		board = dancingsudoku.createRandomSudoku(dancingsudoku.createRandomFullCoverageMatrix, null, null)
 		var bb = new utilities.Board
 		bb.setBoard(board)
-		var sudoku = new Sudoku
+		var sudoku = new Sudoku(this.constraints)
 		sudoku.setBoard(bb)
 		//if (sudoku.checkConstraints == false)
 		//	Dialog.showMessage(null, "Constraint verification failed", "Error", Dialog.Message.Error)
@@ -49,17 +51,16 @@ object Core {
 
 		// Shuffle values between rows
 		for (h <- 0 to 1000) {
+			// FIXME: use correct methods
 			val i = random.nextInt(3)
 			val j = random.nextInt(3)
 			val k = random.nextInt(3)
 			val choose = random.nextInt(2)
 			if (choose == 0 && j != k) {
-				println ("i= " + i + " j= " + j + " k= " + k)
 				val swap = board.getInternalArray(i*3 + j)
 				board.setInternalArray((i*3 + j), board.getInternalArray(i*3 + k))
 				board.setInternalArray((i*3 + k), swap)
 			} else if (j != k) {
-				println ("i= " + i + " j= " + j + " k= " + k)
 				for (l <- 0 to 8) {
 					val swap = board.getValue(l, (i*3 + j))
 					board.setValue(l, (i*3 + j), board.getValue(l, (i*3 + k)))
@@ -68,7 +69,7 @@ object Core {
 			}
 		}
 
-		var sudoku = new Sudoku
+		var sudoku = new Sudoku(this.constraints)
 		sudoku.setBoard(board)
 		if (sudoku.checkConstraints == false) {
 			Dialog.showMessage(null, "Constraint verification failed", "Error", Dialog.Message.Error)
@@ -96,7 +97,7 @@ object Core {
 				board.setValue(i, j, Character.digit(chars(i*9 + j), 10))
 			}
 		}
-		val sudoku = new Sudoku
+		val sudoku = new Sudoku(this.constraints)
 		sudoku.setBoard(board)
 		return sudoku
 	}
@@ -120,5 +121,9 @@ object Core {
 	def solve(sudoku: Sudoku, solver: solvers.GenericSolver): Sudoku = {
 		solver.setProblem(sudoku)
 		solver.solve()
+	}
+	
+	def getConstraintMatrix() = {
+		this.constraints
 	}
 }

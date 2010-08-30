@@ -183,7 +183,7 @@ object ExactCover {
 		}
 
 		// Exact Cover of constraints has been done: build sudoku
-		val sudoku = new Sudoku
+		val sudoku = new Sudoku(new utilities.BinaryConstraintContainer)
 		val board = new utilities.Board
 		for (i <- 0 to 80) {
 			val h = header(i)

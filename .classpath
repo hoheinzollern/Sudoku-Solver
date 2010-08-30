@@ -4,5 +4,9 @@
 	<classpathentry kind="con" path="ch.epfl.lamp.sdt.launching.SCALA_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="org.scala-ide.sdt.launching.SCALA_COMPILER_CONTAINER"/>
+	<classpathentry kind="lib" path="html/lib/scala-dbc.jar"/>
+	<classpathentry kind="lib" path="html/lib/scala-library.jar"/>
+	<classpathentry kind="lib" path="html/lib/scala-swing.jar"/>
+	<classpathentry kind="lib" path="html/lib/scalap.jar"/>
 	<classpathentry kind="output" path="html/bin"/>
 </classpath>

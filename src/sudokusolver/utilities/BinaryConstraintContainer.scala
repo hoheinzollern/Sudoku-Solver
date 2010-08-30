@@ -3,28 +3,34 @@ package sudokusolver.utilities
 class BinaryConstraintContainer {
 	private var constraintMatrix : Array[Array[Array[BinaryConstraint]]] = new Array[Array[Array[BinaryConstraint]]](9,9,20)
 	
+	println("Generazione dei vincoli...")
 	// For every row
 	for (i <- 0 to 8) {
+		println("Riga " + i)
 		// For every column
 		for (j <- 0 to 8) {
 			// Create a Constraint with all the previous fields on the same row
+			println("Primo set")
 			for (z <- 0 to i-1) {
 				constraintMatrix(i)(j)(z) = new BinaryConstraint(new Couple(i,j), new Couple(z, j))
 			}
 			// Create a Constraint with all the next fields on the same row
+			println("Secondo set")
 			for (z <- i+1 to 8) {
 				constraintMatrix(i)(j)(z-1) = new BinaryConstraint(new Couple(i,j), new Couple(z, j))
 			}
 			// Create a Constraint with all the previous fields on the same column
+			println("Terzo set")
 			for (z <- 0 to j-1) {
 				constraintMatrix(i)(j)(z+9) = new BinaryConstraint(new Couple(i,j), new Couple(i, z))
 			}
 			// Create a Constraint with all the next fields on the same column
+			println("Quarto set")
 			for (z <- j+1 to 8) {
 				constraintMatrix(i)(j)(z+9-1) = new BinaryConstraint(new Couple(i,j), new Couple(i, z))
 			}
 			// Create a Constraint with the four remaining variables
-			//XXX : to test the correctness
+			println("Caselle centrali")
 			for (k <- 0 to 1) {
 				for (h <- 0 to 1) {
 					val panelFirstX = i - i%3
@@ -34,6 +40,7 @@ class BinaryConstraintContainer {
 				}
 			}
 		}
+		println("")
 	}
 	
 	def getConstraintsOf(x : Int, y : Int) : Array[BinaryConstraint]= {
@@ -126,5 +133,19 @@ class BinaryConstraintContainer {
 	
 	def makeArcConsistencyFrom(item : Couple, domains : DomainContainer) : DomainContainer = {
 		makeArcConsistencyFrom(item.getX, item.getY, domains)
+	}
+	
+	def checkConstraintMatrix() {
+		println("Verifico la corretta generazione dei vincoli")
+		for (i <- 0 to 8) {
+			println("Riga " + i)
+			for (j <- 0 to 8) {
+				println("La casella (" + i + "," + j + ") ha i seguenti vincoli:")
+				for (z <- 0 to 19) {
+					this.constraintMatrix(i)(j)(z).printConstraint
+				}
+			}
+			println("")
+		}
 	}
 }

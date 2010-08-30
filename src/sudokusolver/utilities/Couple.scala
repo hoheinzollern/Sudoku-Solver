@@ -64,4 +64,8 @@ class Couple (private var x : Int = 0, private var y : Int = 0) {
 	def equals(couple : Couple) = {
 		this.x == couple.getX && this.y == couple.getY
 	}
+	
+	def printCouple() = {
+		"(" + this.x + "," + this.y + ")"
+	}
 }
