@@ -74,7 +74,7 @@ abstract class PropagationAlgorithm {
  	* 
  	* The idea is to get the variable to load and the universe of the domains.
  	*/
-	def prop(item: utilities.Couple)
+	def prop(item: utilities.Couple) : Boolean
  
  	/**
  	* This return the specific domain of a variable 

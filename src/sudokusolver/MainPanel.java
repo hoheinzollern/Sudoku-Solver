@@ -23,7 +23,6 @@
 package sudokusolver;
 
 import scala.Array;
-import sudokusolver.solvers.ForwardChecking;
 import sudokusolver.solvers.GenericSolver;
 import sudokusolver.utilities.BinaryConstraint;
 import sudokusolver.utilities.Board;
