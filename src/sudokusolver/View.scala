@@ -13,6 +13,8 @@ class View(private var sudoku: Sudoku) extends Canvas {
 		sudoku.attachView(this)
 	}
 	
+	def getSudoku() = this.sudoku
+	
 	override def paint(g : Graphics) {
 		val width = getWidth
 		val height = getHeight

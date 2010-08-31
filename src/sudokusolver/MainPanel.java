@@ -23,8 +23,9 @@
 package sudokusolver;
 
 import scala.Array;
+import sudokusolver.solvers.ForwardChecking;
+import sudokusolver.solvers.GenericSolver;
 import sudokusolver.utilities.BinaryConstraint;
-import sudokusolver.utilities.BinaryConstraintContainer;
 import sudokusolver.utilities.Board;
 import net.sf.dancingsudoku.DancingSudoku;
 
@@ -55,7 +56,7 @@ public class MainPanel extends javax.swing.JPanel {
         hardLevelRadio = new javax.swing.JRadioButton();
         easyLevelRadio = new javax.swing.JRadioButton();
         sudokuPanel = new javax.swing.JPanel();
-        view = new View(new Sudoku(new BinaryConstraintContainer()));
+        view = new View(new Sudoku(Core.getConstraintMatrix()));
         jScrollPane1 = new javax.swing.JScrollPane();
         eventsLogList = new javax.swing.JList();
         jLabel1 = new javax.swing.JLabel();
@@ -290,6 +291,7 @@ public class MainPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_saveGameButtonActionPerformed
 
     private void startButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startButtonActionPerformed
+    	/* Alex implementation 
     	DancingSudoku ds = new DancingSudoku(3);
     	int[][] board = sudoku.getBoard().getJavaBoard().getMatrix();
     	ds.setPuzzleToSolve(board);
@@ -301,6 +303,14 @@ public class MainPanel extends javax.swing.JPanel {
     			b.setValue(i, j, board[i][j]);
     	sudoku.setBoard(b);
     	sudoku.notifyView();
+		*/
+    	Sudoku sudoku = ((View)view).getSudoku();
+    	GenericSolver solver = new ForwardChecking(sudoku);
+    	solver.execute();
+    	//GenericSolver gs = new GenericSolver();
+    	//gs.setProblem(sudoku);
+    	//gs.setPropagationAlgorithm(new ForwardChecking());
+    	//gs.setSearchAlgorithm();
     }//GEN-LAST:event_startButtonActionPerformed
 
     private void stopButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_stopButtonActionPerformed

@@ -14,9 +14,9 @@ abstract class SearchAlgorithm {
 	  this.propagationAlgorithm = propagationAlgorithm
 	  this.propagationAlgorithm.setProblem(this.problem)
 	}
-	
+
  	def execute
-  
+
  	def execute(problem : sudokusolver.Sudoku, propagationAlgorithm : PropagationAlgorithm) {
  	  setProblem(problem)
  	  setPropagationAlgorithm(propagationAlgorithm)
