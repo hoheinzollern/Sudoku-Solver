@@ -5,6 +5,14 @@ class Board {
 	
 	def getBoard() = board
 	
+	def getJavaBoard() = {
+		var m = new JavaMatrix()
+		for (i <- 0 until 9)
+			for (j <- 0 until 9)
+				m.set(i,j,board(i)(j))
+		m
+	}
+	
 	def setBoard(board: Array[Array[Int]]) {
 		this.board = board
 	}
