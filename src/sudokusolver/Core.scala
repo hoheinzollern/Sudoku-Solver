@@ -11,6 +11,10 @@ import scala.swing.Dialog
  * - solving a sudoku scheme
  */
 object Core {
+	private var constraints = new utilities.BinaryConstraintContainer
+	constraints.checkConstraintMatrix()
+
+	def getConstraintMatrix() = constraints
 	
 	/**
 	 * Builds a new sudoku instance given a difficulty level
@@ -27,7 +31,7 @@ object Core {
 		board = dancingsudoku.createRandomSudoku(dancingsudoku.createRandomFullCoverageMatrix, null, null)
 		var bb = new utilities.Board
 		bb.setBoard(board)
-		var sudoku = new Sudoku
+		var sudoku = new Sudoku(getConstraintMatrix)
 		sudoku.setBoard(bb)
 		//if (sudoku.checkConstraints == false)
 		//	Dialog.showMessage(null, "Constraint verification failed", "Error", Dialog.Message.Error)
@@ -68,7 +72,7 @@ object Core {
 			}
 		}
 
-		var sudoku = new Sudoku
+		var sudoku = new Sudoku(getConstraintMatrix)
 		sudoku.setBoard(board)
 		if (sudoku.checkConstraints == false) {
 			Dialog.showMessage(null, "Constraint verification failed", "Error", Dialog.Message.Error)
@@ -96,7 +100,7 @@ object Core {
 				board.setValue(i, j, Character.digit(chars(i*9 + j), 10))
 			}
 		}
-		val sudoku = new Sudoku
+		val sudoku = new Sudoku(getConstraintMatrix)
 		sudoku.setBoard(board)
 		return sudoku
 	}
