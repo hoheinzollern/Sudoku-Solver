@@ -120,9 +120,4 @@ object Core {
 		out.write(chars)
 		out.close
 	}
-	
-	def solve(sudoku: Sudoku, solver: solvers.GenericSolver): Sudoku = {
-		solver.setProblem(sudoku)
-		solver.solve()
-	}
 }

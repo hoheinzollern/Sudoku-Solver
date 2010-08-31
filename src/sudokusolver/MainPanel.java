@@ -296,12 +296,8 @@ public class MainPanel extends javax.swing.JPanel {
     private void startButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startButtonActionPerformed
     	Sudoku sudoku = ((View)view).getSudoku();
     	GenericSolver solver = new ForwardCheckingOnly(sudoku);
-    	solver.execute();
-    	//GenericSolver gs = new GenericSolver();
-    	//gs.setProblem(sudoku);
-    	//gs.setPropagationAlgorithm(new ForwardChecking());
-    	//gs.setSearchAlgorithm();
-    	
+    	solver.start(); 
+    	//XXX where to attach solvers?
     }//GEN-LAST:event_startButtonActionPerformed
 
     private void stopButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_stopButtonActionPerformed

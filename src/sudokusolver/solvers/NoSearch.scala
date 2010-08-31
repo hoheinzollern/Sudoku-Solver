@@ -1,6 +1,6 @@
 package sudokusolver.solvers
 
-class BacktrackingSearch extends SearchAlgorithm {
+class NoSearch extends SearchAlgorithm {
 	override def solve() = {
 		new sudokusolver.utilities.Board
 	}
