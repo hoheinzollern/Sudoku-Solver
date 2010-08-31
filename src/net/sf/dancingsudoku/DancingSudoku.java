@@ -195,11 +195,11 @@ public class DancingSudoku implements SolutionHandlerIF {
 		fourNsquare = 4*nSquare;
 	}
 	
-	public void run() {
-		run(puzzle);
+	public int[][] run() {
+		return run(puzzle);
 	}
 	
-	public void run(int[][] initialMatrix) {
+	public int[][] run(int[][] initialMatrix) {
 		// reset the counters
 		solutionCounter = 0;
 		searchCount = 0;
@@ -210,6 +210,7 @@ public class DancingSudoku implements SolutionHandlerIF {
 		search(0);
 		long end = System.currentTimeMillis();
 		//logger.info("finished search! duration [ms]: " + (end-start));
+		return this.puzzle;
 	}
 	
 	/** 

@@ -22,6 +22,12 @@
 
 package sudokusolver;
 
+import scala.Array;
+import sudokusolver.utilities.BinaryConstraint;
+import sudokusolver.utilities.BinaryConstraintContainer;
+import sudokusolver.utilities.Board;
+import net.sf.dancingsudoku.DancingSudoku;
+
 /**
  *
  * @author alessandro
@@ -45,8 +51,11 @@ public class MainPanel extends javax.swing.JPanel {
     private void initComponents() {
 
         levelGroup = new javax.swing.ButtonGroup();
+        mediumLevelRadio = new javax.swing.JRadioButton();
+        hardLevelRadio = new javax.swing.JRadioButton();
+        easyLevelRadio = new javax.swing.JRadioButton();
         sudokuPanel = new javax.swing.JPanel();
-        view = new View(new Sudoku(Core.getConstraintMatrix()));
+        view = new View(new Sudoku(new BinaryConstraintContainer()));
         jScrollPane1 = new javax.swing.JScrollPane();
         eventsLogList = new javax.swing.JList();
         jLabel1 = new javax.swing.JLabel();
@@ -64,9 +73,16 @@ public class MainPanel extends javax.swing.JPanel {
         saveGameButton = new javax.swing.JButton();
         startButton = new javax.swing.JButton();
         stopButton = new javax.swing.JButton();
-        easyLevelRadio = new javax.swing.JRadioButton();
-        mediumLevelRadio = new javax.swing.JRadioButton();
-        hardLevelRadio = new javax.swing.JRadioButton();
+
+        levelGroup.add(mediumLevelRadio);
+        mediumLevelRadio.setSelected(true);
+        mediumLevelRadio.setText("Medium");
+
+        levelGroup.add(hardLevelRadio);
+        hardLevelRadio.setText("Hard");
+
+        levelGroup.add(easyLevelRadio);
+        easyLevelRadio.setText("Easy");
 
         sudokuPanel.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
@@ -132,7 +148,7 @@ public class MainPanel extends javax.swing.JPanel {
 
         jLabel4.setText("Constraint propagation:");
 
-        searchAlgotihmCombo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Backtracking Search", "Greedy Search" }));
+        searchAlgotihmCombo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Backtracking Search", "Dancing Links" }));
         searchAlgotihmCombo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 searchAlgotihmComboActionPerformed(evt);
@@ -163,53 +179,36 @@ public class MainPanel extends javax.swing.JPanel {
             }
         });
 
-        levelGroup.add(easyLevelRadio);
-        easyLevelRadio.setText("Easy");
-
-        levelGroup.add(mediumLevelRadio);
-        mediumLevelRadio.setSelected(true);
-        mediumLevelRadio.setText("Medium");
-
-        levelGroup.add(hardLevelRadio);
-        hardLevelRadio.setText("Hard");
-
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                .addComponent(hardLevelRadio, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(mediumLevelRadio, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(easyLevelRadio, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addComponent(jLabel4)
-            .addComponent(jLabel2)
-            .addComponent(jLabel3)
-            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                .addComponent(constraintPropagationCombo, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(searchAlgotihmCombo, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                .addComponent(useSearchCheckBox, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(usePropagationCheckBox, javax.swing.GroupLayout.Alignment.LEADING))
-            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                .addComponent(stopButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(startButton, javax.swing.GroupLayout.Alignment.LEADING))
-            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                .addComponent(newGameButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(loadGameButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(resetGameButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(saveGameButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel4)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel3)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(constraintPropagationCombo, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(searchAlgotihmCombo, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(useSearchCheckBox, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(usePropagationCheckBox, javax.swing.GroupLayout.Alignment.LEADING))
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(stopButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(startButton, javax.swing.GroupLayout.Alignment.LEADING))
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(newGameButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(loadGameButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(resetGameButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(saveGameButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(newGameButton)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(easyLevelRadio)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(mediumLevelRadio)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(hardLevelRadio)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(resetGameButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(loadGameButton)
@@ -233,7 +232,7 @@ public class MainPanel extends javax.swing.JPanel {
                 .addComponent(startButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(stopButton)
-                .addContainerGap(171, Short.MAX_VALUE))
+                .addContainerGap(258, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -291,7 +290,17 @@ public class MainPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_saveGameButtonActionPerformed
 
     private void startButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startButtonActionPerformed
-        // TODO add your handling code here:
+    	DancingSudoku ds = new DancingSudoku(3);
+    	int[][] board = sudoku.getBoard().getJavaBoard().getMatrix();
+    	ds.setPuzzleToSolve(board);
+    	board = ds.run();
+    	System.out.println(board);
+    	Board b = new Board();
+    	for (int i = 0; i < 9; i++)
+    		for (int j = 0; j < 9; j++)
+    			b.setValue(i, j, board[i][j]);
+    	sudoku.setBoard(b);
+    	sudoku.notifyView();
     }//GEN-LAST:event_startButtonActionPerformed
 
     private void stopButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_stopButtonActionPerformed

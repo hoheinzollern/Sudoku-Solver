@@ -49,7 +49,7 @@ class Sudoku(private var constraints : utilities.BinaryConstraintContainer) {
 				}
 			}
 		}
-		
+		println("setboard")
 		notifyView
 	}
 	
