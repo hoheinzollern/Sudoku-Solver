@@ -22,6 +22,9 @@
 
 package sudokusolver;
 
+import sudokusolver.utilities.*;
+import sudokusolver.solvers.*;
+
 /**
  *
  * @author alessandro
@@ -291,7 +294,14 @@ public class MainPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_saveGameButtonActionPerformed
 
     private void startButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startButtonActionPerformed
-        // TODO add your handling code here:
+    	Sudoku sudoku = ((View)view).getSudoku();
+    	GenericSolver solver = new ForwardCheckingOnly(sudoku);
+    	solver.execute();
+    	//GenericSolver gs = new GenericSolver();
+    	//gs.setProblem(sudoku);
+    	//gs.setPropagationAlgorithm(new ForwardChecking());
+    	//gs.setSearchAlgorithm();
+    	
     }//GEN-LAST:event_startButtonActionPerformed
 
     private void stopButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_stopButtonActionPerformed

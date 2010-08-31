@@ -12,7 +12,7 @@ class GenericSolver {
 	protected var problem: sudokusolver.Sudoku = null
 	protected var searchAlgorithm : SearchAlgorithm = null
 	protected var propagationAlgorithm : PropagationAlgorithm = null
- 
+
 	def setSearchAlgorithm(searchAlgorithm : SearchAlgorithm) {
 	  	this.searchAlgorithm = searchAlgorithm
 	}
