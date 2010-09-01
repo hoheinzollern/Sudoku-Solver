@@ -49,6 +49,11 @@ class DSudoku (var b: Int) {
 		searchCount = 0
 		var matrix = createMatrix(initialMatrix)
 		createDoubleLinkedLists(matrix)
+		var x = root.right.asInstanceOf[Header];
+		while (x != root) {
+			println(x.length)
+			x = x.right.asInstanceOf[Header]
+		}
 		search(0)
 	}
 	
@@ -57,9 +62,9 @@ class DSudoku (var b: Int) {
 		
 		var matrix = new java.util.ArrayList[Array[Int]]
 		
-		for (d <- 0 to n-1)
-			for (r <- 0 to n-1)
-				for (c <- 0 to n-1) {
+		for (d <- 0 until n)
+			for (r <- 0 until n)
+				for (c <- 0 until n) {
 					if (!cellIsFilled(d,r,c,prefill)) {
 						var blockIndex = ((c / b) + ((r / b) * b))
 						var colIndexRow = threeN*d+r
@@ -102,14 +107,14 @@ class DSudoku (var b: Int) {
 			if (initialMatrix.length != n)
 				throw new RuntimeException("wrong dimensions of initial matrix")
 			var prefillList = new java.util.ArrayList[Array[Int]]
-			for (r <- 0 to n-1)
-				for (c <- 0 to n-1) {
+			for (r <- 0 until n)
+				for (c <- 0 until n) {
 					if (initialMatrix(r)(c) > 0) {
 						prefillList.add(Array[Int](initialMatrix(r)(c), r, c))
 					}
 				}
 			prefill = new Array[Array[Int]](prefillList.size)
-			for (i <- 0 to prefill.length-1) {
+			for (i <- 0 until prefill.length) {
 				prefill(i) = prefillList.get(i)
 			}
 		}
@@ -125,7 +130,8 @@ class DSudoku (var b: Int) {
 			currentHeader = root.right.asInstanceOf[Header]
 			var lastCreatedElement: Node = null
 			var firstElement: Node = null
-			for (col <- 0 to fourNsquare-1) {
+			var col = 0
+			while (col < fourNsquare) {
 				if (record(0)==col || record(1)==col || record(2)==col || record(3)==col) {
 					// create a new data element and link it
 					var colElement: Node = currentHeader
@@ -143,6 +149,7 @@ class DSudoku (var b: Int) {
 					currentHeader.length += 1
 				}
 				currentHeader = currentHeader.right.asInstanceOf[Header]
+				col += 1
 			}
 			// Link the first and the last element
 			if (lastCreatedElement != null) {
@@ -167,17 +174,21 @@ class DSudoku (var b: Int) {
 	private def createLinkedHeaders: Header = {
 		var headers = new Header
 		var curHead = headers
-		for (col <- 0 to fourNsquare-1) {
+		for (col <- 0 until fourNsquare) {
 			var info = new HeaderInfo
 			if (col < threeNsquare) {
 				info.digit = (col/threeN) + 1
 				var index = col-(info.digit-1)*threeN
-				if (index < n)
+				if (index < n) {
 					info.type_ = HeaderInfo.TYPE_ROW
-				else if (index < twoN)
+					info.pos = index
+				} else if (index < twoN) {
 					info.type_ = HeaderInfo.TYPE_COL
-				else
+					info.pos = index-n
+				} else {
 					info.type_ = HeaderInfo.TYPE_BLOCK
+					info.pos = index-twoN
+				}
 			} else {
 				info.type_ = HeaderInfo.TYPE_CELL
 				info.pos = col - threeNsquare
@@ -226,6 +237,7 @@ class DSudoku (var b: Int) {
 	}
 	
 	private def search(k: Int) {
+		println("search @ " + k)
 		if (root.right == root)
 			return
 		var c = chooseColumn
@@ -264,6 +276,8 @@ class DSudoku (var b: Int) {
 		var smallest = h
 		while (h.right != root) {
 			h = h.right.asInstanceOf[Header]
+			if (h.length == 1)
+				return h
 			if (h.length < smallest.length)
 				smallest = h
 		}
@@ -299,9 +313,8 @@ class DSudoku (var b: Int) {
 		}
 		
 		var solver = new DSudoku(b)
+		solver.handleSolution = (matrix: Array[Array[Int]]) => (solutionCounter < 2)
 		var continue = true
-		println(nSquare)
-			println(triedFields)
 		while (triedFields < nSquare && continue) {
 			var field = random.nextInt(nSquare)
 			
@@ -335,15 +348,15 @@ class DSudoku (var b: Int) {
 	def fullCoverageMatrix: Array[Array[Int]] = {
 		var matrix = new Array[Array[Int]](n, n)
 		var solver = new DSudoku(b)
-		handleSolution = (solMatrix: Array[Array[Int]]) => {
-			for (row <- 0 to n-1)
-				for (col <- 0 to n-1)
+		solver.handleSolution = (solMatrix: Array[Array[Int]]) => {
+			for (row <- 0 until n)
+				for (col <- 0 until n)
 					matrix(row)(col) = solMatrix(row)(col)
 			false
 		}
 		var randomMatrix = new Array[Array[Int]](n,n)
 		var fields = new Array[Int](nSquare)
-		for (d <- 1 to n-1) {
+		for (d <- 1 to n) {
 			var field = random.nextInt(nSquare)
 			while (fields(field) > 0)
 				field = (field + 1) % nSquare

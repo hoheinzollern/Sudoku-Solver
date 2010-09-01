@@ -207,6 +207,9 @@ public class DancingSudoku implements SolutionHandlerIF {
 		List matrix = createEfficientMatrix(initialMatrix);
 		//logger.info("size of binary matrix: "+matrix.size());
 		createEfficientDoubleLinkedLists(matrix);		
+		for (Header h = (Header)root.right; h != root; h = (Header)h.right) {
+			System.out.println(h.size);
+		}
 		search(0);
 		long end = System.currentTimeMillis();
 		//logger.info("finished search! duration [ms]: " + (end-start));
