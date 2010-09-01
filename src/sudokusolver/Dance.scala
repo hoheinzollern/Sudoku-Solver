@@ -210,7 +210,7 @@ object Dance {
 		var solution = search(root, new Stack[Node](), 0);
 		var solvedBoard = new Array[Array[Int]](9,9)
 		var count = 0
-		while (!solution.isEmpty && count < 70) {
+		while (!solution.isEmpty) {
 			var r = solution.top
 			solution = solution.pop
 			var (row, col, digit) = decodeRow(r.row)
