@@ -11,17 +11,21 @@ import sudokusolver.utilities
 
 class Mac extends PropagationAlgorithm {
 	override def prop(item: utilities.Couple) = {
-	  var failure = false
-	  var k = item.next
-	  while (k.isValid && !failure) {
-	 	  revise(item, k)
-	 	  if (this.domains.get(k).isEmpty) failure = true
-	 	  k = k.next
-	  }
-	  if (!failure) {
-	 	  failure = arc(item.next)
-	  }
-	  failure
+		var failure = false
+		if (!item.isLatest) {
+			var stop = false
+	  		var k = item.next
+			while (!stop && !failure) {
+				revise(item, k)
+				if (this.domains.get(k).isEmpty) failure = true
+				if (!k.isLatest) k = k.next
+				else stop = true
+			}
+			if (!failure) {
+				failure = arc(item.next)
+			}
+		}
+		failure
 	}
 	
 	def arc(item : utilities.Couple) = {

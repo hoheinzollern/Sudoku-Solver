@@ -209,11 +209,13 @@ object Dance {
 		buildMatrix(root, board)
 		var solution = search(root, new Stack[Node](), 0);
 		var solvedBoard = new Array[Array[Int]](9,9)
-		while (!solution.isEmpty) {
+		var count = 0
+		while (!solution.isEmpty && count < 70) {
 			var r = solution.top
 			solution = solution.pop
 			var (row, col, digit) = decodeRow(r.row)
 			solvedBoard(row)(col) = digit
+			count += 1
 		}
 		solvedBoard
 	}
@@ -222,13 +224,13 @@ object Dance {
 		val random = new java.util.Random
 		var randomMatrix = new Array[Array[Int]](9,9)
 		var fields = new Array[Int](81)
-		/*for (d <- 1 to 9) {
+		for (d <- 1 to 9) {
 			var field = random.nextInt(81)
 			while (fields(field) > 0)
 				field = (field + 1) % 81
 			randomMatrix(field / 9)(field % 9) = d
 			fields(field) = d
-		}*/
+		}
 		solve(randomMatrix)
 	}
 	

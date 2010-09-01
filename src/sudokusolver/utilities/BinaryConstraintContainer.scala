@@ -44,34 +44,19 @@ class BinaryConstraintContainer {
 	}
 	
 	def makeDirectionalConsistencyFrom(x : Int, y : Int, domains : DomainContainer) : DomainContainer = {
-		println("Genera consistenza direzionale a partire da (" + x + "," + y + ")")
 		var itemConstraints = getConstraintsOf(x, y)
 		var coupleToCheck = new Couple(x, y)
 		var domainOfTheCoupleToCheck = domains.get(coupleToCheck)
-		println("Ho caricato le caratteristiche...")
-		println("Elenco vincoli:")
 		for (i <- 0 to 19) {
-			itemConstraints(i).printConstraint
-		}
-		println("Dominio della cella:")
-		println(domainOfTheCoupleToCheck.getStatus)
-		for (i <- 0 to 19) {
-			println("Calcolo la consistenza con il vincolo = " + i)
 			var secondCouple = itemConstraints(i).getJ
 			var j = 0
-			println("La seconda casella è la " + secondCouple.printCouple)
-			println("Il dominio della prima casella ha " + domainOfTheCoupleToCheck.cardinality + " elementi")
 			while (j < domainOfTheCoupleToCheck.cardinality) {
-				println("Ciclo sugli elementi del primo field: j = " + j)
 				var k = 0
-				var allConsistent = true
-				var elementToDelete = -1
-				println("Verifico per tutti gli elementi della seconda casella... che sono " + domains.get(secondCouple).cardinality)
-				while (k < domains.get(secondCouple).cardinality && allConsistent) {
-					println("Ciclo interno con k = " + k)
-					if (domainOfTheCoupleToCheck.getValue(j) == domains.get(secondCouple).getValue(k)) {
-						allConsistent = false
-						elementToDelete = domainOfTheCoupleToCheck.getValue(j) 
+				var allConsistent = false
+				var elementToDelete = domainOfTheCoupleToCheck.getValue(j)
+				while (k < domains.get(secondCouple).cardinality && !allConsistent) {
+					if (domainOfTheCoupleToCheck.getValue(j) != domains.get(secondCouple).getValue(k)) {
+						allConsistent = true 
 					}
 					k = k + 1
 				}
@@ -95,34 +80,35 @@ class BinaryConstraintContainer {
 		var domainOfTheCoupleToCheck = domains.get(coupleToCheck)
 		for (i <- 0 to 19) {
 			var secondCouple = itemConstraints(i).getJ
-			// From first couple to second
 			var j = 0
 			while (j < domainOfTheCoupleToCheck.cardinality) {
 				var k = 0
-				var allConsistent = true
-				var elementToDelete = -1
-				while (k < domains.get(secondCouple).cardinality && allConsistent) {
-					if (domainOfTheCoupleToCheck.getValue(j) == domains.get(secondCouple).getValue(k)) {
-						allConsistent = false
-						elementToDelete = domainOfTheCoupleToCheck.getValue(j) 
+				var allConsistent = false
+				var elementToDelete = domainOfTheCoupleToCheck.getValue(j)
+				while (k < domains.get(secondCouple).cardinality && !allConsistent) {
+					if (domainOfTheCoupleToCheck.getValue(j) != domains.get(secondCouple).getValue(k)) {
+						allConsistent = true 
 					}
+					k = k + 1
 				}
 				if (!allConsistent) {
 					domainOfTheCoupleToCheck.deleteValue(elementToDelete)
 				}
 				j = j+1
 			}
+			
+			
 			// From second couple to first
+			
 			var h = 0
 			var domainOfTheSecondCouple = domains.get(secondCouple)
 			while (h < domainOfTheSecondCouple.cardinality) {
 				var k = 0
-				var allConsistent = true
-				var elementToDelete = 0
-				while (k < domainOfTheCoupleToCheck.cardinality && allConsistent) {
-					if (domainOfTheSecondCouple.getValue(h) == domainOfTheCoupleToCheck.getValue(k)) {
-						allConsistent = false
-						elementToDelete = domainOfTheSecondCouple.getValue(j) 
+				var allConsistent = false
+				var elementToDelete = domainOfTheSecondCouple.getValue(h)
+				while (k < domainOfTheCoupleToCheck.cardinality && !allConsistent) {
+					if (domainOfTheSecondCouple.getValue(h) != domainOfTheCoupleToCheck.getValue(k)) {
+						allConsistent = true
 					}
 					k = k + 1
 				}

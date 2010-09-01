@@ -286,22 +286,10 @@ public class MainPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_saveGameButtonActionPerformed
 
     private void startButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startButtonActionPerformed
-    	/* Alex implementation 
-    	DancingSudoku ds = new DancingSudoku(3);
-    	int[][] board = sudoku.getBoard().getJavaBoard().getMatrix();
-    	ds.setPuzzleToSolve(board);
-    	board = ds.run();
-    	System.out.println(board);
-    	Board b = new Board();
-    	for (int i = 0; i < 9; i++)
-    		for (int j = 0; j < 9; j++)
-    			b.setValue(i, j, board[i][j]);
-    	sudoku.setBoard(b);
-    	sudoku.notifyView();
-		*/
     	Sudoku sudoku = ((View)view).getSudoku();
     	//GenericSolver solver = new sudokusolver.solvers.ForwardCheckingOnly(sudoku);
-    	GenericSolver solver = new sudokusolver.solvers.PartialLookAheadOnly(sudoku);
+    	//GenericSolver solver = new sudokusolver.solvers.PartialLookAheadOnly(sudoku);
+    	GenericSolver solver = new sudokusolver.solvers.MacOnly(sudoku);
     	solver.start(); 
     	//XXX where to attach solvers?
     }//GEN-LAST:event_startButtonActionPerformed

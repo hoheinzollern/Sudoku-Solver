@@ -28,7 +28,6 @@ abstract class SearchAlgorithm {
  	def execute(problem : sudokusolver.Sudoku, propagationAlgorithm : PropagationAlgorithm) : sudokusolver.Sudoku = {
 		this.problem = problem
 		this.propagationAlgorithm = propagationAlgorithm
-		println("Started search algorithm!")
 		solve
 	}
 }
