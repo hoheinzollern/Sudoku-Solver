@@ -171,9 +171,13 @@ object Dance {
 		current
 	}
 	
-	def search(root: Header, solution: Stack[Node], k: Int): Stack[Node] = {
-		if (root.right == root)
+	var solutionCount = 0
+	
+	def search(root: Header, solution: Stack[Node], k: Int, tryAll: Boolean): Stack[Node] = {
+		if (root.right == root) {
+			solutionCount += 1
 			return solution
+		}
 		val c = chooseColumn(root)
 		if (c.size == 0)
 			return null
@@ -188,8 +192,8 @@ object Dance {
 				j = j.right
 			}
 			
-			var sol = search(root, solution :+ r, k+1)
-			if (sol != null)
+			var sol = search(root, solution :+ r, k+1, tryAll)
+			if (sol != null && !tryAll)
 				return sol
 			
 			j = r.right
@@ -207,7 +211,8 @@ object Dance {
 	def solve(board: Array[Array[Int]]): Array[Array[Int]] = {
 		var root = makeHeaders
 		buildMatrix(root, board)
-		var solution = search(root, new Stack[Node](), 0);
+		var solution = search(root, new Stack[Node](), 0, false);
+		solutionCount = 0
 		var solvedBoard = new Array[Array[Int]](9,9)
 		while (!solution.isEmpty) {
 			var r = solution.top
@@ -222,15 +227,44 @@ object Dance {
 		val random = new java.util.Random
 		var randomMatrix = new Array[Array[Int]](9,9)
 		var fields = new Array[Int](81)
-		/*for (d <- 1 to 9) {
+		for (d <- 1 to 9) {
 			var field = random.nextInt(81)
 			while (fields(field) > 0)
 				field = (field + 1) % 81
 			randomMatrix(field / 9)(field % 9) = d
 			fields(field) = d
-		}*/
+		}
 		solve(randomMatrix)
 	}
 	
-	def randomSudoku = fullCoverageMatrix
+	def randomSudoku = {
+		var matrix = fullCoverageMatrix
+		var random = new java.util.Random
+		var trials = new Array[Int](81)
+		var triedFields = 0
+		var continue = true
+		println ("here")
+		println (solutionCount)
+		while (triedFields < 81 && continue) {
+			var field = random.nextInt(81)
+			while (trials(field) > 0)
+				field = (field + 1) % 81
+			var r = field / 9
+			var c = field % 9
+			var d = matrix(r)(c)
+			trials(field) = 1
+			triedFields += 1
+			matrix(r)(c) = 0
+			var root = makeHeaders
+			buildMatrix(root, matrix)
+			search(root, new Stack[Node](), 0, true)
+			println(solutionCount)
+			if (solutionCount > 1) {
+				matrix(r)(c) = d
+				continue = false
+			}
+			solutionCount = 0
+		}
+		matrix
+	}
 }
