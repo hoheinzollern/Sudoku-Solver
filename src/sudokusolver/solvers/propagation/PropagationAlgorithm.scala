@@ -21,54 +21,47 @@ abstract class PropagationAlgorithm {
 	* one value of the second variable that respect the constraint. 
 	*/
 	def revise(xi : utilities.Couple, xj : utilities.Couple) = {  
-	  // Check and remove invalid values from k corresponding to values of other cells
-
-	  // Propagate row
-	  for (i <- 0 to 8) {
-	 	  if (this.board.isNotNull(i, xj.getY) && i != xj.getY) this.domains.get(xj).deleteValue(this.board.getValue(xj.getX, i))
-	  }
+		// Check and remove invalid values from k corresponding to values of other cells
+		if (!this.board.isNotNull(xj)) {
+			println("Eseguo la revise tra " + xi.printCouple + " e " + xj.printCouple)
+		
+			// If items are on the same row
+			if (xi.getX == xj.getX) {
+				println("Le 2 caselle stanno sulla stessa RIGA... allora propago sulla riga " + xi.getX)
+				// Propagate row
+				for (j <- 0 to xi.getY) {
+					if (this.board.isNotNull(xi.getX, j)) this.domains.get(xj).deleteValue(this.board.getValue(xi.getX, j))
+				}
+			}
+			
+			// If items are on the same column
+			if (xi.getY == xj.getY) {
+				println("Le 2 caselle stanno sulla stessa COLONNA... allora propago sulla colonne " + xi.getY)
+				// Propagate column
+				for (i <- 0 to xi.getX) {
+					if (this.board.isNotNull(i, xi.getY)) this.domains.get(xj).deleteValue(this.board.getValue(i, xi.getY))
+				}
+			}
 	  
-	  // Propagate column
-	  for (i <- 0 to 8) {
-	 	  if (this.board.isNotNull(xj.getX, i) && i != xj.getX) this.domains.get(xj).deleteValue(this.board.getValue(i, xj.getY))
-	  }
-	  
-	  // Propagate panel
-	  var minX = 0
-	  var maxX = 8
-	  var minY = 0
-	  var maxY = 8
-	  
-	  if (xj.getX < 3) {
-	 	  maxX = 3
-	  }
-	  else if (xj.getX < 6) {
-	 	  minX = 3
-	 	  maxX = 6 
-	  }
-	  else {
-	 	  minX = 6
-	  }
-	  if (xj.getY < 3) {
-	 	  maxY = 3
-	  }
-	  else if (xj.getY < 6) {
-	 	  minY = 3
-	 	  maxY = 6 
-	  }
-	  else {
-	 	  minY = 6
-	  }
-	  
-	  for (i <- minX to maxX) {
-	 	  	for (j <- minY to maxY) {
-	 	  		if (this.board.isNotNull(i, j) && i != xj.getX && j != xj.getY) {
-	 	  			this.domains.get(xj).deleteValue(this.board.getValue(i, j))
-	 	  		}
-	 	  	}
-	  }
+			// If items are on the same panel
+			val panelFirstXByXi = xi.getX - xi.getX%3
+			val panelFirstYByXi = xi.getY - xi.getY%3
+			val panelFirstXByXj = xj.getX - xj.getX%3
+			val panelFirstYByXj = xj.getY - xj.getY%3
+			if (panelFirstXByXi == panelFirstXByXj && panelFirstYByXi == panelFirstYByXj) {
+				println("Le 2 caselle stanno nello stesso pannello!")
+				for (i <- panelFirstXByXi to panelFirstXByXi+2) {
+					for (j <- panelFirstYByXi to panelFirstYByXi+2) {
+						if (!(i > xj.getX && j > xj.getY)) {
+							if (this.board.isNotNull(i, j)) this.domains.get(xj).deleteValue(this.board.getValue(i, j))
+						}
+					}
+				}
+			}
+		}
 	}
- 
+
+
  	/**
  	* This is the main method of the propagation mechanism.
  	* 
@@ -79,7 +72,5 @@ abstract class PropagationAlgorithm {
  	/**
  	* This return the specific domain of a variable 
  	*/
- 	def getDomains = {
- 	  this.domains
- 	}
+ 	def getDomains = this.domains
 }

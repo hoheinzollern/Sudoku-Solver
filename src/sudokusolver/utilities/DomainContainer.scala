@@ -43,4 +43,13 @@ class DomainContainer(private var domains : Array[Array[Domain]] = new Array[Arr
 		}
 		checkFailed
 	}
+	
+	def printStatus() {
+		println("Domain status:")
+		for (j <- 0 to 8) {
+			for (i <- 0 to 8) {
+				println("Domain (" + i + "," + j + ") : " + domains(i)(j).getStatus)
+			}
+		}
+	}
 }

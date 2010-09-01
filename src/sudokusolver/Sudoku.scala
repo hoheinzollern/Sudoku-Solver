@@ -144,4 +144,26 @@ class Sudoku(private var constraints : utilities.BinaryConstraintContainer) {
     }
     
     def getConstraints() = constraints
+    
+    def printDomainStatus() = domains.printStatus
+    
+    def printBoardStatus() = board.printStatus
+    
+    def calculateBoard() {
+    	println("Calcolo la nuova board!")
+    	println("I domini sono :")
+    	printDomainStatus
+    	var item = new utilities.Couple(0,0)
+    	var stop = false
+    	while(!stop) {
+    		if (!this.board.isNotNull(item) && this.domains.get(item).cardinality == 1) {
+    			println("Dominio con 1 solo elemento! YEAH!")
+    			this.board.setValue(item, this.domains.get(item).getValue(0))
+    			println("Impostato " + this.domains.get(item).getValue(0) + " in " + item.printCouple)
+    		}
+    		if (!item.isLatest) item = item.next
+    		else stop = true
+    	}
+    	notifyView
+    }
 }

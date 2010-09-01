@@ -3,50 +3,36 @@ package sudokusolver.utilities
 class BinaryConstraintContainer {
 	private var constraintMatrix : Array[Array[Array[BinaryConstraint]]] = new Array[Array[Array[BinaryConstraint]]](9,9,20)
 	
-	println("Generazione dei vincoli...")
 	// For every row
-	for (j <- 0 to 8) {
+	for (i <- 0 to 8) {
 		// For every column
-		for (i <- 0 to 8) {
-			println("---------------------------------------")
-			println("Vincoli per la casella (" + i + "," + j + ")")
+		for (j <- 0 to 8) {
 			// Create a Constraint with all the previous fields on the same row
-			println("Vincoli prima della casella in orizzontale")
 			for (z <- 0 to i-1) {
-				print ("Creo in posizione " + i + "-" + j + "-" + z)
 				constraintMatrix(i)(j)(z) = new BinaryConstraint(new Couple(i,j), new Couple(z, j))
 			}
 			// Create a Constraint with all the next fields on the same row
-			println("Vincoli dopo la casella in orizzontale")
 			for (z <- i+1 to 8) {
-				print ("Creo in posizione " + i + "-" + j + "-" + (z-1))
 				constraintMatrix(i)(j)(z-1) = new BinaryConstraint(new Couple(i,j), new Couple(z, j))
 			}
 			// Create a Constraint with all the previous fields on the same column
-			println("Vincoli prima della casella in verticale")
 			for (z <- 0 to j-1) {
-				print ("Creo in posizione " + i + "-" + j + "-" + (z+8))
 				constraintMatrix(i)(j)(z+8) = new BinaryConstraint(new Couple(i,j), new Couple(i, z))
 			}
 			// Create a Constraint with all the next fields on the same column
-			println("Vincoli dopo la casella in verticale")
 			for (z <- j+1 to 8) {
-				print ("Creo in posizione " + i + "-" + j + "-" + (z+8-1))
 				constraintMatrix(i)(j)(z+8-1) = new BinaryConstraint(new Couple(i,j), new Couple(i, z))
 			}
 			// Create a Constraint with the four remaining variables
-			println("Caselle centrali")
+			val panelFirstX = i - i%3
+			val panelFirstY = j - j%3
 			for (k <- 0 to 1) {
 				for (h <- 0 to 1) {
-					val panelFirstX = i - i%3
-					val panelFirstY = j - j%3
 					val nextCouple = new Couple(panelFirstX + (i+1+k)%3, panelFirstY + (j+1+h)%3)
-					print ("Creo in posizione " + i + "-" + j + "-" + (16+2*k+h))
 					constraintMatrix(i)(j)(16+2*k+h) = new BinaryConstraint(new Couple(i,j), nextCouple) 
 				}
 			}
 		}
-		println("")
 	}
 	
 	def getConstraintsOf(x : Int, y : Int) : Array[BinaryConstraint]= {

@@ -40,7 +40,7 @@ class GenericSolver {
 	def start() {
 	  if (this.searchAlgorithm != null && this.propagationAlgorithm != null) {
 		  this.problem = this.searchAlgorithm.execute(this.problem, this.propagationAlgorithm)
-		  //XXX Qui dev'essere inserito un modo per aggiornare la grafica al termine del thread
+		  this.problem.calculateBoard
 	  } else throw new exceptions.SolverNotReadyException()
 	}
 }
