@@ -11,6 +11,7 @@ import scala.swing.Dialog
  */
 object Core {
 	private var constraints = new utilities.BinaryConstraintContainer
+	private var sudoku : Sudoku = null
 	//constraints.checkConstraintMatrix()
 
 	def getConstraintMatrix() = constraints
@@ -23,16 +24,17 @@ object Core {
 	 *  - 2 medium
 	 *  - 3 hard  
 	 */
-	def makeSudoku(level: Int): Sudoku = {
-		var board = Dance.randomSudoku
+	def makeSudoku(level: Int) {
+		//var time = System.currentTimeMillis
+		var dancingsudoku = new DancingSudoku(3)
+		var board = dancingsudoku.createRandomSudoku(dancingsudoku.createRandomFullCoverageMatrix, null, null)
 		var bb = new utilities.Board
 		bb.setBoard(board)
-		var sudoku = new Sudoku(getConstraintMatrix)
-		sudoku.setBoard(bb)
-		if (sudoku.checkConstraints == false)
-			Dialog.showMessage(null, "Constraint verification failed", "Error", Dialog.Message.Error)
-		return sudoku
+		this.sudoku = new Sudoku(getConstraintMatrix)
+		this.sudoku.setBoard(bb)
 	}
+	
+	def getSudoku = sudoku
 	
 	/**
 	 * Naive algorithm for the construction of sudoku boards, use it for testing purposes.
@@ -115,5 +117,27 @@ object Core {
 		}
 		out.write(chars)
 		out.close
+	}
+	
+	def startSolver(searchCode : Int, propagationCode: Int) {
+		var solver = searchCode match {
+			case 0 => 
+			propagationCode match {
+				case 0 => new sudokusolver.solvers.ForwardCheckingOnly(sudoku)
+				case 1 => new sudokusolver.solvers.PartialLookAheadOnly(sudoku)
+				case 2 => new sudokusolver.solvers.MacOnly(sudoku)
+				case _ => throw new exceptions.CommandNotFoundException
+			}
+			case 1 => 
+			propagationCode match {
+				case 0 => new sudokusolver.solvers.BacktrackingSearchAndForwardChecking(sudoku)
+				case 1 => new sudokusolver.solvers.BacktrackingSearchAndPartialLookAhead(sudoku)
+				case 2 => new sudokusolver.solvers.BacktrackingSearchAndMac(sudoku)
+				case _ => throw new exceptions.CommandNotFoundException
+			}
+			case 2 => new sudokusolver.solvers.DancingLinks(sudoku)
+			case _ => throw new exceptions.CommandNotFoundException
+		}
+    	solver.start
 	}
 }

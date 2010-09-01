@@ -76,9 +76,11 @@ class Sudoku(private var constraints : utilities.BinaryConstraintContainer) {
      * Resets the game to its initial status
      */
     def reset {
-    	while (stepList.tail != null) {
-    		back
-    	}
+    	board = new utilities.Board
+    	domains = new utilities.DomainContainer
+    	stepList = List[utilities.Step]()
+    	
+    	notifyView
     }
 
     /**

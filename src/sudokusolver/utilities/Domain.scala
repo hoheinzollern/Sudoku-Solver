@@ -30,7 +30,7 @@ class Domain(private var associatedCell : String) {
    
    	def deleteValue(value: Int) {
    		if (!isEmpty) {
-   			println("Elimino il valore " + value + " dal dominio di " + getName)
+   			//println("Elimino il valore " + value + " dal dominio di " + getName)
    			this.values = this.values.filter((n) => n != value)
    		}
    	}
