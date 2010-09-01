@@ -6,12 +6,12 @@ package sudokusolver
 
 class Sudoku(private var constraints : utilities.BinaryConstraintContainer) {
 	class InvalidValueException extends Exception
-		
+
 	private var board = new utilities.Board
 	private var domains = new utilities.DomainContainer
     private var stepList = List[utilities.Step]()
     private var views = List[View]()
-	
+
     /**
      * Sets a variable in the board, storing a new step in steplist for
      * backtracking purposes.
@@ -80,22 +80,22 @@ class Sudoku(private var constraints : utilities.BinaryConstraintContainer) {
     		back
     	}
     }
-    
+
     /**
      * @return the last step
      */
     def getLastStep: utilities.Step = stepList.head
-    
+
     /**
      * Returns the domain for a single element of the board
      */
     def getDomain(x: Int, y: Int) = domains.get(x, y)
-    
+
     /**
      * Returns all the domains stored
      */
     def getDomains() = domains
-    
+
     /**
      * Notifies the views attached to this game
      */
@@ -103,7 +103,7 @@ class Sudoku(private var constraints : utilities.BinaryConstraintContainer) {
     	for (view <- views)
     		view.update
     }
-    
+
     /**
      * TODO
      * @param view
@@ -112,7 +112,7 @@ class Sudoku(private var constraints : utilities.BinaryConstraintContainer) {
     	views = view::views
     	view.update
     }
-    
+
     def checkConstraints: Boolean = {
     	for (row <- 0 to 8) {
 	    	for (i <- 0 to 7) {
@@ -144,4 +144,26 @@ class Sudoku(private var constraints : utilities.BinaryConstraintContainer) {
     }
     
     def getConstraints() = constraints
+    
+    def printDomainStatus() = domains.printStatus
+    
+    def printBoardStatus() = board.printStatus
+    
+    def calculateBoard() {
+    	println("Calcolo la nuova board!")
+    	println("I domini sono :")
+    	printDomainStatus
+    	var item = new utilities.Couple(0,0)
+    	var stop = false
+    	while(!stop) {
+    		if (!this.board.isNotNull(item) && this.domains.get(item).cardinality == 1) {
+    			println("Dominio con 1 solo elemento! YEAH!")
+    			this.board.setValue(item, this.domains.get(item).getValue(0))
+    			println("Impostato " + this.domains.get(item).getValue(0) + " in " + item.printCouple)
+    		}
+    		if (!item.isLatest) item = item.next
+    		else stop = true
+    	}
+    	notifyView
+    }
 }

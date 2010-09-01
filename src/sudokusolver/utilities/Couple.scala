@@ -36,7 +36,7 @@ class Couple (private var x : Int = 0, private var y : Int = 0) {
 	}
 	
 	def isValid() = {
-		!((x == 0) && (y == 0))
+		(x >= 0) && (x <= 8) && (y >= 0) && (y <= 8)
 	}
 	
 	def isLatest() = {

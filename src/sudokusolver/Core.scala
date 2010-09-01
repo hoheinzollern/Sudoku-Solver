@@ -11,7 +11,7 @@ import scala.swing.Dialog
  */
 object Core {
 	private var constraints = new utilities.BinaryConstraintContainer
-	constraints.checkConstraintMatrix()
+	//constraints.checkConstraintMatrix()
 
 	def getConstraintMatrix() = constraints
 	
@@ -29,8 +29,8 @@ object Core {
 		bb.setBoard(board)
 		var sudoku = new Sudoku(getConstraintMatrix)
 		sudoku.setBoard(bb)
-		//if (sudoku.checkConstraints == false)
-		//	Dialog.showMessage(null, "Constraint verification failed", "Error", Dialog.Message.Error)
+		if (sudoku.checkConstraints == false)
+			Dialog.showMessage(null, "Constraint verification failed", "Error", Dialog.Message.Error)
 		return sudoku
 	}
 	

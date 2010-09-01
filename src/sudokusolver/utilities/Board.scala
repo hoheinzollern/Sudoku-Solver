@@ -21,6 +21,10 @@ class Board {
 		board(x)(y) = value
 	}
 	
+	def setValue(item : Couple, value : Int) {
+		setValue(item.getX, item.getY, value)
+	}
+	
 	def setNull(x : Int, y : Int) {
 		board(x)(y) = 0
 	}
@@ -63,5 +67,14 @@ class Board {
 	
 	def isConstraintSatisfied(constraint : BinaryConstraint) = {
 		board(constraint.getI.getX)(constraint.getI.getY) != board(constraint.getJ.getX)(constraint.getJ.getY)
+	}
+	
+	def printStatus() {
+		println("Board status:")
+		for (j <- 0 to 8) {
+			for (i <- 0 to 8) {
+				println("Field (" + i + "," + j + ") : " + this.board(i)(j))
+			}
+		}
 	}
 }

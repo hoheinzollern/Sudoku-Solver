@@ -300,7 +300,8 @@ public class MainPanel extends javax.swing.JPanel {
     	sudoku.notifyView();
 		*/
     	Sudoku sudoku = ((View)view).getSudoku();
-    	GenericSolver solver = new sudokusolver.solvers.ForwardCheckingOnly(sudoku);
+    	//GenericSolver solver = new sudokusolver.solvers.ForwardCheckingOnly(sudoku);
+    	GenericSolver solver = new sudokusolver.solvers.PartialLookAheadOnly(sudoku);
     	solver.start(); 
     	//XXX where to attach solvers?
     }//GEN-LAST:event_startButtonActionPerformed

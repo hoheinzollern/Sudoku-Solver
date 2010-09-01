@@ -22,6 +22,7 @@ class GenericSolver {
  
 	def setPropagationAlgorithm(propagationAlgorithm : PropagationAlgorithm) {
 		this.propagationAlgorithm = propagationAlgorithm
+		this.propagationAlgorithm.setProblem(this.problem)
 	}
 	
 	def getPropagationAlgorithm() = this.propagationAlgorithm
@@ -38,8 +39,8 @@ class GenericSolver {
 	 */
 	def start() {
 	  if (this.searchAlgorithm != null && this.propagationAlgorithm != null) {
-		  this.problem.setBoard(this.searchAlgorithm.execute(this.problem, this.propagationAlgorithm))
-		  //XXX Al termine deve salvare la board da qualche parte, quindi terminare
+		  this.problem = this.searchAlgorithm.execute(this.problem, this.propagationAlgorithm)
+		  this.problem.calculateBoard
 	  } else throw new exceptions.SolverNotReadyException()
 	}
 }
