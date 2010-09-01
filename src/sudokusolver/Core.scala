@@ -1,6 +1,5 @@
 package sudokusolver
 
-import net.sf.dancingsudoku.DancingSudoku
 import java.io.FileWriter
 import java.util.Random
 import scala.swing.Dialog
@@ -25,10 +24,7 @@ object Core {
 	 *  - 3 hard  
 	 */
 	def makeSudoku(level: Int): Sudoku = {
-		var dsudoku = new DSudoku(3)
-		var board = dsudoku.randomSudoku(dsudoku.fullCoverageMatrix)
-		var dancingsudoku = new DancingSudoku(3)
-		board = dancingsudoku.createRandomSudoku(dancingsudoku.createRandomFullCoverageMatrix, null, null)
+		var board = Dance.randomSudoku
 		var bb = new utilities.Board
 		bb.setBoard(board)
 		var sudoku = new Sudoku(getConstraintMatrix)
