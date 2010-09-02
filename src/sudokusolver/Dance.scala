@@ -173,7 +173,8 @@ object Dance {
 	
 	var solutionCount = 0
 	
-	def search(root: Header, solution: Stack[Node], k: Int, tryAll: Boolean, visitHandler: Unit => Unit): Stack[Node] = {
+	def search(root: Header, solution: Stack[Node], k: Int, tryAll: Boolean,
+			visitHandler: Unit => Unit, backtrackHandler: Unit => Unit): Stack[Node] = {
 		if (root.right == root) {
 			solutionCount += 1
 			return solution
@@ -187,17 +188,19 @@ object Dance {
 		var r = c.down
 		var count = 0
 		while (r != c) {
-			if (count > 0 ) println (k)
+			//if (count > 0 ) println (k)
 			var j = r.right
 			while (j != r) {
 				coverColumn(j.header, root)
 				j = j.right
 			}
 			
-			var sol = search(root, solution :+ r, k+1, tryAll, visitHandler)
+			var sol = search(root, solution :+ r, k+1, tryAll, visitHandler, backtrackHandler)
 			if (sol != null && !tryAll)
 				return sol
 			
+			if (backtrackHandler != null)
+				backtrackHandler
 			j = r.right
 			while (j != r) {
 				uncoverColumn(j.header)
@@ -210,16 +213,16 @@ object Dance {
 		null
 	}
 	
-	def getSolution(board: Array[Array[Int]], visitHandler: Unit => Unit): Stack[Node] = {
+	def getSolution(board: Array[Array[Int]], visitHandler: Unit => Unit, backtrackHandler: Unit => Unit): Stack[Node] = {
 		var root = makeHeaders
 		buildMatrix(root, board)
-		var solution = search(root, new Stack[Node](), 0, false, visitHandler);
+		var solution = search(root, new Stack[Node](), 0, false, visitHandler, backtrackHandler);
 		solutionCount = 0
 		solution
 	}
 	
-	def solve(board: Array[Array[Int]], visitHandler: Unit => Unit): Array[Array[Int]] = {
-		var solution = getSolution(board, visitHandler)
+	def solve(board: Array[Array[Int]], visitHandler: Unit => Unit, backtrackHandler: Unit => Unit): Array[Array[Int]] = {
+		var solution = getSolution(board, visitHandler, backtrackHandler)
 		var solvedBoard = new Array[Array[Int]](9,9)
 		while (!solution.isEmpty) {
 			var r = solution.top
@@ -241,7 +244,7 @@ object Dance {
 			randomMatrix(field / 9)(field % 9) = d
 			fields(field) = d
 		}
-		solve(randomMatrix, null)
+		solve(randomMatrix, null, null)
 	}
 	
 	def randomSudoku = {
@@ -250,8 +253,8 @@ object Dance {
 		var trials = new Array[Int](81)
 		var triedFields = 0
 		var continue = true
-		println ("here")
-		println (solutionCount)
+		//println ("here")
+		//println (solutionCount)
 		while (triedFields < 81 && continue) {
 			var field = random.nextInt(81)
 			while (trials(field) > 0)
@@ -264,8 +267,8 @@ object Dance {
 			matrix(r)(c) = 0
 			var root = makeHeaders
 			buildMatrix(root, matrix)
-			search(root, new Stack[Node](), 0, true, null)
-			println(solutionCount)
+			search(root, new Stack[Node](), 0, true, null, null)
+			//println(solutionCount)
 			if (solutionCount > 1) {
 				matrix(r)(c) = d
 				continue = false

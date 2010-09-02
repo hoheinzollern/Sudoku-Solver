@@ -12,8 +12,7 @@ class Domain(private var associatedCell : String) {
  	}
   
   	def getValues() = {
-  		if(this.values.length > 0) this.values
-  		else throw new exceptions.EmptyDomain
+  		this.values
   	}
   	
   	def setValues(newList : List[Int]) {
@@ -34,7 +33,6 @@ class Domain(private var associatedCell : String) {
    
    	def deleteValue(value: Int) {
    		if (!isEmpty) {
-   			//println("Elimino il valore " + value + " dal dominio di " + getName)
    			this.values = this.values.filter((n) => n != value)
    		}
    	}

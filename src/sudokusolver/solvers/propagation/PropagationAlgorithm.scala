@@ -1,4 +1,4 @@
-package sudokusolver.solvers
+package sudokusolver.solvers.propagation
 
 import sudokusolver.utilities
 
@@ -13,6 +13,10 @@ abstract class PropagationAlgorithm {
 		this.board = problem.getBoard
 	}
 	
+	def setDomains(domains : utilities.DomainContainer) {
+		this.domains = domains
+	}
+	
 	/**
 	* This is the "revise" method that is the basic idea of arc consistency.
 	* 
@@ -23,7 +27,6 @@ abstract class PropagationAlgorithm {
 	def revise(xi : utilities.Couple, xj : utilities.Couple) = {  
 		// Check and remove invalid values from k corresponding to values of other cells
 		if (!this.board.isNotNull(xj)) {
-			//println("Eseguo la revise tra " + xi.printCouple + " e " + xj.printCouple)
 		
 			// If items are on the same row
 			if (xi.getX == xj.getX) {

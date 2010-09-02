@@ -56,6 +56,8 @@ public class MainPanel extends javax.swing.JPanel implements Logger {
         hardLevelRadio = new javax.swing.JRadioButton();
         easyLevelRadio = new javax.swing.JRadioButton();
         stopButton = new javax.swing.JButton();
+        loadGameButton = new javax.swing.JButton();
+        saveGameButton = new javax.swing.JButton();
         sudokuPanel = new javax.swing.JPanel();
         view = new View(Core.getSudoku());
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -66,10 +68,8 @@ public class MainPanel extends javax.swing.JPanel implements Logger {
         newGameButton = new javax.swing.JButton();
         resetGameButton = new javax.swing.JButton();
         constraintPropagationCombo = new javax.swing.JComboBox();
-        loadGameButton = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
         searchAlgotihmCombo = new javax.swing.JComboBox();
-        saveGameButton = new javax.swing.JButton();
         startButton = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         visitedNodesField = new javax.swing.JTextField();
@@ -91,6 +91,20 @@ public class MainPanel extends javax.swing.JPanel implements Logger {
         stopButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 stopButtonActionPerformed(evt);
+            }
+        });
+
+        loadGameButton.setText("Load Game");
+        loadGameButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                loadGameButtonActionPerformed(evt);
+            }
+        });
+
+        saveGameButton.setText("Save Game");
+        saveGameButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                saveGameButtonActionPerformed(evt);
             }
         });
 
@@ -135,26 +149,12 @@ public class MainPanel extends javax.swing.JPanel implements Logger {
             }
         });
 
-        loadGameButton.setText("Load Game");
-        loadGameButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                loadGameButtonActionPerformed(evt);
-            }
-        });
-
         jLabel4.setText("Constraint propagation:");
 
         searchAlgotihmCombo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Propagation Only", "Backtracking Search", "Dancing Links" }));
         searchAlgotihmCombo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 searchAlgotihmComboActionPerformed(evt);
-            }
-        });
-
-        saveGameButton.setText("Save Game");
-        saveGameButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                saveGameButtonActionPerformed(evt);
             }
         });
 
@@ -177,22 +177,26 @@ public class MainPanel extends javax.swing.JPanel implements Logger {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel3)
-                    .addComponent(loadGameButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(resetGameButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(saveGameButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(newGameButton, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel2)
-                    .addComponent(searchAlgotihmCombo, 0, 0, Short.MAX_VALUE)
-                    .addComponent(constraintPropagationCombo, 0, 0, Short.MAX_VALUE)
-                    .addComponent(startButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(visitedNodesField)
-                    .addComponent(jLabel5)
-                    .addComponent(timeElapsedField))
-                .addGap(10, 10, 10))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(newGameButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
+                    .addComponent(resetGameButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 94, Short.MAX_VALUE)
+                        .addGap(56, 56, 56))
+                    .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addGap(31, 31, 31))
+                    .addComponent(searchAlgotihmCombo, javax.swing.GroupLayout.Alignment.LEADING, 0, 0, Short.MAX_VALUE)
+                    .addComponent(constraintPropagationCombo, javax.swing.GroupLayout.Alignment.LEADING, 0, 0, Short.MAX_VALUE)
+                    .addComponent(startButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
+                    .addComponent(visitedNodesField, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, 144, Short.MAX_VALUE)
+                        .addGap(6, 6, 6))
+                    .addComponent(timeElapsedField, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE))
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -200,11 +204,7 @@ public class MainPanel extends javax.swing.JPanel implements Logger {
                 .addComponent(newGameButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(resetGameButton)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(loadGameButton)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(saveGameButton)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(visitedNodesField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -222,7 +222,7 @@ public class MainPanel extends javax.swing.JPanel implements Logger {
                 .addComponent(constraintPropagationCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(startButton)
-                .addContainerGap(271, Short.MAX_VALUE))
+                .addContainerGap(338, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -264,6 +264,10 @@ public class MainPanel extends javax.swing.JPanel implements Logger {
         else
             level = 3;
         Core.makeSudoku(level);
+        DefaultListModel listModel = (DefaultListModel) eventsLogList.getModel();
+        listModel.clear();
+        timeElapsedField.setText("");
+        visitedNodesField.setText("");
         ((View)view).setSudoku(Core.getSudoku());
     }//GEN-LAST:event_newGameButtonActionPerformed
 
@@ -271,6 +275,8 @@ public class MainPanel extends javax.swing.JPanel implements Logger {
         Core.getSudoku().reset();
         DefaultListModel listModel = (DefaultListModel) eventsLogList.getModel();
         listModel.clear();
+        timeElapsedField.setText("");
+        visitedNodesField.setText("");
     }//GEN-LAST:event_resetGameButtonActionPerformed
 
     private void loadGameButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loadGameButtonActionPerformed
@@ -282,14 +288,14 @@ public class MainPanel extends javax.swing.JPanel implements Logger {
     }//GEN-LAST:event_saveGameButtonActionPerformed
 
     private void startButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startButtonActionPerformed
-    	try {
+    	//try {
     		Core.startSolver(searchAlgotihmCombo.getSelectedIndex(),
                     constraintPropagationCombo.getSelectedIndex());
                 timeElapsedField.setText(new Long(Core.elapsedTime()).toString());
                 visitedNodesField.setText(new Long(Core.visitedNodes()).toString());
-    	} catch (Exception e) {
+    	/*} catch (Exception e) {
     		JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-    	}
+    	}*/
     }//GEN-LAST:event_startButtonActionPerformed
 
     private void stopButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_stopButtonActionPerformed

@@ -126,10 +126,9 @@ class BinaryConstraintContainer {
 	}
 	
 	def checkConstraintMatrix() {
-		println("Verifico la corretta generazione dei vincoli")
 		for (i <- 0 to 8) {
 			for (j <- 0 to 8) {
-				println("La casella (" + i + "," + j + ") ha i seguenti vincoli:")
+				println("Constraints of (" + i + "," + j + ") field:")
 				for (z <- 0 to 19) {
 					this.constraintMatrix(i)(j)(z).printConstraint
 				}

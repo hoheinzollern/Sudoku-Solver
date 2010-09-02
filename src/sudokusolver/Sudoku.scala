@@ -5,8 +5,6 @@ package sudokusolver
  */
 
 class Sudoku(private var constraints : utilities.BinaryConstraintContainer) {
-	print ("new sudoku ")
-	println(this)
 	class InvalidValueException extends Exception
 
 	private var board = new utilities.Board
@@ -57,7 +55,6 @@ class Sudoku(private var constraints : utilities.BinaryConstraintContainer) {
 				}
 			}
 		}
-		println("setboard")
 		notifyView
 	}
 	
@@ -66,9 +63,7 @@ class Sudoku(private var constraints : utilities.BinaryConstraintContainer) {
 	/**
 	 * Gets an element from the board
 	 */
-    def get(x: Int, y: Int) : Int = board.getValue(x, y)
-    
-    def get(item : sudokusolver.utilities.Couple) : Int = get(item.getX, item.getY)
+    def get(x: Int, y: Int) = board.getValue(x, y)
     
     /**
      * Applies backtracking for one step
@@ -89,6 +84,17 @@ class Sudoku(private var constraints : utilities.BinaryConstraintContainer) {
     	while (! stepList.isEmpty)
     		back
     	
+    	domains = new utilities.DomainContainer
+		for (i <- 0 to 8) {
+			for (j <- 0 to 8) {
+				if (board.isNotNull(i, j)) {
+					domains.get(i, j).empty
+					domains.get(i, j).addValue(board.getValue(i, j))
+				}
+			}
+		}
+    	//println("Domini: ")
+    	//domains.printStatus
     	notifyView
     }
 
@@ -165,24 +171,6 @@ class Sudoku(private var constraints : utilities.BinaryConstraintContainer) {
     def printDomainStatus() = domains.printStatus
     
     def printBoardStatus() = board.printStatus
-    
-    def calculateBoard() {
-    	println("Calcolo la nuova board!")
-    	println("I domini sono :")
-    	printDomainStatus
-    	var item = new utilities.Couple(0,0)
-    	var stop = false
-    	while(!stop) {
-    		if (!this.board.isNotNull(item) && this.domains.get(item).cardinality == 1) {
-    			println()
-    			set(item, this.domains.get(item).getValue(0), "Dominio con 1 solo elemento! YEAH!")
-    			println("Impostato " + this.domains.get(item).getValue(0) + " in " + item.printCouple)
-    		}
-    		if (!item.isLatest) item = item.next
-    		else stop = true
-    	}
-    	notifyView
-    }
     
     override def clone() = {
     	var newSudoku = new Sudoku(Core.getConstraintMatrix)

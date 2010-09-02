@@ -29,7 +29,6 @@ object Core {
 		var time = System.currentTimeMillis
 		var board = Dance.randomSudoku
 		var time2 = System.currentTimeMillis
-		println("time: " + (time2 - time))
 		var bb = new utilities.Board
 		bb.setBoard(board)
 		sudoku.setBoard(bb)
@@ -69,12 +68,10 @@ object Core {
 			val k = random.nextInt(3)
 			val choose = random.nextInt(2)
 			if (choose == 0 && j != k) {
-				println ("i= " + i + " j= " + j + " k= " + k)
 				val swap = board.getInternalArray(i*3 + j)
 				board.setInternalArray((i*3 + j), board.getInternalArray(i*3 + k))
 				board.setInternalArray((i*3 + k), swap)
 			} else if (j != k) {
-				println ("i= " + i + " j= " + j + " k= " + k)
 				for (l <- 0 to 8) {
 					val swap = board.getValue(l, (i*3 + j))
 					board.setValue(l, (i*3 + j), board.getValue(l, (i*3 + k)))

@@ -11,16 +11,16 @@ import sudokusolver.utilities.Board
 
 class GenericSolver {
 	private var problem: sudokusolver.Sudoku = null
-	private var searchAlgorithm : SearchAlgorithm = null
-	private var propagationAlgorithm : PropagationAlgorithm = null
+	private var searchAlgorithm : search.SearchAlgorithm = null
+	private var propagationAlgorithm : propagation.PropagationAlgorithm = null
 
-	def setSearchAlgorithm(searchAlgorithm : SearchAlgorithm) {
+	def setSearchAlgorithm(searchAlgorithm : search.SearchAlgorithm) {
 	  	this.searchAlgorithm = searchAlgorithm
 	}
 	
 	def getSearchAlgorithm() = this.searchAlgorithm
  
-	def setPropagationAlgorithm(propagationAlgorithm : PropagationAlgorithm) {
+	def setPropagationAlgorithm(propagationAlgorithm : propagation.PropagationAlgorithm) {
 		this.propagationAlgorithm = propagationAlgorithm
 		this.propagationAlgorithm.setProblem(this.problem)
 	}
@@ -44,7 +44,6 @@ class GenericSolver {
 	def start() {
 	  if (this.searchAlgorithm != null && this.propagationAlgorithm != null) {
 		  this.problem = this.searchAlgorithm.execute(this.problem, this.propagationAlgorithm)
-		  this.problem.calculateBoard
 	  } else throw new exceptions.SolverNotReadyException()
 	}
 }

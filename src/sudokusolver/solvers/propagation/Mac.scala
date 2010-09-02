@@ -1,4 +1,4 @@
-package sudokusolver.solvers
+package sudokusolver.solvers.propagation
 
 import sudokusolver.utilities
 

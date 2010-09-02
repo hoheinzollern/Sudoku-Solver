@@ -38,6 +38,22 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="stopButtonActionPerformed"/>
       </Events>
     </Component>
+    <Component class="javax.swing.JButton" name="loadGameButton">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Load Game"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="loadGameButtonActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="saveGameButton">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Save Game"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="saveGameButtonActionPerformed"/>
+      </Events>
+    </Component>
   </NonVisualComponents>
   <AuxValues>
     <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
@@ -142,23 +158,30 @@
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" attributes="0">
-                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                      <Component id="jLabel3" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Component id="loadGameButton" alignment="0" max="32767" attributes="1"/>
-                      <Component id="resetGameButton" alignment="0" max="32767" attributes="1"/>
-                      <Component id="saveGameButton" alignment="0" max="32767" attributes="1"/>
-                      <Component id="newGameButton" alignment="0" pref="130" max="32767" attributes="1"/>
-                      <Component id="jLabel4" alignment="0" max="32767" attributes="1"/>
-                      <Component id="jLabel2" alignment="0" min="-2" max="-2" attributes="1"/>
-                      <Component id="searchAlgotihmCombo" alignment="0" min="0" pref="0" max="32767" attributes="1"/>
-                      <Component id="constraintPropagationCombo" alignment="0" min="0" pref="0" max="32767" attributes="1"/>
-                      <Component id="startButton" alignment="0" max="32767" attributes="1"/>
-                      <Component id="visitedNodesField" alignment="0" max="32767" attributes="1"/>
-                      <Component id="jLabel5" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Component id="timeElapsedField" alignment="0" max="32767" attributes="1"/>
+              <Group type="102" alignment="1" attributes="0">
+                  <Group type="103" groupAlignment="1" attributes="0">
+                      <Component id="newGameButton" alignment="0" pref="150" max="32767" attributes="2"/>
+                      <Component id="resetGameButton" alignment="0" pref="150" max="32767" attributes="2"/>
+                      <Group type="102" alignment="0" attributes="0">
+                          <Component id="jLabel3" pref="94" max="32767" attributes="0"/>
+                          <EmptySpace min="56" pref="56" max="56" attributes="0"/>
+                      </Group>
+                      <Component id="jLabel4" alignment="0" pref="150" max="32767" attributes="2"/>
+                      <Group type="102" alignment="0" attributes="0">
+                          <Component id="jLabel2" min="-2" max="-2" attributes="2"/>
+                          <EmptySpace min="31" pref="31" max="31" attributes="0"/>
+                      </Group>
+                      <Component id="searchAlgotihmCombo" alignment="0" min="0" pref="0" max="32767" attributes="2"/>
+                      <Component id="constraintPropagationCombo" alignment="0" min="0" pref="0" max="32767" attributes="2"/>
+                      <Component id="startButton" alignment="0" pref="150" max="32767" attributes="2"/>
+                      <Component id="visitedNodesField" alignment="0" pref="150" max="32767" attributes="2"/>
+                      <Group type="102" alignment="1" attributes="0">
+                          <Component id="jLabel5" pref="144" max="32767" attributes="0"/>
+                          <EmptySpace min="6" pref="6" max="6" attributes="0"/>
+                      </Group>
+                      <Component id="timeElapsedField" alignment="0" pref="150" max="32767" attributes="2"/>
                   </Group>
-                  <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -168,11 +191,7 @@
                   <Component id="newGameButton" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="resetGameButton" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace max="-2" attributes="0"/>
-                  <Component id="loadGameButton" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace max="-2" attributes="0"/>
-                  <Component id="saveGameButton" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="visitedNodesField" min="-2" max="-2" attributes="0"/>
@@ -190,7 +209,7 @@
                   <Component id="constraintPropagationCombo" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Component id="startButton" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace pref="271" max="32767" attributes="0"/>
+                  <EmptySpace pref="338" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -231,14 +250,6 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="constraintPropagationComboActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="loadGameButton">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Load Game"/>
-          </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="loadGameButtonActionPerformed"/>
-          </Events>
-        </Component>
         <Component class="javax.swing.JLabel" name="jLabel4">
           <Properties>
             <Property name="text" type="java.lang.String" value="Constraint propagation:"/>
@@ -256,14 +267,6 @@
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="searchAlgotihmComboActionPerformed"/>
-          </Events>
-        </Component>
-        <Component class="javax.swing.JButton" name="saveGameButton">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Save Game"/>
-          </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="saveGameButtonActionPerformed"/>
           </Events>
         </Component>
         <Component class="javax.swing.JButton" name="startButton">

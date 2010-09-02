@@ -1,7 +1,7 @@
-package sudokusolver.solvers
+package sudokusolver.solvers.search
 
 abstract class SearchAlgorithm {
-	private var propagationAlgorithm : PropagationAlgorithm = null
+	private var propagationAlgorithm : sudokusolver.solvers.propagation.PropagationAlgorithm = null
 	private var problem : sudokusolver.Sudoku = null
 	private var visitCount = 0
 	private var start: Long = 0
@@ -36,12 +36,13 @@ abstract class SearchAlgorithm {
 	 * @param propagationAlgorithm
 	 * @return
 	 */
- 	def execute(problem : sudokusolver.Sudoku, propagationAlgorithm : PropagationAlgorithm) : sudokusolver.Sudoku = {
+ 	def execute(problem : sudokusolver.Sudoku, propagationAlgorithm : sudokusolver.solvers.propagation.PropagationAlgorithm) : sudokusolver.Sudoku = {
 		start = System.currentTimeMillis
 		this.problem = problem
 		this.propagationAlgorithm = propagationAlgorithm
 		var result = solve
 		end = System.currentTimeMillis
+		result.getDomains.printStatus
 		result
 	}
 }
