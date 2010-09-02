@@ -3,10 +3,18 @@
      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="it" lang="it">
 <head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>SudokuSolver project</title>
 <meta name="author" content="Emanuele Fabbri, Alessandro Bruni" />
+<style type="text/css">
+	#column {
+		margin : auto;
+		width : 1150px;
+	}
+</style>
 </head>
 <body>
+<div id="column">
 <h1>SudokuSolver project</h1>
 <p>Project for &quot;Sistemi con Vincoli&quot; and &quot;Intelligenza Artificiale&quot; exams.</p>
 <h3>Authors:</h3>
@@ -140,8 +148,17 @@ Furthermore, if the matrix is sparse as is the   case of the encoded sudoku game
   <li>Dancing Links is   them the most balanced between time and space. If time is more   important, then it should be used Dancing Links, otherwise if space is   more important than time backtracking plus propagation are the best   solutions.</li>
   </ol>
 
-  Propagation algorithms could also be used to define a   level of complexity of a random generated scheme. This could be a good   extension for the project.<br />
-  <br />
+  <p>Propagation algorithms could also be used to define a   level of complexity of a random generated scheme. This could be a good   extension for the project.</p>
+  <p><img src="imgs/evaluationPropagationOnly.png" alt="" width="1100" height="589" /></p>
+  <p>In this graphic there are all the sequences (from 1 to 15) tested. These sequences are generated from the random algorithm, so the results vary from one case to another. Is evident that Arc consistency is the best propagation algorithm. In fact it has the minor request of time and it removes almost all the blank cells replacing them with correct values.</p>
+  <p>&nbsp;</p>
+  <p><img src="imgs/timeSolvers.png" alt="" width="1100" height="463" /></p>
+  <p>In this graphic there's a comparison betweeen search algorithms and their needing of time. It can be seen that dancing links is the fastest algorithm in terms of time, followed by backtracking search.<br />
+  </p>
+  <p>&nbsp;</p>
+  <p><img src="imgs/nodesSolvers.png" alt="" width="1100" height="463" /></p>
+  <p>As it can be seen in this graph, Dancing links is more expensive in terms of number of node analized, that can be lowered by using any other type of method.<br />
+  </p>
 <h3>Conclusions and references </h3>
   <p>Project is released as is without any limitation about using and distributing it.</p>
   <p>Some interesting links:<br />
@@ -159,5 +176,6 @@ Furthermore, if the matrix is sparse as is the   case of the encoded sudoku game
     Dancing Links <a href="http://arxiv.org/abs/cs/0011047" title="http://arxiv.org/abs/cs/0011047">http://arxiv.org/abs/cs/0011047</a><br />
   </p>
 <p>&nbsp;</p>
+</div>
 </body>
 </html>
