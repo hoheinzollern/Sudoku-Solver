@@ -2,46 +2,49 @@ package sudokusolver.solvers
 
 class BacktrackingSearch extends SearchAlgorithm {
 	override def solve() = {
-		var success = false
 		var startItem = new sudokusolver.utilities.Couple(0,0)
-		if (!recursiveBacktrack(startItem, getProblem.getDomains.clone)) {
+		if (!recursiveBacktrack(startItem, getProblem.getDomains.clone, false)) {
 			throw new sudokusolver.exceptions.SolutionNotFoundException
 		}
 		getProblem
 	}
 	
-	def recursiveBacktrack(inputItem : sudokusolver.utilities.Couple, domains: sudokusolver.utilities.DomainContainer) : Boolean = {
+	def recursiveBacktrack(inputItem : sudokusolver.utilities.Couple, domains: sudokusolver.utilities.DomainContainer, inputSuccess : Boolean) : Boolean = {
 		var item = inputItem
+		var success = inputSuccess
 		while (this.getProblem.get(item.getX, item.getY) != 0 && !item.isLatest) {
-			println("RecursiveBacktrack! con " + item.printCouple)
 			item = item.next
 		}
-		var success = false
+		if (item.isLatest && this.getProblem.get(item) != 0) {
+				success = true
+		}
 		while(!domains.get(item).isEmpty && !success) {
 			println("While con " + item.printCouple)
 			println(domains.get(item).getStatus)
 			var elementValue = domains.get(item).extractValue()
 			println("Estratto " + elementValue)
 			if (checkConsistency(item, elementValue)) {
+				println("Il valore è consistente! Provo!")
 				this.getProblem.set(item, elementValue, "BAU!")
 				if (item.isLatest) {
+					this.getProblem.setDomains(domains.clone)
 					success = true
 				}
-				else success = recursiveBacktrack(item.clone.next, domains.clone)
+				else success = recursiveBacktrack(item.clone.next, domains.clone, success)
 				if (!success) {
 					this.getProblem.back
-					sudokusolver.Core.log("Backtrack")
+					sudokusolver.Core.log("Backtrack su " + item.printCouple)
 				}
 			}
-			else {
-				println("Istanziazione non consistente !!!!")
-			}
+		}
+		if (domains.get(item).isEmpty) {
+			println("Il dominio di " + item.printCouple + " è diventato vuoto!")
+			success = false
 		}
 		success
 	}
 	
 	def checkConsistency(item : sudokusolver.utilities.Couple, element : Int) : Boolean = {
-		println("Verifica della consistenza... ho elemento " + item.printCouple + " che voglio a " + element)
 		var board = getProblem.getBoard
 		//Check along the rows
 		var j = 0
@@ -63,9 +66,9 @@ class BacktrackingSearch extends SearchAlgorithm {
 		val panelFirstY = item.getY - item.getY%3
 		i = panelFirstX
 		j = panelFirstY
-		while(i < panelFirstX+2 && consistent) {
-			while(j < panelFirstY+2 && consistent) {
-				if (i != item.getX && j != item.getY && board.getValue(i, j) == element) consistent = false
+		while(i < panelFirstX+3 && consistent) {
+			while(j < panelFirstY+3 && consistent) {
+				if (!(i == item.getX && j == item.getY) && board.getValue(i, j) == element) consistent = false
 				j = j + 1
 			}
 			i = i + 1

@@ -66,7 +66,9 @@ class Sudoku(private var constraints : utilities.BinaryConstraintContainer) {
 	/**
 	 * Gets an element from the board
 	 */
-    def get(x: Int, y: Int) = board.getValue(x, y)
+    def get(x: Int, y: Int) : Int = board.getValue(x, y)
+    
+    def get(item : sudokusolver.utilities.Couple) : Int = get(item.getX, item.getY)
     
     /**
      * Applies backtracking for one step
