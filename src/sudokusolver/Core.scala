@@ -12,6 +12,7 @@ import scala.swing.Dialog
 object Core {
 	private var constraints = new utilities.BinaryConstraintContainer
 	private var sudoku : Sudoku = null
+	private var logger : Logger = null
 	//constraints.checkConstraintMatrix()
 
 	def getConstraintMatrix() = constraints
@@ -39,6 +40,14 @@ object Core {
 	}
 	
 	def getSudoku = sudoku
+	
+	def setLogger(logger: Logger) {
+		this.logger = logger
+	}
+	
+	def log(message: String) {
+		logger.log(message)
+	}
 	
 	/**
 	 * Naive algorithm for the construction of sudoku boards, use it for testing purposes.

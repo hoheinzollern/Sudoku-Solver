@@ -31,6 +31,7 @@ class Sudoku(private var constraints : utilities.BinaryConstraintContainer) {
 		domains.get(x, y).empty
 		domains.get(x, y).addValue(value)
 		stepList = stepList :+ step
+		Core.log("(" + x + "," + y + ") = " + value + " : " + message) 
 
 		notifyView
 	}

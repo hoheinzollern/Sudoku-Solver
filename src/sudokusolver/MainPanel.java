@@ -22,17 +22,22 @@
 
 package sudokusolver;
 
+import javax.swing.DefaultListModel;
+import javax.swing.JDialog;
+import javax.swing.JOptionPane;
+
 import sudokusolver.solvers.GenericSolver;
 
 /**
  *
  * @author alessandro
  */
-public class MainPanel extends javax.swing.JPanel {
+public class MainPanel extends javax.swing.JPanel implements Logger {
 
     /** Creates new form MainPanel */
     public MainPanel() {
         Core.setSudoku(new Sudoku(Core.getConstraintMatrix()));
+        Core.setLogger(this);
         initComponents();
     }
 
@@ -89,6 +94,7 @@ public class MainPanel extends javax.swing.JPanel {
             .addComponent(view, javax.swing.GroupLayout.DEFAULT_SIZE, 462, Short.MAX_VALUE)
         );
 
+        eventsLogList.setModel(new javax.swing.DefaultListModel());
         jScrollPane1.setViewportView(eventsLogList);
 
         jLabel1.setText("Events log:");
@@ -244,6 +250,8 @@ public class MainPanel extends javax.swing.JPanel {
 
     private void resetGameButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetGameButtonActionPerformed
         Core.getSudoku().reset();
+        DefaultListModel listModel = (DefaultListModel) eventsLogList.getModel();
+        listModel.clear();
     }//GEN-LAST:event_resetGameButtonActionPerformed
 
     private void loadGameButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loadGameButtonActionPerformed
@@ -255,8 +263,12 @@ public class MainPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_saveGameButtonActionPerformed
 
     private void startButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startButtonActionPerformed
-    	Core.startSolver(searchAlgotihmCombo.getSelectedIndex(),
-                constraintPropagationCombo.getSelectedIndex());
+    	try {
+    		Core.startSolver(searchAlgotihmCombo.getSelectedIndex(),
+                    constraintPropagationCombo.getSelectedIndex());
+    	} catch (Exception e) {
+    		JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+    	}
     }//GEN-LAST:event_startButtonActionPerformed
 
     private void stopButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_stopButtonActionPerformed
@@ -294,5 +306,11 @@ public class MainPanel extends javax.swing.JPanel {
     private javax.swing.JPanel sudokuPanel;
     private java.awt.Canvas view;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void log(String message) {
+        DefaultListModel listModel = (DefaultListModel) eventsLogList.getModel();
+        listModel.addElement(message);
+    }
 
 }
