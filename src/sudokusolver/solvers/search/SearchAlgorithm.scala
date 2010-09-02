@@ -3,6 +3,17 @@ package sudokusolver.solvers
 abstract class SearchAlgorithm {
 	private var propagationAlgorithm : PropagationAlgorithm = null
 	private var problem : sudokusolver.Sudoku = null
+	private var visitCount = 0
+	private var start: Long = 0
+	private var end: Long = 0
+	
+	def nodeVisited {
+		visitCount += 1
+	}
+	
+	def getVisitCount = visitCount
+	
+	def getTimeElapsed = end-start
 
 	def getPropagationAlgorithm() = propagationAlgorithm
 	
@@ -26,8 +37,11 @@ abstract class SearchAlgorithm {
 	 * @return
 	 */
  	def execute(problem : sudokusolver.Sudoku, propagationAlgorithm : PropagationAlgorithm) : sudokusolver.Sudoku = {
+		start = System.currentTimeMillis
 		this.problem = problem
 		this.propagationAlgorithm = propagationAlgorithm
-		solve
+		var result = solve
+		end = System.currentTimeMillis
+		result
 	}
 }

@@ -132,6 +132,9 @@ object Core {
 		out.close
 	}
 	
+	var elapsedTime: Long = 0
+	var visitedNodes: Int = 0
+	
 	def startSolver(searchCode : Int, propagationCode: Int) {
 		var solver = searchCode match {
 			case 0 => 
@@ -152,5 +155,7 @@ object Core {
 			case _ => throw new exceptions.CommandNotFoundException
 		}
     	solver.start
+    	elapsedTime = solver.getTimeElapsed
+    	visitedNodes = solver.getVisitCount
 	}
 }

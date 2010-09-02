@@ -5,7 +5,7 @@ class DummySearch extends SearchAlgorithm {
 		var sudoku = getProblem
 		println("using problem " + sudoku)
 		val board = sudoku.getBoard.getBoard
-		var solution = sudokusolver.Dance.getSolution(board)
+		var solution = sudokusolver.Dance.getSolution(board, (Unit) => { nodeVisited })
 		for (node <- solution) {
 			var (row, col, digit) = sudokusolver.Dance.decodeRow(node.row)
 			if (board(row)(col)==0)
