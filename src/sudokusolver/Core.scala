@@ -25,13 +25,17 @@ object Core {
 	 *  - 3 hard  
 	 */
 	def makeSudoku(level: Int) {
-		//var time = System.currentTimeMillis
-		var dancingsudoku = new DancingSudoku(3)
-		var board = dancingsudoku.createRandomSudoku(dancingsudoku.createRandomFullCoverageMatrix, null, null)
+		var time = System.currentTimeMillis
+		var board = Dance.randomSudoku
+		var time2 = System.currentTimeMillis
+		println("time: " + (time2 - time))
 		var bb = new utilities.Board
 		bb.setBoard(board)
-		this.sudoku = new Sudoku(getConstraintMatrix)
-		this.sudoku.setBoard(bb)
+		sudoku.setBoard(bb)
+	}
+	
+	def setSudoku(sudoku: Sudoku) {
+		this.sudoku = sudoku
 	}
 	
 	def getSudoku = sudoku

@@ -2,9 +2,16 @@ package sudokusolver.solvers
 
 class DummySearch extends SearchAlgorithm {
 	def solve() = {
-		//TODO Insert your code here
-		//TODO and them return a sudokusolver.Sudoku
-		getProblem
+		var sudoku = getProblem
+		println("using problem " + sudoku)
+		val board = sudoku.getBoard.getBoard
+		var solution = sudokusolver.Dance.getSolution(board)
+		for (node <- solution) {
+			var (row, col, digit) = sudokusolver.Dance.decodeRow(node.row)
+			if (board(row)(col)==0)
+				sudoku.set(row, col, digit, "Yehaa")
+		}
+		sudoku
 	}
 }
 

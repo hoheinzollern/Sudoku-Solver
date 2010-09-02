@@ -102,7 +102,7 @@
       <SubComponents>
         <Component class="java.awt.Canvas" name="view">
           <AuxValues>
-            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new View(new Sudoku(Core.getConstraintMatrix()))"/>
+            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new View(Core.getSudoku())"/>
           </AuxValues>
         </Component>
       </SubComponents>
@@ -178,7 +178,7 @@
                   <Component id="startButton" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="stopButton" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace pref="258" max="32767" attributes="0"/>
+                  <EmptySpace pref="260" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>

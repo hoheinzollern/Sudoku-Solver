@@ -208,11 +208,16 @@ object Dance {
 		null
 	}
 	
-	def solve(board: Array[Array[Int]]): Array[Array[Int]] = {
+	def getSolution(board: Array[Array[Int]]): Stack[Node] = {
 		var root = makeHeaders
 		buildMatrix(root, board)
 		var solution = search(root, new Stack[Node](), 0, false);
 		solutionCount = 0
+		solution
+	}
+	
+	def solve(board: Array[Array[Int]]): Array[Array[Int]] = {
+		var solution = getSolution(board)
 		var solvedBoard = new Array[Array[Int]](9,9)
 		while (!solution.isEmpty) {
 			var r = solution.top

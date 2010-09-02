@@ -30,10 +30,9 @@ import sudokusolver.solvers.GenericSolver;
  */
 public class MainPanel extends javax.swing.JPanel {
 
-    private Sudoku sudoku = new Sudoku(Core.getConstraintMatrix());
-
     /** Creates new form MainPanel */
     public MainPanel() {
+        Core.setSudoku(new Sudoku(Core.getConstraintMatrix()));
         initComponents();
     }
 
@@ -51,7 +50,7 @@ public class MainPanel extends javax.swing.JPanel {
         hardLevelRadio = new javax.swing.JRadioButton();
         easyLevelRadio = new javax.swing.JRadioButton();
         sudokuPanel = new javax.swing.JPanel();
-        view = new View(new Sudoku(Core.getConstraintMatrix()));
+        view = new View(Core.getSudoku());
         jScrollPane1 = new javax.swing.JScrollPane();
         eventsLogList = new javax.swing.JList();
         jLabel1 = new javax.swing.JLabel();
@@ -198,7 +197,7 @@ public class MainPanel extends javax.swing.JPanel {
                 .addComponent(startButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(stopButton)
-                .addContainerGap(258, Short.MAX_VALUE))
+                .addContainerGap(260, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -244,7 +243,7 @@ public class MainPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_newGameButtonActionPerformed
 
     private void resetGameButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetGameButtonActionPerformed
-        sudoku.reset();
+        Core.getSudoku().reset();
     }//GEN-LAST:event_resetGameButtonActionPerformed
 
     private void loadGameButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loadGameButtonActionPerformed

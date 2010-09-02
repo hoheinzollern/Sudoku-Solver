@@ -5,6 +5,8 @@ package sudokusolver
  */
 
 class Sudoku(private var constraints : utilities.BinaryConstraintContainer) {
+	print ("new sudoku ")
+	println(this)
 	class InvalidValueException extends Exception
 
 	private var board = new utilities.Board
@@ -69,6 +71,7 @@ class Sudoku(private var constraints : utilities.BinaryConstraintContainer) {
     	board.setNull(step.getCouple)
     	domains = step.getDomains
     	
+    	println("back")
     	notifyView
     }
     
@@ -76,9 +79,11 @@ class Sudoku(private var constraints : utilities.BinaryConstraintContainer) {
      * Resets the game to its initial status
      */
     def reset {
-    	board = new utilities.Board
-    	domains = new utilities.DomainContainer
-    	stepList = List[utilities.Step]()
+    	if (stepList.isEmpty)
+    		println ("reset")
+    	
+    	while (! stepList.isEmpty)
+    		back
     	
     	notifyView
     }
