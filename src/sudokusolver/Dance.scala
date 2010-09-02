@@ -171,10 +171,16 @@ object Dance {
 		current
 	}
 	
-	def search(root: Header, solution: Stack[Node], k: Int): Stack[Node] = {
-		if (root.right == root)
+	var solutionCount = 0
+	
+	def search(root: Header, solution: Stack[Node], k: Int, tryAll: Boolean, visitHandler: Unit => Unit): Stack[Node] = {
+		if (root.right == root) {
+			solutionCount += 1
 			return solution
+		}
 		val c = chooseColumn(root)
+		if (visitHandler != null)
+			visitHandler()
 		if (c.size == 0)
 			return null
 		coverColumn(c, root)
@@ -188,8 +194,8 @@ object Dance {
 				j = j.right
 			}
 			
-			var sol = search(root, solution :+ r, k+1)
-			if (sol != null)
+			var sol = search(root, solution :+ r, k+1, tryAll, visitHandler)
+			if (sol != null && !tryAll)
 				return sol
 			
 			j = r.right
@@ -204,18 +210,22 @@ object Dance {
 		null
 	}
 	
-	def solve(board: Array[Array[Int]]): Array[Array[Int]] = {
+	def getSolution(board: Array[Array[Int]], visitHandler: Unit => Unit): Stack[Node] = {
 		var root = makeHeaders
 		buildMatrix(root, board)
-		var solution = search(root, new Stack[Node](), 0);
+		var solution = search(root, new Stack[Node](), 0, false, visitHandler);
+		solutionCount = 0
+		solution
+	}
+	
+	def solve(board: Array[Array[Int]], visitHandler: Unit => Unit): Array[Array[Int]] = {
+		var solution = getSolution(board, visitHandler)
 		var solvedBoard = new Array[Array[Int]](9,9)
-		var count = 0
 		while (!solution.isEmpty) {
 			var r = solution.top
 			solution = solution.pop
 			var (row, col, digit) = decodeRow(r.row)
 			solvedBoard(row)(col) = digit
-			count += 1
 		}
 		solvedBoard
 	}
@@ -231,8 +241,37 @@ object Dance {
 			randomMatrix(field / 9)(field % 9) = d
 			fields(field) = d
 		}
-		solve(randomMatrix)
+		solve(randomMatrix, null)
 	}
 	
-	def randomSudoku = fullCoverageMatrix
+	def randomSudoku = {
+		var matrix = fullCoverageMatrix
+		var random = new java.util.Random
+		var trials = new Array[Int](81)
+		var triedFields = 0
+		var continue = true
+		println ("here")
+		println (solutionCount)
+		while (triedFields < 81 && continue) {
+			var field = random.nextInt(81)
+			while (trials(field) > 0)
+				field = (field + 1) % 81
+			var r = field / 9
+			var c = field % 9
+			var d = matrix(r)(c)
+			trials(field) = 1
+			triedFields += 1
+			matrix(r)(c) = 0
+			var root = makeHeaders
+			buildMatrix(root, matrix)
+			search(root, new Stack[Node](), 0, true, null)
+			println(solutionCount)
+			if (solutionCount > 1) {
+				matrix(r)(c) = d
+				continue = false
+			}
+			solutionCount = 0
+		}
+		matrix
+	}
 }

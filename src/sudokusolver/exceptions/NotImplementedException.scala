@@ -1,5 +1,5 @@
 package sudokusolver.exceptions
 
-class NotImplementedException extends SudokuSolverException {
+class NotImplementedException extends SudokuSolverException("Not implemented.") {
 	
 }

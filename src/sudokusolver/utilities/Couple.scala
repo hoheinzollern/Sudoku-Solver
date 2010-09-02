@@ -68,4 +68,8 @@ class Couple (private var x : Int = 0, private var y : Int = 0) {
 	def printCouple() = {
 		"(" + this.x + "," + this.y + ")"
 	}
+	
+	override def clone = {
+		new Couple(x, y)
+	}
 }

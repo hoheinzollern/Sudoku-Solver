@@ -5,6 +5,8 @@ package sudokusolver
  */
 
 class Sudoku(private var constraints : utilities.BinaryConstraintContainer) {
+	print ("new sudoku ")
+	println(this)
 	class InvalidValueException extends Exception
 
 	private var board = new utilities.Board
@@ -29,6 +31,7 @@ class Sudoku(private var constraints : utilities.BinaryConstraintContainer) {
 		domains.get(x, y).empty
 		domains.get(x, y).addValue(value)
 		stepList = stepList :+ step
+		Core.log("(" + x + "," + y + ") = " + value + " : " + message) 
 
 		notifyView
 	}
@@ -45,6 +48,7 @@ class Sudoku(private var constraints : utilities.BinaryConstraintContainer) {
 	 */
 	def setBoard(newBoard: utilities.Board) {
 		board = newBoard
+		domains = new utilities.DomainContainer
 		for (i <- 0 to 8) {
 			for (j <- 0 to 8) {
 				if (board.isNotNull(i, j)) {
@@ -80,9 +84,8 @@ class Sudoku(private var constraints : utilities.BinaryConstraintContainer) {
      * Resets the game to its initial status
      */
     def reset {
-    	board = new utilities.Board
-    	domains = new utilities.DomainContainer
-    	stepList = Nil
+    	while (! stepList.isEmpty)
+    		back
     	
     	notifyView
     }
@@ -169,8 +172,8 @@ class Sudoku(private var constraints : utilities.BinaryConstraintContainer) {
     	var stop = false
     	while(!stop) {
     		if (!this.board.isNotNull(item) && this.domains.get(item).cardinality == 1) {
-    			println("Dominio con 1 solo elemento! YEAH!")
-    			this.board.setValue(item, this.domains.get(item).getValue(0))
+    			println()
+    			set(item, this.domains.get(item).getValue(0), "Dominio con 1 solo elemento! YEAH!")
     			println("Impostato " + this.domains.get(item).getValue(0) + " in " + item.printCouple)
     		}
     		if (!item.isLatest) item = item.next

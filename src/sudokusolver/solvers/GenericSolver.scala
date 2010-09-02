@@ -33,6 +33,10 @@ class GenericSolver {
 	
 	def getProblem() = this.problem
 	
+	def getVisitCount = searchAlgorithm.getVisitCount
+	
+	def getTimeElapsed = searchAlgorithm.getTimeElapsed
+	
 	/**
 	 * This method starts the selected algorithms and returns the solution as
 	 * a stepList 

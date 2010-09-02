@@ -1,5 +1,4 @@
 package sudokusolver.exceptions
 
-class PreviousElementDoesntExists extends SudokuSolverException {
-	setSudokuSolverMessage("Current element is the first, cannot get previous.")
+class PreviousElementDoesntExists extends SudokuSolverException("Current element is the first, cannot get previous.") {
 }

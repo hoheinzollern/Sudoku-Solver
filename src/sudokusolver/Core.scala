@@ -12,6 +12,7 @@ import scala.swing.Dialog
 object Core {
 	private var constraints = new utilities.BinaryConstraintContainer
 	private var sudoku : Sudoku = null
+	private var logger : Logger = null
 	//constraints.checkConstraintMatrix()
 
 	def getConstraintMatrix() = constraints
@@ -25,16 +26,28 @@ object Core {
 	 *  - 3 hard  
 	 */
 	def makeSudoku(level: Int) {
-		//var time = System.currentTimeMillis
-		var dancingsudoku = new DancingSudoku(3)
-		var board = dancingsudoku.createRandomSudoku(dancingsudoku.createRandomFullCoverageMatrix, null, null)
+		var time = System.currentTimeMillis
+		var board = Dance.randomSudoku
+		var time2 = System.currentTimeMillis
+		println("time: " + (time2 - time))
 		var bb = new utilities.Board
 		bb.setBoard(board)
-		this.sudoku = new Sudoku(getConstraintMatrix)
-		this.sudoku.setBoard(bb)
+		sudoku.setBoard(bb)
+	}
+	
+	def setSudoku(sudoku: Sudoku) {
+		this.sudoku = sudoku
 	}
 	
 	def getSudoku = sudoku
+	
+	def setLogger(logger: Logger) {
+		this.logger = logger
+	}
+	
+	def log(message: String) {
+		logger.log(message)
+	}
 	
 	/**
 	 * Naive algorithm for the construction of sudoku boards, use it for testing purposes.
@@ -119,14 +132,16 @@ object Core {
 		out.close
 	}
 	
+	var elapsedTime: Long = 0
+	var visitedNodes: Int = 0
+	
 	def startSolver(searchCode : Int, propagationCode: Int) {
 		var solver = searchCode match {
 			case 0 => 
 			propagationCode match {
-				case 0 => throw new exceptions.CommandNotFoundException
-				case 1 => new sudokusolver.solvers.ForwardCheckingOnly(sudoku)
-				case 2 => new sudokusolver.solvers.PartialLookAheadOnly(sudoku)
-				case 3 => new sudokusolver.solvers.MacOnly(sudoku)
+				case 0 => new sudokusolver.solvers.ForwardCheckingOnly(sudoku)
+				case 1 => new sudokusolver.solvers.PartialLookAheadOnly(sudoku)
+				case 2 => new sudokusolver.solvers.MacOnly(sudoku)
 				case _ => throw new exceptions.CommandNotFoundException
 			}
 			case 1 => 
@@ -141,5 +156,7 @@ object Core {
 			case _ => throw new exceptions.CommandNotFoundException
 		}
     	solver.start
+    	elapsedTime = solver.getTimeElapsed
+    	visitedNodes = solver.getVisitCount
 	}
 }

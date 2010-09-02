@@ -22,18 +22,23 @@
 
 package sudokusolver;
 
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.DefaultListModel;
+import javax.swing.JDialog;
+import javax.swing.JOptionPane;
+
 import sudokusolver.solvers.GenericSolver;
 
 /**
  *
  * @author alessandro
  */
-public class MainPanel extends javax.swing.JPanel {
-
-    private Sudoku sudoku = new Sudoku(Core.getConstraintMatrix());
+public class MainPanel extends javax.swing.JPanel implements Logger {
 
     /** Creates new form MainPanel */
     public MainPanel() {
+        Core.setSudoku(new Sudoku(Core.getConstraintMatrix()));
+        Core.setLogger(this);
         initComponents();
     }
 
@@ -50,8 +55,9 @@ public class MainPanel extends javax.swing.JPanel {
         mediumLevelRadio = new javax.swing.JRadioButton();
         hardLevelRadio = new javax.swing.JRadioButton();
         easyLevelRadio = new javax.swing.JRadioButton();
+        stopButton = new javax.swing.JButton();
         sudokuPanel = new javax.swing.JPanel();
-        view = new View(new Sudoku(Core.getConstraintMatrix()));
+        view = new View(Core.getSudoku());
         jScrollPane1 = new javax.swing.JScrollPane();
         eventsLogList = new javax.swing.JList();
         jLabel1 = new javax.swing.JLabel();
@@ -65,7 +71,10 @@ public class MainPanel extends javax.swing.JPanel {
         searchAlgotihmCombo = new javax.swing.JComboBox();
         saveGameButton = new javax.swing.JButton();
         startButton = new javax.swing.JButton();
-        stopButton = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
+        visitedNodesField = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
+        timeElapsedField = new javax.swing.JTextField();
 
         levelGroup.add(mediumLevelRadio);
         mediumLevelRadio.setSelected(true);
@@ -77,19 +86,28 @@ public class MainPanel extends javax.swing.JPanel {
         levelGroup.add(easyLevelRadio);
         easyLevelRadio.setText("Easy");
 
+        stopButton.setText("Stop solving");
+        stopButton.setEnabled(false);
+        stopButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                stopButtonActionPerformed(evt);
+            }
+        });
+
         sudokuPanel.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         javax.swing.GroupLayout sudokuPanelLayout = new javax.swing.GroupLayout(sudokuPanel);
         sudokuPanel.setLayout(sudokuPanelLayout);
         sudokuPanelLayout.setHorizontalGroup(
             sudokuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(view, javax.swing.GroupLayout.DEFAULT_SIZE, 478, Short.MAX_VALUE)
+            .addComponent(view, javax.swing.GroupLayout.DEFAULT_SIZE, 488, Short.MAX_VALUE)
         );
         sudokuPanelLayout.setVerticalGroup(
             sudokuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(view, javax.swing.GroupLayout.DEFAULT_SIZE, 462, Short.MAX_VALUE)
+            .addComponent(view, javax.swing.GroupLayout.DEFAULT_SIZE, 474, Short.MAX_VALUE)
         );
 
+        eventsLogList.setModel(new javax.swing.DefaultListModel());
         jScrollPane1.setViewportView(eventsLogList);
 
         jLabel1.setText("Events log:");
@@ -110,7 +128,7 @@ public class MainPanel extends javax.swing.JPanel {
             }
         });
 
-        constraintPropagationCombo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "No Propagation", "Forward checking", "Partial look-ahead", "Arc consistency" }));
+        constraintPropagationCombo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Forward checking", "Partial look-ahead", "Arc consistency" }));
         constraintPropagationCombo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 constraintPropagationComboActionPerformed(evt);
@@ -147,33 +165,33 @@ public class MainPanel extends javax.swing.JPanel {
             }
         });
 
-        stopButton.setText("Stop solving");
-        stopButton.setEnabled(false);
-        stopButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                stopButtonActionPerformed(evt);
-            }
-        });
+        jLabel3.setText("Nodi visitati:");
+
+        visitedNodesField.setEditable(false);
+
+        jLabel5.setText("Tempo impiegato (ms):");
+
+        timeElapsedField.setEditable(false);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(newGameButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(loadGameButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(resetGameButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(saveGameButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(jLabel4)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel3)
+                    .addComponent(loadGameButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(resetGameButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(saveGameButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(newGameButton, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel2)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(constraintPropagationCombo, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(searchAlgotihmCombo, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(stopButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(startButton, javax.swing.GroupLayout.Alignment.LEADING)))
+                    .addComponent(searchAlgotihmCombo, 0, 0, Short.MAX_VALUE)
+                    .addComponent(constraintPropagationCombo, 0, 0, Short.MAX_VALUE)
+                    .addComponent(startButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(visitedNodesField)
+                    .addComponent(jLabel5)
+                    .addComponent(timeElapsedField))
                 .addGap(10, 10, 10))
         );
         jPanel1Layout.setVerticalGroup(
@@ -187,6 +205,14 @@ public class MainPanel extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(saveGameButton)
                 .addGap(18, 18, 18)
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(visitedNodesField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel5)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(timeElapsedField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(15, 15, 15)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(searchAlgotihmCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -196,9 +222,7 @@ public class MainPanel extends javax.swing.JPanel {
                 .addComponent(constraintPropagationCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(startButton)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(stopButton)
-                .addContainerGap(331, Short.MAX_VALUE))
+                .addContainerGap(271, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -209,7 +233,7 @@ public class MainPanel extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 482, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 492, Short.MAX_VALUE)
                     .addComponent(sudokuPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -244,7 +268,9 @@ public class MainPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_newGameButtonActionPerformed
 
     private void resetGameButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetGameButtonActionPerformed
-        sudoku.reset();
+        Core.getSudoku().reset();
+        DefaultListModel listModel = (DefaultListModel) eventsLogList.getModel();
+        listModel.clear();
     }//GEN-LAST:event_resetGameButtonActionPerformed
 
     private void loadGameButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loadGameButtonActionPerformed
@@ -256,8 +282,14 @@ public class MainPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_saveGameButtonActionPerformed
 
     private void startButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startButtonActionPerformed
-    	Core.startSolver(searchAlgotihmCombo.getSelectedIndex(),
-                constraintPropagationCombo.getSelectedIndex());
+    	try {
+    		Core.startSolver(searchAlgotihmCombo.getSelectedIndex(),
+                    constraintPropagationCombo.getSelectedIndex());
+                timeElapsedField.setText(new Long(Core.elapsedTime()).toString());
+                visitedNodesField.setText(new Long(Core.visitedNodes()).toString());
+    	} catch (Exception e) {
+    		JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+    	}
     }//GEN-LAST:event_startButtonActionPerformed
 
     private void stopButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_stopButtonActionPerformed
@@ -265,7 +297,24 @@ public class MainPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_stopButtonActionPerformed
 
     private void searchAlgotihmComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchAlgotihmComboActionPerformed
-        // TODO add your handling code here:
+        int index = searchAlgotihmCombo.getSelectedIndex();
+        if (index == 2) {
+            constraintPropagationCombo.setEnabled(false);
+        } else {
+            constraintPropagationCombo.setEnabled(true);
+            DefaultComboBoxModel listModel = (DefaultComboBoxModel)constraintPropagationCombo.getModel();
+            listModel.removeAllElements();
+            if (index == 1) {
+                String[] list = {"No propagation", "Forward checking", "Partial look-ahead", "Arc consistency"};
+                for (int i = 0; i < list.length; i++)
+                    listModel.addElement(list[i]);
+            } else {
+                String[] list = {"Forward checking", "Partial look-ahead", "Arc consistency"};
+                for (int i = 0; i < list.length; i++)
+                    listModel.addElement(list[i]);
+
+            }
+        }
     }//GEN-LAST:event_searchAlgotihmComboActionPerformed
 
     private void constraintPropagationComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_constraintPropagationComboActionPerformed
@@ -280,7 +329,9 @@ public class MainPanel extends javax.swing.JPanel {
     private javax.swing.JRadioButton hardLevelRadio;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.ButtonGroup levelGroup;
@@ -293,7 +344,15 @@ public class MainPanel extends javax.swing.JPanel {
     private javax.swing.JButton startButton;
     private javax.swing.JButton stopButton;
     private javax.swing.JPanel sudokuPanel;
+    private javax.swing.JTextField timeElapsedField;
     private java.awt.Canvas view;
+    private javax.swing.JTextField visitedNodesField;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void log(String message) {
+        DefaultListModel listModel = (DefaultListModel) eventsLogList.getModel();
+        listModel.addElement(message);
+    }
 
 }
