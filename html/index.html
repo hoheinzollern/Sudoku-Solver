@@ -14,20 +14,150 @@
 <p>Fabbri Emanuele (1 CFU for Intelligenza Artificiale + 1 CFU for Sistemi con Vincoli)</p>
 <p>Total CFU for the project: 3</p>
 <h3>Goal:</h3>
-<p>Make a platform to generate and resolve Sudoku games using following</p>
-<h3>Report</h3>
-<object id="SudokuSolver" 
+<p>
+Make a platform to generate and   resolve Sudoku games using most famous CSP techniques and a special   search algorithm Algorithm X plus Dancing links structure.</p>
+<h3>Applet</h3>
+<p>This is the applet generated.</p>
+<p>
+  <object id="SudokuSolver" 
         codetype="application/java"
         codebase="bin/"
         classid="java:sudokusolver.SudokuSolverApplet"
         width="650" height="550" >
-
-  <param name="archive" value="../lib/scala-library.jar,../lib/scala-dbc.jar",../lib/scala-swing.jar,../lib/scalap.jar" />
+    
+    <param name="archive" value="../lib/scala-library.jar,../lib/scala-dbc.jar",../lib/scala-swing.jar,../lib/scalap.jar" />
+    
+    <!--html alternativo -->
+    <p>Some problems to load java applet</p>
+    <!-- fine html alternativo -->
+  </object>
   
-  <!--html alternativo -->
-  <p>Some problems to load java applet</p>
-  <!-- fine html alternativo -->
-</object>
+</p>
+<h3>Quick guide</h3>
+<p>The applet can:</p>
+<ul>
+  <li>Create a new random game (clicking on &quot;New Game&quot;)</li>
+  <li>Search   for a solution using a specific algorithm (clicking on &quot;Start solving&quot;   after having selected the preferred algorithm using the <span>pull down menu</span>s &quot;Search algorithm&quot; and &quot;Propagation algorithm&quot;</li>
+  <li>There are 3+4+1 = 8 possible resolution methods:</li>
+  <ul>
+    <li>Propagation only</li>
+    <ul>
+      <li>Forward checking</li>
+      <li>Partial look Ahead</li>
+      <li>Mountain Arc Consistency</li>
+    </ul>
+    <li>Backtracking Search</li>
+    <ul>
+      <li>without propagation</li>
+      <li>with &quot;Forward checking&quot;</li>
+      <li>with &quot;Partial look Ahead&quot;</li>
+      <li>with &quot;Maintain Arc Consistency&quot;</li>
+    </ul>
+    <li>Dancing links</li>
+  </ul>
+  <li>For every algorithm there are 2 performance indicators of the techniques.<br />
+    These are:<br />
+  </li>
+  <ul>
+    <li>number of explored nodes</li>
+    <li>time elapsed to do the requested operations</li>
+  </ul>
+  <li>In the bottom of the applet there's a box where are written some comments about the <span>choices made by the algorithms</span> selected.<br />
+  </li>
+</ul>
+<h3>Implemented algorithms and relative explanations</h3>
+<strong>Propagation</strong><br />
+<br />
+The propagation algorithms used are the most known in the CSP discipline.<br />
+They are:<br />
+<ul>
+  <li>Forward Checking</li>
+  <li>Partial Look Ahead</li>
+  <li>Maintain Arc Consistency</li>
+</ul>
+Goal of these methods is to delete as more elements as possible from the domains of the variables bound by a constraint.<br />
+<br />
+More precisely:<br />
+<br />
+<ul>
+  <li>Forward Checking</li>
+</ul>
+verifies   if an instantiation of a value is consistent with the preceding   instantiations and, when a value of the examined variable is not   consistent, removes it from the domain of the variable.<br />
+<br />
+<ul>
+  <li>Partial Look Ahead</li>
+</ul>
+has   the task of making Direct Arc Consistency. It means that for every   analyzed variable, for every possible value in its domain the algorithm   checks if there's at least another one which satisfies the constraint.<br />
+If   the value of a variable in a constraint has no other second consistent   element, the algorithm delete this first value from the domain.<br />
+<br />
+<ul>
+  <li>Maintain Arc Consistency (MAC)</li>
+</ul>
+is   similar to Partial Look Ahead. Partial Look Ahead checks all the   constraints involved by a variable in only one direction (from the first   variable to the second). MAC algorithm instead checks every constraint   in both directions, from the first variable to the second and from the   second to the first.<br />
+MAC is in fact the most powerful and most expensive propagation algorithm that can be used.<br />
+<br />
+Propagation   algorithms can be used without a search algorithm. With simple problems   in fact they can be reduce the domains to just one element in many (if   not all) of the variable domains. Every time a domain has only one   element, it means that the element can be safely instantiated.<br />
+<br />
+Sudoku   problems are not always resolvable only with propagation. It depends on   the ease of the initial scheme. Generally Forward Checking can find   from 0 to 10 good values to instantiate, Partial Look Ahead from 5 to   almost all and Mac almost every time can find a complete solution.<br />
+<br />
+There   are some cases where the sudoku is too difficult so propagation is not   sufficient to find a complete solution. In this case (when all the   domains of the variables to instantiate has at least 2 elements and the   algorithm cannot decide what to do).<br />
+<br />
+<strong>Search algorithms</strong><br />
+<br />
+<ul>
+  <li>Algorithm X using Dancing Links</li>
+</ul>
+Algorithm   X is a recursive procedure which addresses the problem of the exact   cover of a matrix, that is, given a matrix of m rows and n columns with   domain {0,1}, find a subset of rows for which the following property   holds: for each column there is exactly one element set to 1, all the   others are 0s.<br />
+<br />
+This general algorithm can be applied to any   one-cover problem by encoding the constraints to the columns of the   matrix and encoding the ways to satisfy them within the rows. A famous   example of the application of this algorithm is the solution of the   n-queen problem, for which this approach reveals to be particularly   efficient.<br />
+<br />
+Furthermore, if the matrix is sparse as is the   case of the encoded sudoku games, then there is a very efficient way to   implement the algorithm, which is called &quot;Dancing Links&quot; or DLX and has   been proposed by Donald Knuth. With this particular implementation the   algorithm becomes really interesting for the solution of coverage   problems. Its performance in the solution of sudoku boards has made it   the standard benchmark for the algorithm for the solution of sudokus. It   is also used in this project for the generation of random sudoku   boards, by building a random, completely solved sudoku and then casually   removing items from the board while the solution is still unique.<br />
+  <br />
+  <ul>
+    <li>Backtracking</li>
+  </ul>
+  It's a basic brute force algorithm with the possibility of retrying wrong moves until the scheme is closed. The basic idea is to evaluate   (possibly with some variable sorting) all the possible values for every   non instantiated variable and then try an instantiation (if it is   consistent).<br />
+  The basic algorithm doesn't performs evaluations on the domains, so the goal is to try all the possible values for every variable until either the scheme is closed or an inconsistent situation occurs (i.e. every possible value is not consistent and so the scheme has no solution) and then goes back to preceding moves to choose alternative paths until it finds a solution.<br />
+  <br />
+  This is a very inefficient algorithm (because it must try almost every possible value of every variable) but <span>certainly can always find a</span> solution without the risk of infinite loops.<br />
+  <br />
+  <ul>
+    <li>Backtracking with propagation</li>
+  </ul>
+  This   is the most used algorithm because it combines a complete search   algorithm (that can check every variable using a specific order) with   the constraint propagation that allows to avoid <span>unnecessary cycles</span> and instantiations reducing the number nodes evaluated and, if the   propagation algorithms are efficient, reduce the time to get a solution.<br />
+  <br />
+<h3>Technologies and development</h3>
+  <p>This applet has been built using a mix of Java and <a href="http://www.scala-lang.org/" title="Scala">Scala</a>, the latter being a functional and object oriented programming language which produces bytecode for the JVM. </p>
+  <p> Java   has been chosen for the development of the front-end, while Scala was   used for the back-end functions. The functional flavor of Scala is well   suited for the development of recursive algorithms such as the   backtracking search for the solution of CSPs and the algorithm x which   solves the problem of the exact cover of a matrix. <br />
+  All the code has been versioned using git during the development and is publicly available at <a href="http://github.com/hoheinzollern/Sudoku-Solver">http://github.com/hoheinzollern/Sudoku-Solver</a>.</p>
+<p> To support the development of this applet we used the Eclipse IDE. Alas,   the lack of a good support for the language within the IDE made the   development of this project quite uncomfortable, due to continuous   crashes and awkward errors which invalidated may of our efforts. <br />
+  </p>
+<h3>Performance evaluations</h3>
+  <p>Tests made on the platform have demonstrate that:</p>
+  <ol>
+ <li>Dancing Links is the best solver because it has a fixed number of   analyzed nodes (exactly 81, the total number of fields without using   backtracking solutions) and is very quick</li>
+  <li>Using propagation with a   backtracking algorithm can reduce the number of nodes to analyze   (because some domains become smaller) but it may also need much more   time to do all the necessary consistency tests.</li>
+  <li>Dancing Links is   them the most balanced between time and space. If time is more   important, then it should be used Dancing Links, otherwise if space is   more important than time backtracking plus propagation are the best   solutions.</li>
+  </ol>
 
+  Propagation algorithms could also be used to define a   level of complexity of a random generated scheme. This could be a good   extension for the project.<br />
+  <br />
+<h3>Conclusions and references </h3>
+  <p>Project is released as is without any limitation about using and distributing it.</p>
+  <p>Some interesting links:<br />
+    <br />
+    Scala lang. <a href="http://www.scala-lang.org/" title="http://www.scala-lang.org/">http://www.scala-lang.org/</a><br />
+    <br />
+    Scala-ide <a href="http://www.scala-ide.org/" title="http://www.scala-ide.org/">http://www.scala-ide.org/</a><br />
+    <br />
+    Eclipse <a href="http://www.eclipse.org/" title="http://www.eclipse.org/">http://www.eclipse.org/</a><br />
+    <br />
+    Sistemi con vincoli <a href="http://www.math.unipd.it/%7Efrossi/vincoli2010.html" title="http://www.math.unipd.it/~frossi/vincoli2010.html">http://www.math.unipd.it/~frossi/vincoli2010.html</a><br />
+    <br />
+    Intelligenza artificiale <a href="http://www.math.unipd.it/%7Esperduti/intelligenza-artificiale.html" title="http://www.math.unipd.it/~sperduti/intelligenza-artificiale.html">http://www.math.unipd.it/~sperduti/intelligenza-artificiale.html</a><br />
+    <br />
+    Dancing Links <a href="http://arxiv.org/abs/cs/0011047" title="http://arxiv.org/abs/cs/0011047">http://arxiv.org/abs/cs/0011047</a><br />
+  </p>
+<p>&nbsp;</p>
 </body>
 </html>
