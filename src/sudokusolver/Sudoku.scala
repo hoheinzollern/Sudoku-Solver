@@ -164,24 +164,6 @@ class Sudoku(private var constraints : utilities.BinaryConstraintContainer) {
     
     def printBoardStatus() = board.printStatus
     
-    def calculateBoard() {
-    	println("Calcolo la nuova board!")
-    	println("I domini sono :")
-    	printDomainStatus
-    	var item = new utilities.Couple(0,0)
-    	var stop = false
-    	while(!stop) {
-    		if (!this.board.isNotNull(item) && this.domains.get(item).cardinality == 1) {
-    			println()
-    			set(item, this.domains.get(item).getValue(0), "Dominio con 1 solo elemento! YEAH!")
-    			println("Impostato " + this.domains.get(item).getValue(0) + " in " + item.printCouple)
-    		}
-    		if (!item.isLatest) item = item.next
-    		else stop = true
-    	}
-    	notifyView
-    }
-    
     override def clone() = {
     	var newSudoku = new Sudoku(Core.getConstraintMatrix)
     	newSudoku.setBoard(this.getBoard.clone)

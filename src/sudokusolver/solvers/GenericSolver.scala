@@ -44,7 +44,6 @@ class GenericSolver {
 	def start() {
 	  if (this.searchAlgorithm != null && this.propagationAlgorithm != null) {
 		  this.problem = this.searchAlgorithm.execute(this.problem, this.propagationAlgorithm)
-		  this.problem.calculateBoard
 	  } else throw new exceptions.SolverNotReadyException()
 	}
 }

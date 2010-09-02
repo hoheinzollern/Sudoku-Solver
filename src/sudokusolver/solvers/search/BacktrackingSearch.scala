@@ -12,7 +12,7 @@ class BacktrackingSearch extends SearchAlgorithm {
 	
 	def recursiveBacktrack(inputItem : sudokusolver.utilities.Couple, domains: sudokusolver.utilities.DomainContainer) : Boolean = {
 		var item = inputItem
-		while (this.getProblem.get(item.getX, item.getY) != 0 && !item.isLatest) {
+		while (!item.isLatest && this.getProblem.get(item.getX, item.getY) != 0) {
 			println("RecursiveBacktrack! con " + item.printCouple)
 			item = item.next
 		}
