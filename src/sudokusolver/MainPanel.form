@@ -49,10 +49,10 @@
               <EmptySpace min="-2" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="jLabel1" alignment="0" min="-2" max="-2" attributes="0"/>
-                  <Component id="jScrollPane1" alignment="0" pref="472" max="32767" attributes="1"/>
+                  <Component id="jScrollPane1" alignment="0" pref="482" max="32767" attributes="1"/>
                   <Component id="sudokuPanel" alignment="0" max="32767" attributes="1"/>
               </Group>
-              <EmptySpace pref="12" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
               <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
@@ -90,7 +90,7 @@
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Component id="view" alignment="0" pref="468" max="32767" attributes="0"/>
+              <Component id="view" alignment="0" pref="478" max="32767" attributes="0"/>
           </Group>
         </DimensionLayout>
         <DimensionLayout dim="1">
@@ -135,6 +135,12 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" attributes="0">
                   <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                          <Component id="newGameButton" alignment="0" max="32767" attributes="1"/>
+                          <Component id="loadGameButton" alignment="0" max="32767" attributes="1"/>
+                          <Component id="resetGameButton" alignment="0" max="32767" attributes="1"/>
+                          <Component id="saveGameButton" alignment="0" max="32767" attributes="1"/>
+                      </Group>
                       <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
                       <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
                       <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
@@ -145,14 +151,8 @@
                           <Component id="stopButton" alignment="0" max="32767" attributes="1"/>
                           <Component id="startButton" alignment="0" min="-2" max="-2" attributes="1"/>
                       </Group>
-                      <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
-                          <Component id="newGameButton" alignment="0" max="32767" attributes="1"/>
-                          <Component id="loadGameButton" alignment="0" max="32767" attributes="1"/>
-                          <Component id="resetGameButton" alignment="0" max="32767" attributes="1"/>
-                          <Component id="saveGameButton" alignment="0" max="32767" attributes="1"/>
-                      </Group>
                   </Group>
-                  <EmptySpace max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -166,7 +166,7 @@
                   <Component id="loadGameButton" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="saveGameButton" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="91" max="-2" attributes="0"/>
+                  <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="searchAlgotihmCombo" min="-2" max="-2" attributes="0"/>
@@ -178,7 +178,7 @@
                   <Component id="startButton" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="stopButton" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace pref="258" max="32767" attributes="0"/>
+                  <EmptySpace pref="331" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -208,10 +208,11 @@
         <Component class="javax.swing.JComboBox" name="constraintPropagationCombo">
           <Properties>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-              <StringArray count="3">
-                <StringItem index="0" value="Forward checking"/>
-                <StringItem index="1" value="Partial look-ahead"/>
-                <StringItem index="2" value="Arc consistency"/>
+              <StringArray count="4">
+                <StringItem index="0" value="No Propagation"/>
+                <StringItem index="1" value="Forward checking"/>
+                <StringItem index="2" value="Partial look-ahead"/>
+                <StringItem index="3" value="Arc consistency"/>
               </StringArray>
             </Property>
           </Properties>

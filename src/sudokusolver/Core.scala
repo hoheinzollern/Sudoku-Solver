@@ -123,16 +123,18 @@ object Core {
 		var solver = searchCode match {
 			case 0 => 
 			propagationCode match {
-				case 0 => new sudokusolver.solvers.ForwardCheckingOnly(sudoku)
-				case 1 => new sudokusolver.solvers.PartialLookAheadOnly(sudoku)
-				case 2 => new sudokusolver.solvers.MacOnly(sudoku)
+				case 0 => throw new exceptions.CommandNotFoundException
+				case 1 => new sudokusolver.solvers.ForwardCheckingOnly(sudoku)
+				case 2 => new sudokusolver.solvers.PartialLookAheadOnly(sudoku)
+				case 3 => new sudokusolver.solvers.MacOnly(sudoku)
 				case _ => throw new exceptions.CommandNotFoundException
 			}
 			case 1 => 
 			propagationCode match {
-				case 0 => new sudokusolver.solvers.BacktrackingSearchAndForwardChecking(sudoku)
-				case 1 => new sudokusolver.solvers.BacktrackingSearchAndPartialLookAhead(sudoku)
-				case 2 => new sudokusolver.solvers.BacktrackingSearchAndMac(sudoku)
+				case 0 => new sudokusolver.solvers.BacktrackingSearchOnly(sudoku) 
+				case 1 => new sudokusolver.solvers.BacktrackingSearchAndForwardChecking(sudoku)
+				case 2 => new sudokusolver.solvers.BacktrackingSearchAndPartialLookAhead(sudoku)
+				case 3 => new sudokusolver.solvers.BacktrackingSearchAndMac(sudoku)
 				case _ => throw new exceptions.CommandNotFoundException
 			}
 			case 2 => new sudokusolver.solvers.DancingLinks(sudoku)

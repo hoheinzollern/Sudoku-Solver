@@ -1,9 +1,7 @@
 package sudokusolver.solvers
 
 class ForwardCheckingOnly(sudoku : sudokusolver.Sudoku) extends GenericSolver {
-	println("Inizio ForwardCheckingOnly con domini...")
-	//sudoku.printBoardStatus
-	//sudoku.printDomainStatus
+	println("ForwardCheckingOnly started!")
 	setProblem(sudoku)
 	setPropagationAlgorithm(new ForwardChecking)
 	setSearchAlgorithm(new NoSearch)

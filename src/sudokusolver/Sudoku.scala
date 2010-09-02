@@ -33,6 +33,10 @@ class Sudoku(private var constraints : utilities.BinaryConstraintContainer) {
 		notifyView
 	}
 	
+	def set(item : utilities.Couple, value : Int, message : String) {
+		set(item.getX, item.getY, value, message)
+	}
+	
 	/**
 	 * Sets the entire board, initializing the domains accordingly
 	 * 
@@ -78,7 +82,7 @@ class Sudoku(private var constraints : utilities.BinaryConstraintContainer) {
     def reset {
     	board = new utilities.Board
     	domains = new utilities.DomainContainer
-    	stepList = List[utilities.Step]()
+    	stepList = Nil
     	
     	notifyView
     }
@@ -91,12 +95,18 @@ class Sudoku(private var constraints : utilities.BinaryConstraintContainer) {
     /**
      * Returns the domain for a single element of the board
      */
-    def getDomain(x: Int, y: Int) = domains.get(x, y)
+    def getDomain(x: Int, y: Int) : utilities.Domain = domains.get(x, y)
+    
+    def getDomain(item : utilities.Couple) : utilities.Domain = getDomain(item.getX, item.getY)
 
     /**
      * Returns all the domains stored
      */
     def getDomains() = domains
+    
+    def setDomains(domains : utilities.DomainContainer) {
+    	this.domains = domains
+    }
 
     /**
      * Notifies the views attached to this game
@@ -167,5 +177,12 @@ class Sudoku(private var constraints : utilities.BinaryConstraintContainer) {
     		else stop = true
     	}
     	notifyView
+    }
+    
+    override def clone() = {
+    	var newSudoku = new Sudoku(Core.getConstraintMatrix)
+    	newSudoku.setBoard(this.getBoard.clone)
+    	newSudoku.setDomains(this.getDomains.clone)
+    	newSudoku
     }
 }

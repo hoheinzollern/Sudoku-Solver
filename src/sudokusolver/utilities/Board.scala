@@ -77,4 +77,10 @@ class Board {
 			}
 		}
 	}
+	
+	override def clone() = {
+		var newBoard = new Board
+		newBoard.setBoard(getBoard.clone)
+		newBoard
+	}
 }

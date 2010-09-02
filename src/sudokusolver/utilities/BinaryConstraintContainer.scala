@@ -97,9 +97,7 @@ class BinaryConstraintContainer {
 				j = j+1
 			}
 			
-			
 			// From second couple to first
-			
 			var h = 0
 			var domainOfTheSecondCouple = domains.get(secondCouple)
 			while (h < domainOfTheSecondCouple.cardinality) {

@@ -16,6 +16,10 @@ class Domain(private var associatedCell : String) {
   		else throw new exceptions.EmptyDomain
   	}
   	
+  	def setValues(newList : List[Int]) {
+  		this.values = newList
+  	}
+  	
   	def getValue(position : Int) = {
   		/* positions are from 0 to 8 */
   		var restOfList = this.values
@@ -63,5 +67,11 @@ class Domain(private var associatedCell : String) {
    			iterator = iterator.tail
    		}
    		output
+   	}
+   	
+   	override def clone() = {
+   		var newDomain = new Domain(getName)
+   		newDomain.setValues(this.values)
+   		newDomain
    	}
 }
