@@ -288,14 +288,14 @@ public class MainPanel extends javax.swing.JPanel implements Logger {
     }//GEN-LAST:event_saveGameButtonActionPerformed
 
     private void startButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startButtonActionPerformed
-    	//try {
+    	try {
     		Core.startSolver(searchAlgotihmCombo.getSelectedIndex(),
                     constraintPropagationCombo.getSelectedIndex());
                 timeElapsedField.setText(new Long(Core.elapsedTime()).toString());
                 visitedNodesField.setText(new Long(Core.visitedNodes()).toString());
-    	/*} catch (Exception e) {
+    	} catch (Exception e) {
     		JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-    	}*/
+    	}
     }//GEN-LAST:event_startButtonActionPerformed
 
     private void stopButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_stopButtonActionPerformed
